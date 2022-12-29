@@ -1,0 +1,14 @@
+{
+  "name": "@coxwave/analytics-core",
+  "version": "0.0.1",
+  "description": "",
+  "author": "Coxwave",
+  "homepage": "https://github.com/coxwave/coxwave-typescript",
+  "license": "MIT",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/coxwave/coxwave-typescript/issues"
+  }
+}
