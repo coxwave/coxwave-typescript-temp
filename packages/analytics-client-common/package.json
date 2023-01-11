@@ -1,5 +1,5 @@
 {
-  "name": "@coxwave/analytics-core",
+  "name": "@coxwave/analytics-client-common",
   "version": "0.0.1",
   "description": "",
   "author": "Coxwave",
@@ -17,7 +17,7 @@
     "url": "git+https://github.com/coxwave/coxwave-typescript.git"
   },
   "scripts": {
-    "build": "yarn build:es5 & yarn build:esm",
+    "build": "yarn build:es5 && yarn build:esm",
     "build:es5": "tsc -p ./tsconfig.es5.json",
     "build:esm": "tsc -p ./tsconfig.esm.json",
     "clean": "rimraf node_modules lib coverage",
@@ -34,6 +34,7 @@
     "url": "https://github.com/coxwave/coxwave-typescript/issues"
   },
   "dependencies": {
+    "@coxwave/analytics-core": "^0.0.1",
     "@coxwave/analytics-types": "^0.0.1",
     "tslib": "^2.4.1"
   },
