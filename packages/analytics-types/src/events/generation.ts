@@ -20,7 +20,7 @@ export interface GenerationProperties {
 export interface LogGeneration extends BaseEvent {
   event_type: AvailableEventType.LOG;
   event_name: Exclude<string, SpecialEventName>;
-  generation_properties: GenerationProperties;
+  generation_properties?: GenerationProperties;
 }
 
 export type Generation = LogGeneration;

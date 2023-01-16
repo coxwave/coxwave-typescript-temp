@@ -67,6 +67,7 @@ export interface IdentifyUserProperties {
 export interface TrackActivity extends BaseEvent {
   event_type: AvailableEventType.TRACK;
   event_name: Exclude<string, SpecialEventName>;
+  activity_properties?: { [key: string]: number | string | boolean };
 }
 
 export interface IdentifyActivity extends BaseEvent {

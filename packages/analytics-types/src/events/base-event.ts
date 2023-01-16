@@ -7,7 +7,7 @@ import { IngestionMetadataEventProperty } from '../ingestion-metadata';
 export enum AvailableEventType {
   TRACK = '$track',
   LOG = '$log',
-  FEEDBACK = '$feedback',
+  SUBMIT = '$submit',
 }
 
 /**

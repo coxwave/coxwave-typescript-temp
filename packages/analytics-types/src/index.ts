@@ -16,13 +16,21 @@ export {
 export { CoreClient } from './core-client';
 export { DestinationContext } from './destination-context';
 export {
-  Event,
+  Activity,
+  TrackActivity,
+  IdentifyActivity,
   IdentifyOperation,
   IdentifyUserProperties,
-  ValidPropertyType,
   Identify,
+  ValidPropertyType,
+  Feedback,
+  Generation,
+  GenerationProperties,
   BaseEvent,
   EventOptions,
+  AvailableEventType,
+  SpecialEventName,
+  Event,
 } from './events';
 export { EventCallback } from './event-callback';
 export { Logger, LogLevel, LogConfig, DebugContext } from './logger';
