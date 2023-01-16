@@ -17,6 +17,7 @@ export { CoreClient } from './core-client';
 export { DestinationContext } from './destination-context';
 export {
   Activity,
+  ActivityPropertyType,
   TrackActivity,
   IdentifyActivity,
   IdentifyOperation,
@@ -24,8 +25,9 @@ export {
   Identify,
   ValidPropertyType,
   Feedback,
+  FeedbackPropertyType,
   Generation,
-  GenerationProperties,
+  GenerationPropertyType,
   BaseEvent,
   EventOptions,
   AvailableEventType,
@@ -43,3 +45,4 @@ export { SessionManager, SessionManagerOptions, UserSession } from './session-ma
 export { Status } from './status';
 export { CookieStorageOptions, Storage } from './storage';
 export { Transport, TransportType } from './transport';
+export { QueueProxy, InstanceProxy } from './proxy';

@@ -4,14 +4,14 @@ export const LoggableGenerationType = ['text', 'image', 'audio', 'video'] as con
 
 export interface LoggableGenerationObject {
   type: typeof LoggableGenerationType;
-  value: number | string;
+  value: number | string | Array<string | number>;
 }
 
-export interface GenerationProperties {
-  input: {
+export interface GenerationPropertyType {
+  input?: {
     [key: string]: LoggableGenerationObject;
   };
-  output: {
+  output?: {
     [key: string]: LoggableGenerationObject;
   };
 }
@@ -19,7 +19,7 @@ export interface GenerationProperties {
 export interface LogGeneration extends BaseEvent {
   event_type: AvailableEventType.LOG;
   event_name: Exclude<string, SpecialEventName>;
-  generation_properties?: GenerationProperties;
+  generation_properties?: GenerationPropertyType;
 }
 
 export type Generation = LogGeneration;

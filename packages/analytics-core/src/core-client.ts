@@ -6,10 +6,9 @@ import {
   Identify,
   Plugin,
   Result,
-  Activity,
-  Generation,
-  GenerationProperties,
-  Feedback,
+  GenerationPropertyType,
+  FeedbackPropertyType,
+  ActivityPropertyType,
 } from '@coxwave/analytics-types';
 
 import { CLIENT_NOT_INITIALIZED, OPT_OUT_MESSAGE } from './messages';
@@ -48,28 +47,28 @@ export class CoxwaveCore<T extends Config> implements CoreClient<T> {
     }
   }
 
-  track(eventInput: Activity | string, eventProperties?: Record<string, any>, eventOptions?: EventOptions) {
-    const event = createTrackEvent(eventInput, eventProperties, eventOptions);
+  track(activityInput: string, activityProperties?: ActivityPropertyType, eventOptions?: EventOptions) {
+    const event = createTrackEvent(activityInput, activityProperties, eventOptions);
+    return this.dispatch(event);
+  }
+
+  log(generationInput: string, GenerationPropertyType?: GenerationPropertyType, eventOptions?: EventOptions) {
+    const event = createLogEvent(generationInput, GenerationPropertyType, eventOptions);
+    return this.dispatch(event);
+  }
+
+  submit(
+    feedbackTraget: string,
+    feedbackInput: string,
+    feedbackProperties?: FeedbackPropertyType,
+    eventOptions?: EventOptions,
+  ) {
+    const event = createSubmitEvent(feedbackTraget, feedbackInput, feedbackProperties, eventOptions);
     return this.dispatch(event);
   }
 
   identify(identify: Identify, eventOptions?: EventOptions) {
     const event = createIdentifyEvent(identify, eventOptions);
-    return this.dispatch(event);
-  }
-
-  log(generationInput: Generation | string, generationProperties?: GenerationProperties, eventOptions?: EventOptions) {
-    const event = createLogEvent(generationInput, generationProperties, eventOptions);
-    return this.dispatch(event);
-  }
-
-  submit(
-    feedbackInput: Feedback | string,
-    feedbackTraget?: string,
-    feedbackProperties?: Record<string, any>,
-    eventOptions?: EventOptions,
-  ) {
-    const event = createSubmitEvent(feedbackInput, feedbackTraget, feedbackProperties, eventOptions);
     return this.dispatch(event);
   }
 

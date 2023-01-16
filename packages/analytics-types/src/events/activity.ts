@@ -7,6 +7,10 @@ export type ValidPropertyType =
   | Array<string | number>
   | { [key: string]: ValidPropertyType };
 
+export type ActivityPropertyType = {
+  [key: string]: number | string | boolean | Array<string | number>;
+};
+
 export interface Identify {
   getUserProperties(): IdentifyUserProperties;
   set(property: string, value: ValidPropertyType): Identify;
@@ -67,7 +71,7 @@ export interface IdentifyUserProperties {
 export interface TrackActivity extends BaseEvent {
   event_type: AvailableEventType.TRACK;
   event_name: Exclude<string, SpecialEventName>;
-  activity_properties?: { [key: string]: number | string | boolean };
+  activity_properties?: ActivityPropertyType;
 }
 
 export interface IdentifyActivity extends BaseEvent {

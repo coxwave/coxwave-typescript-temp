@@ -7,12 +7,14 @@ import {
   EventOptions,
   Generation,
   Feedback,
-  GenerationProperties,
+  ActivityPropertyType,
+  FeedbackPropertyType,
+  GenerationPropertyType,
 } from '@coxwave/analytics-types';
 
 export const createTrackEvent = (
-  activityInput: TrackActivity | string,
-  activityProperties?: Record<string, any>,
+  activityInput: string,
+  activityProperties?: ActivityPropertyType,
   eventOptions?: EventOptions,
 ): TrackActivity => {
   const baseActivity: TrackActivity =
@@ -26,20 +28,9 @@ export const createTrackEvent = (
   };
 };
 
-export const createIdentifyEvent = (identify: IIdentify, eventOptions?: EventOptions): IdentifyActivity => {
-  const identifyActivity: IdentifyActivity = {
-    ...eventOptions,
-    event_type: AvailableEventType.TRACK,
-    event_name: SpecialEventName.IDENTIFY,
-    user_properties: identify.getUserProperties(),
-  };
-
-  return identifyActivity;
-};
-
 export const createLogEvent = (
-  generationInput: Generation | string,
-  generationProperties?: GenerationProperties,
+  generationInput: string,
+  GenerationPropertyType?: GenerationPropertyType,
   eventOptions?: EventOptions,
 ): Generation => {
   const baseGeneration: Generation =
@@ -49,23 +40,34 @@ export const createLogEvent = (
   return {
     ...baseGeneration,
     ...eventOptions,
-    ...(generationProperties && { generation_properties: generationProperties }),
+    ...(GenerationPropertyType && { generation_properties: GenerationPropertyType }),
   };
 };
 
 export const createSubmitEvent = (
-  feedbackInput: Feedback | string,
-  feedbackTraget?: string,
-  feedbackProperties?: Record<string, any>,
+  feedbackTraget: string,
+  feedbackInput: string,
+  feedbackProperties?: FeedbackPropertyType,
   eventOptions?: EventOptions,
 ): Feedback => {
   const baseFeedback: Feedback =
     typeof feedbackInput === 'string'
-      ? { event_type: AvailableEventType.SUBMIT, event_name: feedbackInput, target_id: feedbackTraget as string }
+      ? { event_type: AvailableEventType.SUBMIT, event_name: feedbackInput, target_id: feedbackTraget }
       : feedbackInput;
   return {
     ...baseFeedback,
     ...eventOptions,
     ...(feedbackProperties && { event_properties: feedbackProperties }),
   };
+};
+
+export const createIdentifyEvent = (identify: IIdentify, eventOptions?: EventOptions): IdentifyActivity => {
+  const identifyActivity: IdentifyActivity = {
+    ...eventOptions,
+    event_type: AvailableEventType.TRACK,
+    event_name: SpecialEventName.IDENTIFY,
+    user_properties: identify.getUserProperties(),
+  };
+
+  return identifyActivity;
 };

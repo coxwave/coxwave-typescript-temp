@@ -1,5 +1,5 @@
 import { CoxwaveReturn } from '../coxwave-promise';
-import { Activity, EventOptions, Generation, Identify, GenerationProperties, Feedback } from '../events';
+import { EventOptions, Identify, GenerationPropertyType } from '../events';
 import { Plugin } from '../plugin';
 import { Result } from '../result';
 
@@ -53,7 +53,7 @@ export interface BaseClient {
    * ```
    */
   track(
-    activityInput: Activity | string,
+    activityInput: string,
     activityProperties?: Record<string, any>,
     activityOptions?: EventOptions,
   ): CoxwaveReturn<Result>;
@@ -79,8 +79,8 @@ export interface BaseClient {
    * ```
    */
   log(
-    generationInput: Generation | string,
-    generationProperties?: GenerationProperties,
+    generationInput: string,
+    GenerationPropertyType?: GenerationPropertyType,
     generationOptions?: EventOptions,
   ): CoxwaveReturn<Result>;
 
@@ -89,7 +89,7 @@ export interface BaseClient {
    *
    * ```typescript
    * // submit feedback with generation_id and feedback name
-   * submit(<generation_id>, 'Thumbs-Up');
+   * submit(<generation_id>, 'Thumbs-Up', );
    *
    * // submit feedback with generation_id, feedback name and additional feedback properties
    * submit(<generation_id>, 'rating', { score: 5 });
@@ -105,7 +105,8 @@ export interface BaseClient {
    * ```
    */
   submit(
-    feedbackInput: Feedback | string,
+    feedbackTraget: string,
+    feedbackInput: string,
     feedbackProperties?: Record<string, number | string | boolean>,
     feedbackOptions?: EventOptions,
   ): CoxwaveReturn<Result>;

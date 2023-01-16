@@ -1,5 +1,6 @@
 export {
   Activity,
+  ActivityPropertyType,
   TrackActivity,
   IdentifyActivity,
   IdentifyOperation,
@@ -7,8 +8,8 @@ export {
   Identify,
   ValidPropertyType,
 } from './activity';
-export { Feedback } from './feedback';
-export { Generation, GenerationProperties } from './generation';
+export { Feedback, FeedbackPropertyType } from './feedback';
+export { Generation, GenerationPropertyType } from './generation';
 export { BaseEvent, EventOptions, AvailableEventType, SpecialEventName } from './base-event';
 
 import { Activity } from './activity';
