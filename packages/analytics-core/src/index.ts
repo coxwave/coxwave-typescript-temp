@@ -1,4 +1,4 @@
-export { AmplitudeCore } from './core-client';
+export { CoxwaveCore } from './core-client';
 export { Identify } from './identify';
 export { Destination } from './plugins/destination';
 export { Config } from './config';

@@ -3,7 +3,9 @@
   "include": ["src/**/*", "test/**/*"],
   "compilerOptions": {
     "baseUrl": ".",
+    "esModuleInterop": true,
+    "lib": ["dom"],
     "noEmit": true,
-    "rootDir": "."
+    "rootDir": ".",
   }
 }
