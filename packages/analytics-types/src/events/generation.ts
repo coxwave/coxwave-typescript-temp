@@ -4,11 +4,10 @@ export const LoggableGenerationType = ['text', 'image', 'audio', 'video'] as con
 
 export interface LoggableGenerationObject {
   type: typeof LoggableGenerationType;
-  value: number | string | boolean;
+  value: number | string;
 }
 
 export interface GenerationProperties {
-  // Add operations can only take numbers
   input: {
     [key: string]: LoggableGenerationObject;
   };

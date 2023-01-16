@@ -17,7 +17,7 @@ import { Timeline } from './timeline';
 import { createIdentifyEvent, createTrackEvent, createLogEvent, createSubmitEvent } from './utils/event-builder';
 import { buildResult } from './utils/result-builder';
 
-export class AmplitudeCore<T extends Config> implements CoreClient<T> {
+export class CoxwaveCore<T extends Config> implements CoreClient<T> {
   initializing = false;
   name: string;
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment

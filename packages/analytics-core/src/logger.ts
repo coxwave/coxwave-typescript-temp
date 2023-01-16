@@ -1,6 +1,6 @@
 import { LogLevel, Logger as ILogger } from '@coxwave/analytics-types';
 
-const PREFIX = 'Amplitude Logger ';
+const PREFIX = 'Coxwave Logger ';
 
 export class Logger implements ILogger {
   logLevel: LogLevel;
