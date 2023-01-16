@@ -11,7 +11,7 @@ module.exports = {
     sourceType: 'module',
     tsconfigRootDir: __dirname,
   },
-  plugins: ['@typescript-eslint', 'jest'],
+  plugins: ['@typescript-eslint', 'jest', 'import',  'unused-imports'],
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
@@ -21,6 +21,28 @@ module.exports = {
     'prettier',
   ],
   rules: {
+    'import/extensions': 'off',
+    'import/prefer-default-export': 'off',
+    'unused-imports/no-unused-imports': 'warn',
+    'import/newline-after-import': 'error',
+    'import/order': [
+      'error',
+      {
+        'newlines-between': 'always',
+        alphabetize: { order: 'asc', caseInsensitive: true },
+        groups: [
+          'builtin',
+          'external',
+          'internal',
+          'unknown',
+          'parent',
+          'sibling',
+          'index',
+          'object',
+          'type',
+        ],
+      },
+    ],
     '@typescript-eslint/member-delimiter-style': 0,
     '@typescript-eslint/no-explicit-any': 0,
     '@typescript-eslint/no-unused-vars': ['error', { vars: 'all', args: 'none', ignoreRestSiblings: true }],
@@ -46,6 +68,19 @@ module.exports = {
         message: 'Unsafe access to `self`.',
       },
     ],
+  },
+  settings: {
+    'import/parsers': {
+      [require.resolve('@typescript-eslint/parser')]: ['.ts', '.d.ts'],
+    },
+    'import/resolver': {
+      [require.resolve('eslint-import-resolver-node')]: {
+        extensions: ['.js', '.ts'],
+      },
+      [require.resolve('eslint-import-resolver-typescript')]: {
+        alwaysTryTypes: true,
+      },
+    },
   },
   overrides: [
     {
