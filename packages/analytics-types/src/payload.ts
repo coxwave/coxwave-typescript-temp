@@ -1,7 +1,7 @@
 import { Event } from './events';
 
 export interface PayloadOptions {
-  min_id_length?: number;
+  [key: string]: any;
 }
 
 export interface Payload {
