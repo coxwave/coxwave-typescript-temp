@@ -66,10 +66,23 @@ export interface BaseClient {
    * log('Blog-Contents');
    *
    * // generation logging with generation name and additional gneration properties
-   * log('Blog-Contents', { input: { foo: { type: "text", value: "hello world"}}, output: { bar: { type: "text", value: "hello world" }}});
+   * log(
+   *  'Blog-Contents',
+   *  {
+   *    input: { foo: { type: "text", value: "hello world" }},
+   *    output: { bar: { type: "text", value: "hello world" }}
+   *  },
+   * );
    *
    * // generation logging with generation name, additional generation properties, and overwritten generation options
-   * log('Blog-Contents', { input: { foo: { type: "text", value: "hello world"}}, output: { bar: { type: "text", value: "hello world" }}}, { sessionId: -1 });
+   * log(
+   *  'Blog-Contents',
+   *  {
+   *    input: { foo: { type: "text", value: "hello world" }},
+   *    output: { bar: { type: "text", value: "hello world" }}
+   *  },
+   *  { sessionId: -1 }
+   * );
    *
    * // alternatively, this method is awaitable
    * const result = await log('Blog-Contents').promise;

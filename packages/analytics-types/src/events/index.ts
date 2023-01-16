@@ -9,7 +9,7 @@ export {
   ValidPropertyType,
 } from './activity';
 export { Feedback, FeedbackPropertyType } from './feedback';
-export { Generation, GenerationPropertyType } from './generation';
+export { Generation, GenerationIOEntityType, GenerationPropertyType } from './generation';
 export { BaseEvent, EventOptions, AvailableEventType, SpecialEventName } from './base-event';
 
 import { Activity } from './activity';
