@@ -1,1 +1,0 @@
-# @coxwave/analytics-types
