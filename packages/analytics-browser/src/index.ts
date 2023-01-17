@@ -19,6 +19,7 @@ export const {
   setThreadId,
   setTransport,
   setUserId,
+  resetThreadId,
   track,
   log,
   submit,
