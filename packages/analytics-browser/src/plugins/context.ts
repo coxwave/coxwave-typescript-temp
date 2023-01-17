@@ -1,5 +1,4 @@
 import { getLanguage } from '@coxwave/analytics-client-common';
-import { UUID } from '@coxwave/analytics-core';
 import { BeforePlugin, BrowserConfig, Event, PluginType } from '@coxwave/analytics-types';
 import UAParser from '@coxwave/ua-parser-js';
 
@@ -15,7 +14,6 @@ export class Context implements BeforePlugin {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   config: BrowserConfig;
-  eventId = 0;
   uaResult: UAParser.IResult;
   library = `coxwave-ts/${VERSION}`;
 
@@ -63,7 +61,7 @@ export class Context implements BeforePlugin {
       ...(this.config.trackingOptions.deviceModel && { device_model: deviceModel }),
       ...(this.config.trackingOptions.language && { language: getLanguage() }),
       ...(this.config.trackingOptions.ipAddress && { ip: IP_ADDRESS }),
-      insert_id: UUID(),
+      //id: UUID(),
       ...(this.config.ingestionMetadata && {
         ingestion_metadata: {
           source_name: this.config.ingestionMetadata.sourceName,
@@ -71,7 +69,6 @@ export class Context implements BeforePlugin {
         },
       }),
       ...context,
-      event_id: this.eventId++,
       library: this.library,
     };
     return event;

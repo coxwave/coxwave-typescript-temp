@@ -31,10 +31,8 @@ export type EventOptions = {
   // default options
   time?: number;
   library?: string;
-  event_id?: number;
   session_id?: number;
   thread_id?: string; // uuid only
-  insert_id?: string;
   ingestion_metadata?: IngestionMetadataEventProperty;
   // TODO: move to user related options -> to identify
   // email?: string
