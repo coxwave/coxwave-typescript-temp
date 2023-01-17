@@ -135,9 +135,10 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
       identify._q = [];
       identify = convertProxyObjectToRealObject(new Identify(), queue);
     }
-    if (eventOptions?.user_id) {
-      this.setUserId(eventOptions.user_id);
-    }
+    // TODO: use of user-id need to be changed
+    // if (eventOptions?.user_id) {
+    //   this.setUserId(eventOptions.user_id);
+    // }
     if (eventOptions?.device_id) {
       this.setDeviceId(eventOptions.device_id);
     }

@@ -218,17 +218,19 @@ export class Destination implements DestinationPlugin {
   }
 
   handleRateLimitResponse(res: RateLimitResponse, list: Context[]) {
-    const dropUserIds = Object.keys(res.body.exceededDailyQuotaUsers);
+    // const dropUserIds = Object.keys(res.body.exceededDailyQuotaUsers);
     const dropDeviceIds = Object.keys(res.body.exceededDailyQuotaDevices);
     const throttledIndex = res.body.throttledEvents;
-    const dropUserIdsSet = new Set(dropUserIds);
+    // const dropUserIdsSet = new Set(dropUserIds);
     const dropDeviceIdsSet = new Set(dropDeviceIds);
     const throttledIndexSet = new Set(throttledIndex);
 
     const retry = list.filter((context, index) => {
       if (
-        (context.event.user_id && dropUserIdsSet.has(context.event.user_id)) ||
-        (context.event.device_id && dropDeviceIdsSet.has(context.event.device_id))
+        // TODO: user-id changed to distinct-id or alias
+        //(context.event.user_id && dropUserIdsSet.has(context.event.user_id)) ||
+        context.event.device_id &&
+        dropDeviceIdsSet.has(context.event.device_id)
       ) {
         this.fulfillRequest([context], res.statusCode, res.body.error);
         return;
