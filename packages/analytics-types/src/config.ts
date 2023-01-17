@@ -5,10 +5,8 @@ import { SessionManager, UserSession } from './session-manager';
 import { Storage } from './storage';
 import { Transport, TransportType } from './transport';
 
-export enum ServerZone {
-  US = 'US',
-  EU = 'EU',
-}
+export const ServerZone = ['US', 'EU'] as const;
+export type TServerZone = (typeof ServerZone)[number];
 
 export interface Config {
   projectToken: string;
@@ -20,7 +18,7 @@ export interface Config {
   optOut: boolean;
   ingestionMetadata?: IngestionMetadata;
   serverUrl: string | undefined;
-  serverZone?: ServerZone;
+  serverZone?: TServerZone;
   storageProvider?: Storage<Event[]>;
   transportProvider: Transport;
   useBatch: boolean;

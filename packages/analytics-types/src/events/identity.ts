@@ -1,4 +1,4 @@
-import { BaseEvent, AvailableEventType, SpecialEventName } from './base-event';
+import { BaseEvent, TAvailableEventType, SpecialEventName } from './base-event';
 
 export type ValidPropertyType =
   | number
@@ -69,13 +69,13 @@ export interface IdentifyUserProperties {
 }
 
 export interface TrackActivityEvent extends BaseEvent {
-  event_type: AvailableEventType.TRACK;
+  event_type: TAvailableEventType;
   event_name: Exclude<string, SpecialEventName>;
   properties: ActivityProperties;
 }
 
 export interface IdentifyActivityEvent extends BaseEvent {
-  event_type: AvailableEventType.TRACK;
+  event_type: TAvailableEventType;
   event_name: SpecialEventName.IDENTIFY;
   properties?:
     | IdentifyUserProperties

@@ -10,7 +10,7 @@ export {
 } from './activity';
 export { Feedback, FeedbackEvent, FeedbackProperties } from './feedback';
 export { Generation, GenerationEvent, GenerationIOEntity, GenerationProperties } from './generation';
-export { BaseEvent, EventOptions, AvailableEventType, SpecialEventName } from './base-event';
+export { BaseEvent, EventOptions, AvailableEventType, TAvailableEventType, SpecialEventName } from './base-event';
 
 import { Activity } from './activity';
 import { Feedback } from './feedback';

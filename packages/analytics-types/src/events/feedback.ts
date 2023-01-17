@@ -1,4 +1,4 @@
-import { AvailableEventType, BaseEvent, SpecialEventName } from './base-event';
+import { TAvailableEventType, BaseEvent, SpecialEventName } from './base-event';
 
 export interface FeedbackProperties {
   target_id: string;
@@ -6,7 +6,7 @@ export interface FeedbackProperties {
 }
 
 export interface FeedbackEvent extends BaseEvent {
-  event_type: AvailableEventType.FEEDBACK;
+  event_type: TAvailableEventType;
   event_name: Exclude<string, SpecialEventName>;
   properties: FeedbackProperties;
 }

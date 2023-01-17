@@ -7,7 +7,7 @@ import {
   Storage,
   Transport,
   IngestionMetadata,
-  ServerZone,
+  TServerZone,
 } from '@coxwave/analytics-types';
 
 import {
@@ -26,7 +26,7 @@ export const getDefaultConfig = () => ({
   loggerProvider: new Logger(),
   optOut: false,
   serverUrl: COXWAVE_SERVER_URL,
-  serverZone: ServerZone.US,
+  serverZone: 'US' as TServerZone,
   useBatch: false,
 });
 
@@ -39,7 +39,7 @@ export class Config implements IConfig {
   logLevel: LogLevel;
   ingestionMetadata?: IngestionMetadata;
   serverUrl: string | undefined;
-  serverZone?: ServerZone;
+  serverZone?: TServerZone;
   transportProvider: Transport;
   storageProvider?: Storage<Event[]>;
   useBatch: boolean;
@@ -62,8 +62,6 @@ export class Config implements IConfig {
     this.logLevel = options.logLevel ?? defaultConfig.logLevel;
     this.ingestionMetadata = options.ingestionMetadata;
     this.optOut = options.optOut ?? defaultConfig.optOut;
-    this.serverUrl = options.serverUrl;
-    this.serverZone = options.serverZone || defaultConfig.serverZone;
     this.storageProvider = options.storageProvider;
     this.transportProvider = options.transportProvider;
     this.useBatch = options.useBatch ?? defaultConfig.useBatch;
@@ -75,8 +73,8 @@ export class Config implements IConfig {
   }
 }
 
-export const getServerUrl = (serverZone: ServerZone, useBatch: boolean) => {
-  if (serverZone === ServerZone.EU) {
+export const getServerUrl = (serverZone: TServerZone, useBatch: boolean) => {
+  if (serverZone === 'EU') {
     return useBatch ? EU_COXWAVE_BATCH_SERVER_URL : EU_COXWAVE_SERVER_URL;
   }
   return useBatch ? COXWAVE_BATCH_SERVER_URL : COXWAVE_SERVER_URL;
@@ -84,15 +82,15 @@ export const getServerUrl = (serverZone: ServerZone, useBatch: boolean) => {
 
 export const createServerConfig = (
   serverUrl = '',
-  serverZone: ServerZone = getDefaultConfig().serverZone,
+  serverZone: TServerZone = getDefaultConfig().serverZone,
   useBatch: boolean = getDefaultConfig().useBatch,
 ) => {
   if (serverUrl) {
     return { serverUrl, serverZone: undefined };
   }
-  const _serverZone = [ServerZone.US, ServerZone.EU].includes(serverZone) ? serverZone : getDefaultConfig().serverZone;
+
   return {
-    serverZone: _serverZone,
-    serverUrl: getServerUrl(_serverZone, useBatch),
+    serverZone: serverZone,
+    serverUrl: getServerUrl(serverZone, useBatch),
   };
 };

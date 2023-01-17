@@ -1,9 +1,10 @@
-import { AvailableEventType, BaseEvent, SpecialEventName } from './base-event';
+import { TAvailableEventType, BaseEvent, SpecialEventName } from './base-event';
 
 export const LoggableGenerationMedia = ['text', 'image', 'audio', 'video'] as const;
+export type TLoggableGenerationMedia = (typeof LoggableGenerationMedia)[number];
 
 export interface GenerationIOEntity {
-  type: typeof LoggableGenerationMedia;
+  type: TLoggableGenerationMedia;
   value: number | string | Array<string | number>;
 }
 
@@ -18,7 +19,7 @@ export interface GenerationProperties {
 }
 
 export interface GenerationEvent extends BaseEvent {
-  event_type: AvailableEventType.LOG;
+  event_type: TAvailableEventType;
   event_name: Exclude<string, SpecialEventName>;
   properties?: GenerationProperties;
 }

@@ -11,6 +11,7 @@ export {
   ReactNativeOptions,
   ReactNativeTrackingOptions,
   TrackingOptions,
+  TServerZone,
   ServerZone,
 } from './config';
 export { CoreClient } from './core-client';
@@ -34,6 +35,7 @@ export {
   BaseEvent,
   EventOptions,
   AvailableEventType,
+  TAvailableEventType,
   SpecialEventName,
   Event,
 } from './events';

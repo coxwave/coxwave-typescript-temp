@@ -4,11 +4,8 @@ import { IngestionMetadataEventProperty } from '../ingestion-metadata';
  * Strings that have special meaning when used as an event's type
  * and have different specifications.
  */
-export enum AvailableEventType {
-  TRACK = '$track',
-  LOG = '$log',
-  FEEDBACK = '$feedback',
-}
+export const AvailableEventType = ['$track', '$log', '$feedback'] as const;
+export type TAvailableEventType = (typeof AvailableEventType)[number];
 
 /**
  * Strings that have special meaning when used as an event's name
@@ -20,7 +17,7 @@ export enum SpecialEventName {
 
 export interface BaseEvent extends EventOptions {
   id: string;
-  event_type: AvailableEventType;
+  event_type: TAvailableEventType;
   event_name: string;
   properties?: { [key: string]: any };
   // TODO: implement later
