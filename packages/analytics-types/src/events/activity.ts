@@ -71,13 +71,13 @@ export interface IdentifyUserProperties {
 export interface TrackActivityEvent extends BaseEvent {
   event_type: AvailableEventType.TRACK;
   event_name: Exclude<string, SpecialEventName>;
-  activity_properties?: ActivityProperties;
+  properties?: ActivityProperties;
 }
 
 export interface IdentifyActivityEvent extends BaseEvent {
   event_type: AvailableEventType.TRACK;
   event_name: SpecialEventName.IDENTIFY;
-  user_properties:
+  properties?:
     | IdentifyUserProperties
     | {
         [key in Exclude<string, IdentifyOperation>]: any;

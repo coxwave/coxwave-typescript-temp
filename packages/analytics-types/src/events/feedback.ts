@@ -8,7 +8,7 @@ export interface FeedbackProperties {
 export interface FeedbackEvent extends BaseEvent {
   event_type: AvailableEventType.FEEDBACK;
   event_name: Exclude<string, SpecialEventName>;
-  feedback_properties?: FeedbackProperties;
+  properties: FeedbackProperties;
 }
 
 export type Feedback = FeedbackEvent;

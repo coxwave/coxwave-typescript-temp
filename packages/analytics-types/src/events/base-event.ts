@@ -21,17 +21,13 @@ export enum SpecialEventName {
 export interface BaseEvent extends EventOptions {
   event_type: AvailableEventType;
   event_name: string;
-  user_properties?: { [key: string]: any };
-  activity_properties?: { [key: string]: any };
-  generation_properties?: { [key: string]: any };
-  feedback_properties?: { [key: string]: any };
-
+  properties?: { [key: string]: any };
   // TODO: implement later
   // group_properties?: { [key: string]: any };
   // groups?: { [key: string]: any };
 }
 
-export interface EventOptions {
+export type EventOptions = {
   // default options
   time?: number;
   library?: string;
@@ -40,8 +36,9 @@ export interface EventOptions {
   thread_id?: string; // uuid only
   insert_id?: string;
   ingestion_metadata?: IngestionMetadataEventProperty;
-  extra?: { [key: string]: any };
-  // user related options
+  // TODO: move to user related options -> to identify
+  // email?: string
+  // name?: string
   user_id?: string;
   country?: string;
   region?: string;
@@ -61,4 +58,4 @@ export interface EventOptions {
   location_lat?: number;
   location_lng?: number;
   ip?: string;
-}
+};

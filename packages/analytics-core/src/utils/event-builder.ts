@@ -17,26 +17,32 @@ export const createTrackEvent = (
   activityProperties?: ActivityProperties,
   eventOptions?: EventOptions,
 ): TrackActivityEvent => {
-  const baseActivity: TrackActivityEvent = { event_type: AvailableEventType.TRACK, event_name: activityInput };
+  const baseActivity: TrackActivityEvent = {
+    event_type: AvailableEventType.TRACK,
+    event_name: activityInput,
+    properties: activityProperties,
+  };
 
   return {
     ...baseActivity,
     ...eventOptions,
-    ...(activityProperties && { activityProperties: activityProperties }),
   };
 };
 
 export const createLogEvent = (
   generationInput: string,
-  GenerationProperties?: GenerationProperties,
+  generationProperties?: GenerationProperties,
   eventOptions?: EventOptions,
 ): Generation => {
-  const baseGeneration: Generation = { event_type: AvailableEventType.LOG, event_name: generationInput };
+  const baseGeneration: Generation = {
+    event_type: AvailableEventType.LOG,
+    event_name: generationInput,
+    properties: generationProperties,
+  };
 
   return {
     ...baseGeneration,
     ...eventOptions,
-    ...(GenerationProperties && { generation_properties: GenerationProperties }),
   };
 };
 
@@ -49,7 +55,7 @@ export const createFeedbackEvent = (
   const baseFeedback: Feedback = {
     event_type: AvailableEventType.FEEDBACK,
     event_name: feedbackInput,
-    feedback_properties: { target_id: feedbackTraget, ...feedbackProperties },
+    properties: { target_id: feedbackTraget, ...feedbackProperties },
   };
 
   return {
@@ -63,7 +69,7 @@ export const createIdentifyEvent = (identify: IIdentify, eventOptions?: EventOpt
     ...eventOptions,
     event_type: AvailableEventType.TRACK,
     event_name: SpecialEventName.IDENTIFY,
-    user_properties: identify.getUserProperties(),
+    properties: identify.getUserProperties(),
   };
 
   return IdentifyActivityEvent;
