@@ -40,14 +40,14 @@ export const createLogEvent = (
   };
 };
 
-export const createSubmitEvent = (
+export const createFeedbackEvent = (
   feedbackTraget: string,
   feedbackInput: string,
   feedbackProperties?: FeedbackProperties,
   eventOptions?: EventOptions,
 ): Feedback => {
   const baseFeedback: Feedback = {
-    event_type: AvailableEventType.SUBMIT,
+    event_type: AvailableEventType.FEEDBACK,
     event_name: feedbackInput,
     feedback_properties: { target_id: feedbackTraget, ...feedbackProperties },
   };

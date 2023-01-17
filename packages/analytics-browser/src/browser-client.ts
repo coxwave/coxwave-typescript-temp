@@ -178,9 +178,9 @@ export const createInstance = (): BrowserClient => {
       getClientLogConfig(client),
       getClientStates(client, ['config.apiKey', 'timeline.queue.length']),
     ),
-    submit: debugWrapper(
-      returnWrapper(client.submit.bind(client)),
-      'submit',
+    feedback: debugWrapper(
+      returnWrapper(client.feedback.bind(client)),
+      'feedback',
       getClientLogConfig(client),
       getClientStates(client, ['config.apiKey', 'timeline.queue.length']),
     ),

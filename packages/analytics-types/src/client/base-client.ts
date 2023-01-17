@@ -98,26 +98,26 @@ export interface BaseClient {
   ): CoxwaveReturn<Result>;
 
   /**
-   * Submit Feedbacks, with specified name, optional feedback properties and optional overwrites.
+   * Feedback Feedbacks, with specified name, optional feedback properties and optional overwrites.
    *
    * ```typescript
-   * // submit feedback with generation_id and feedback name
-   * submit(<generation_id>, 'Thumbs-Up', );
+   * // feedback feedback with generation_id and feedback name
+   * feedback(<generation_id>, 'Thumbs-Up', );
    *
-   * // submit feedback with generation_id, feedback name and additional feedback properties
-   * submit(<generation_id>, 'rating', { score: 5 });
+   * // feedback feedback with generation_id, feedback name and additional feedback properties
+   * feedback(<generation_id>, 'rating', { score: 5 });
    *
-   * // submit feedback with generation_id, feedback name, additional feedback properties, and overwritten event options
-   * submit(<generation_id>, 'rating', { score: 5 }, { sessionId: -1 });
+   * // feedback feedback with generation_id, feedback name, additional feedback properties, and overwritten event options
+   * feedback(<generation_id>, 'rating', { score: 5 }, { sessionId: -1 });
    *
    * // alternatively, this method is awaitable
-   * const result = await submit(<generation_id>, 'Thumbs-Up').promise;
+   * const result = await feedback(<generation_id>, 'Thumbs-Up').promise;
    * console.log(result.event); // {...}
    * console.log(result.code); // 200
-   * console.log(result.message); // "Feedback Submitted successfully"
+   * console.log(result.message); // "Feedback Feedbackted successfully"
    * ```
    */
-  submit(
+  feedback(
     feedbackTraget: string,
     feedbackInput: string,
     feedbackProperties?: FeedbackProperties,

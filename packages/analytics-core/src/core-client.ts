@@ -13,7 +13,7 @@ import {
 
 import { CLIENT_NOT_INITIALIZED, OPT_OUT_MESSAGE } from './messages';
 import { Timeline } from './timeline';
-import { createIdentifyEvent, createTrackEvent, createLogEvent, createSubmitEvent } from './utils/event-builder';
+import { createIdentifyEvent, createTrackEvent, createLogEvent, createFeedbackEvent } from './utils/event-builder';
 import { buildResult } from './utils/result-builder';
 
 export class CoxwaveCore<T extends Config> implements CoreClient<T> {
@@ -57,13 +57,13 @@ export class CoxwaveCore<T extends Config> implements CoreClient<T> {
     return this.dispatch(event);
   }
 
-  submit(
+  feedback(
     feedbackTraget: string,
     feedbackInput: string,
     feedbackProperties?: FeedbackProperties,
     eventOptions?: EventOptions,
   ) {
-    const event = createSubmitEvent(feedbackTraget, feedbackInput, feedbackProperties, eventOptions);
+    const event = createFeedbackEvent(feedbackTraget, feedbackInput, feedbackProperties, eventOptions);
     return this.dispatch(event);
   }
 

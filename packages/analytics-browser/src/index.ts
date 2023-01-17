@@ -22,7 +22,7 @@ export const {
   resetThreadId,
   track,
   log,
-  submit,
+  feedback,
 } = client;
 export { runQueuedFunctions } from './utils/snippet-helper';
 export { Identify } from '@coxwave/analytics-core';
