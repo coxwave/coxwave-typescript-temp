@@ -7,9 +7,9 @@ export type ValidPropertyType =
   | Array<string | number>
   | { [key: string]: ValidPropertyType };
 
-export type ActivityProperties = {
+export interface ActivityProperties {
   [key: string]: number | string | boolean | Array<string | number>;
-};
+}
 
 export interface Identify {
   getUserProperties(): IdentifyUserProperties;

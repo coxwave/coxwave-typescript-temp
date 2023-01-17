@@ -1,21 +1,21 @@
 import { AvailableEventType, BaseEvent, SpecialEventName } from './base-event';
 
-export const LoggableGenerationType = ['text', 'image', 'audio', 'video'] as const;
+export const LoggableGenerationMedia = ['text', 'image', 'audio', 'video'] as const;
 
-export type GenerationIOEntityType = {
-  type: typeof LoggableGenerationType;
+export interface GenerationIOEntity {
+  type: typeof LoggableGenerationMedia;
   value: number | string | Array<string | number>;
-};
+}
 
-export type GenerationProperties = {
+export interface GenerationProperties {
   model_id?: string;
   input?: {
-    [key: string]: GenerationIOEntityType;
+    [key: string]: GenerationIOEntity;
   };
   output?: {
-    [key: string]: GenerationIOEntityType;
+    [key: string]: GenerationIOEntity;
   };
-};
+}
 
 export interface GenerationEvent extends BaseEvent {
   event_type: AvailableEventType.LOG;
