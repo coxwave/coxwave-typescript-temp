@@ -16,9 +16,9 @@ import {
 import { createServerConfig } from '../config';
 import { STORAGE_PREFIX } from '../constants';
 import {
-  INVALID_API_KEY,
+  INVALID_PROJECT_TOKEN,
   MAX_RETRIES_EXCEEDED_MESSAGE,
-  MISSING_API_KEY_MESSAGE,
+  MISSING_PROJECT_TOKEN_MESSAGE,
   SUCCESS_MESSAGE,
   UNEXPECTED_ERROR_MESSAGE,
 } from '../messages';
@@ -42,7 +42,7 @@ export class Destination implements DestinationPlugin {
   async setup(config: Config): Promise<undefined> {
     this.config = config;
 
-    this.storageKey = `${STORAGE_PREFIX}_${this.config.apiKey.substring(0, 10)}`;
+    this.storageKey = `${STORAGE_PREFIX}_${this.config.projectToken.substring(0, 10)}`;
     const unsent = await this.config.storageProvider?.get(this.storageKey);
     this.saveEvents(); // sets storage to '[]'
     if (unsent && unsent.length > 0) {
@@ -117,23 +117,20 @@ export class Destination implements DestinationPlugin {
   }
 
   async send(list: Context[], useRetry = true) {
-    if (!this.config.apiKey) {
-      return this.fulfillRequest(list, 400, MISSING_API_KEY_MESSAGE);
+    if (!this.config.projectToken) {
+      return this.fulfillRequest(list, 400, MISSING_PROJECT_TOKEN_MESSAGE);
     }
-
+    const projectToken = this.config.projectToken;
     const payload = {
-      api_key: this.config.apiKey,
       events: list.map((context) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { extra, ...eventWithoutExtra } = context.event;
-        return eventWithoutExtra;
+        return context.event;
       }),
       options: {},
     };
 
     try {
       const { serverUrl } = createServerConfig(this.config.serverUrl, this.config.serverZone, this.config.useBatch);
-      const res = await this.config.transportProvider.send(serverUrl, payload);
+      const res = await this.config.transportProvider.send(serverUrl, payload, projectToken);
       if (res === null) {
         this.fulfillRequest(list, 0, UNEXPECTED_ERROR_MESSAGE);
         return;
@@ -187,7 +184,7 @@ export class Destination implements DestinationPlugin {
   }
 
   handleInvalidResponse(res: InvalidResponse, list: Context[]) {
-    if (res.body.missingField || res.body.error.startsWith(INVALID_API_KEY)) {
+    if (res.body.missingField || res.body.error.startsWith(INVALID_PROJECT_TOKEN)) {
       this.fulfillRequest(list, res.statusCode, res.body.error);
       return;
     }

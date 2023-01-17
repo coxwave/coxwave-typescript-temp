@@ -3,7 +3,7 @@ import { BaseTransport } from '@coxwave/analytics-core';
 import { Payload, Response, Transport } from '@coxwave/analytics-types';
 
 export class SendBeaconTransport extends BaseTransport implements Transport {
-  async send(serverUrl: string, payload: Payload): Promise<Response | null> {
+  async send(serverUrl: string, payload: Payload, _projectToken: string): Promise<Response | null> {
     return new Promise((resolve, reject) => {
       const globalScope = getGlobalScope();
       /* istanbul ignore if */

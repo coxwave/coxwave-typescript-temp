@@ -2,7 +2,7 @@ import { BaseTransport } from '@coxwave/analytics-core';
 import { Payload, Response, Transport } from '@coxwave/analytics-types';
 
 export class FetchTransport extends BaseTransport implements Transport {
-  async send(serverUrl: string, payload: Payload): Promise<Response | null> {
+  async send(serverUrl: string, payload: Payload, projectToken: string): Promise<Response | null> {
     /* istanbul ignore if */
     if (typeof fetch === 'undefined') {
       throw new Error('FetchTransport is not supported');
@@ -10,6 +10,7 @@ export class FetchTransport extends BaseTransport implements Transport {
     const options: RequestInit = {
       headers: {
         'Content-Type': 'application/json',
+        'Coxwave-Project-Token': projectToken,
         Accept: '*/*',
       },
       body: JSON.stringify(payload),

@@ -6,7 +6,7 @@ export class XHRTransport extends BaseTransport implements Transport {
     done: 4,
   };
 
-  async send(serverUrl: string, payload: Payload): Promise<Response | null> {
+  async send(serverUrl: string, payload: Payload, projectToken: string): Promise<Response | null> {
     return new Promise((resolve, reject) => {
       /* istanbul ignore if */
       if (typeof XMLHttpRequest === 'undefined') {
@@ -29,6 +29,7 @@ export class XHRTransport extends BaseTransport implements Transport {
         }
       };
       xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.setRequestHeader('Coxwave-Project-Token', projectToken);
       xhr.setRequestHeader('Accept', '*/*');
       xhr.send(JSON.stringify(payload));
     });
