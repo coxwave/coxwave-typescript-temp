@@ -1,5 +1,4 @@
 import { Event } from './events';
-import { IngestionMetadata } from './ingestion-metadata';
 import { LogLevel, Logger } from './logger';
 import { SessionManager, UserSession } from './session-manager';
 import { Storage } from './storage';
@@ -16,7 +15,6 @@ export interface Config {
   logLevel: LogLevel;
   loggerProvider: Logger;
   optOut: boolean;
-  ingestionMetadata?: IngestionMetadata;
   serverUrl: string | undefined;
   serverZone?: TServerZone;
   storageProvider?: Storage<Event[]>;

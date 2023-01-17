@@ -6,7 +6,6 @@ import {
   LogLevel,
   Storage,
   Transport,
-  IngestionMetadata,
   TServerZone,
 } from '@coxwave/analytics-types';
 
@@ -37,7 +36,6 @@ export class Config implements IConfig {
   flushQueueSize: number;
   loggerProvider: ILogger;
   logLevel: LogLevel;
-  ingestionMetadata?: IngestionMetadata;
   serverUrl: string | undefined;
   serverZone?: TServerZone;
   transportProvider: Transport;
@@ -60,7 +58,6 @@ export class Config implements IConfig {
     this.flushQueueSize = options.flushQueueSize || defaultConfig.flushQueueSize;
     this.loggerProvider = options.loggerProvider || defaultConfig.loggerProvider;
     this.logLevel = options.logLevel ?? defaultConfig.logLevel;
-    this.ingestionMetadata = options.ingestionMetadata;
     this.optOut = options.optOut ?? defaultConfig.optOut;
     this.storageProvider = options.storageProvider;
     this.transportProvider = options.transportProvider;

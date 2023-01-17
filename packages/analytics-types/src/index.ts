@@ -42,7 +42,6 @@ export {
 export { EventCallback } from './event-callback';
 export { Logger, LogLevel, LogConfig, DebugContext } from './logger';
 export { Payload } from './payload';
-export { IngestionMetadata } from './ingestion-metadata';
 export { Plugin, BeforePlugin, EnrichmentPlugin, DestinationPlugin, PluginType } from './plugin';
 export { Result } from './result';
 export { Response, SuccessResponse, InvalidResponse, PayloadTooLargeResponse, RateLimitResponse } from './response';

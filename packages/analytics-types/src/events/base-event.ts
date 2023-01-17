@@ -1,5 +1,3 @@
-import { IngestionMetadataEventProperty } from '../ingestion-metadata';
-
 /**
  * Strings that have special meaning when used as an event's type
  * and have different specifications.
@@ -31,7 +29,6 @@ export type EventOptions = {
   library?: string;
   session_id?: number;
   thread_id?: string; // uuid only
-  ingestion_metadata?: IngestionMetadataEventProperty;
   // device related options
   device_id?: string;
   app_version?: string;
