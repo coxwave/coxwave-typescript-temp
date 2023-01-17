@@ -23,7 +23,7 @@ import { Context } from './plugins/context';
 import { convertProxyObjectToRealObject, isInstanceProxy } from './utils/snippet-helper';
 
 export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
-  async init(apiKey = '', userId?: string, options?: BrowserOptions) {
+  async init(projectToken = '', userId?: string, options?: BrowserOptions) {
     // Step 0: Block concurrent initialization
     if (this.initializing) {
       return;
@@ -31,7 +31,7 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
     this.initializing = true;
 
     // Step 2: Create browser config
-    const browserOptions = await useBrowserConfig(apiKey, userId, {
+    const browserOptions = await useBrowserConfig(projectToken, userId, {
       ...options,
       deviceId: options?.deviceId,
       sessionId: options?.sessionId,
@@ -158,43 +158,43 @@ export const createInstance = (): BrowserClient => {
       returnWrapper(client.add.bind(client)),
       'add',
       getClientLogConfig(client),
-      getClientStates(client, ['config.apiKey', 'timeline.plugins']),
+      getClientStates(client, ['config.projectToken', 'timeline.plugins']),
     ),
     remove: debugWrapper(
       returnWrapper(client.remove.bind(client)),
       'remove',
       getClientLogConfig(client),
-      getClientStates(client, ['config.apiKey', 'timeline.plugins']),
+      getClientStates(client, ['config.projectToken', 'timeline.plugins']),
     ),
     track: debugWrapper(
       returnWrapper(client.track.bind(client)),
       'track',
       getClientLogConfig(client),
-      getClientStates(client, ['config.apiKey', 'timeline.queue.length']),
+      getClientStates(client, ['config.projectToken', 'timeline.queue.length']),
     ),
     log: debugWrapper(
       returnWrapper(client.log.bind(client)),
       'log',
       getClientLogConfig(client),
-      getClientStates(client, ['config.apiKey', 'timeline.queue.length']),
+      getClientStates(client, ['config.projectToken', 'timeline.queue.length']),
     ),
     feedback: debugWrapper(
       returnWrapper(client.feedback.bind(client)),
       'feedback',
       getClientLogConfig(client),
-      getClientStates(client, ['config.apiKey', 'timeline.queue.length']),
+      getClientStates(client, ['config.projectToken', 'timeline.queue.length']),
     ),
     identify: debugWrapper(
       returnWrapper(client.identify.bind(client)),
       'identify',
       getClientLogConfig(client),
-      getClientStates(client, ['config.apiKey', 'timeline.queue.length']),
+      getClientStates(client, ['config.projectToken', 'timeline.queue.length']),
     ),
     flush: debugWrapper(
       returnWrapper(client.flush.bind(client)),
       'flush',
       getClientLogConfig(client),
-      getClientStates(client, ['config.apiKey', 'timeline.queue.length']),
+      getClientStates(client, ['config.projectToken', 'timeline.queue.length']),
     ),
     getUserId: debugWrapper(
       client.getUserId.bind(client),

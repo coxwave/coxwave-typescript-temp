@@ -5,12 +5,12 @@ import { BaseClient } from './base-client';
 
 export interface NodeClient extends BaseClient {
   /**
-   * Initializes the Coxwave SDK with your apiKey, optional configurations.
+   * Initializes the Coxwave SDK with your projectToken, optional configurations.
    * This method must be called before any other operations.
    *
    * ```typescript
-   * await init(API_KEY, options).promise;
+   * await init(PROJECT_TOKEN, options).promise;
    * ```
    */
-  init(apiKey: string, options?: NodeOptions): CoxwaveReturn<void>;
+  init(projectToken: string, options?: NodeOptions): CoxwaveReturn<void>;
 }

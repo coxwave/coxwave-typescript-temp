@@ -111,14 +111,14 @@ interface Client extends BaseClient {
 
 export interface BrowserClient extends Client {
   /**
-   * Initializes the Coxwave SDK with your apiKey, optional configurations.
+   * Initializes the Coxwave SDK with your projectToken, optional configurations.
    * This method must be called before any other operations.
    *
    * ```typescript
-   * await init(API_KEY, options).promise;
+   * await init(PROJECT_TOKEN, options).promise;
    * ```
    */
-  init(apiKey: string, userId?: string, options?: BrowserOptions): CoxwaveReturn<void>;
+  init(projectToken: string, userId?: string, options?: BrowserOptions): CoxwaveReturn<void>;
 
   /**
    * Sets the network transport type for events.
@@ -139,12 +139,12 @@ export interface BrowserClient extends Client {
 
 export interface ReactNativeClient extends Client {
   /**
-   * Initializes the Coxwave SDK with your apiKey, optional configurations.
+   * Initializes the Coxwave SDK with your projectToken, optional configurations.
    * This method must be called before any other operations.
    *
    * ```typescript
-   * await init(API_KEY, options).promise;
+   * await init(PROJECT_TOKEN, options).promise;
    * ```
    */
-  init(apiKey: string, userId?: string, options?: ReactNativeOptions): CoxwaveReturn<void>;
+  init(projectToken: string, userId?: string, options?: ReactNativeOptions): CoxwaveReturn<void>;
 }

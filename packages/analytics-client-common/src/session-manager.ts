@@ -6,8 +6,8 @@ export class SessionManager implements ISessionManager {
   storageKey: string;
   cache: UserSession;
 
-  constructor(private storage: Storage<UserSession>, apiKey: string) {
-    this.storageKey = getStorageKey(apiKey);
+  constructor(private storage: Storage<UserSession>, projectToken: string) {
+    this.storageKey = getStorageKey(projectToken);
     this.cache = { optOut: false };
   }
 

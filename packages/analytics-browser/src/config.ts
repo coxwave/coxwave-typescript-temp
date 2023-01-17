@@ -60,14 +60,14 @@ export class BrowserConfig extends Config implements IBrowserConfig {
   trackingOptions: TrackingOptions;
   sessionManager: ISessionManager;
 
-  constructor(apiKey: string, userId?: string, options?: BrowserOptions) {
+  constructor(projectToken: string, userId?: string, options?: BrowserOptions) {
     const defaultConfig = getDefaultConfig();
     super({
       flushIntervalMillis: 1000,
       flushMaxRetries: 5,
       flushQueueSize: 30,
       ...options,
-      apiKey,
+      projectToken,
       storageProvider: options?.storageProvider ?? defaultConfig.storageProvider,
       transportProvider: options?.transportProvider ?? defaultConfig.transportProvider,
     });
@@ -141,19 +141,19 @@ export class BrowserConfig extends Config implements IBrowserConfig {
 }
 
 export const useBrowserConfig = async (
-  apiKey: string,
+  projectToken: string,
   userId?: string,
   options?: BrowserOptions,
 ): Promise<IBrowserConfig> => {
   const defaultConfig = getDefaultConfig();
   const domain = options?.domain ?? (await getTopLevelDomain());
   const cookieStorage = await createCookieStorage({ ...options, domain });
-  const cookieName = getCookieName(apiKey);
+  const cookieName = getCookieName(projectToken);
   const cookies = await cookieStorage.get(cookieName);
   const queryParams = getQueryParams();
-  const sessionManager = await new SessionManager(cookieStorage, apiKey).load();
+  const sessionManager = await new SessionManager(cookieStorage, projectToken).load();
 
-  return new BrowserConfig(apiKey, userId ?? cookies?.userId, {
+  return new BrowserConfig(projectToken, userId ?? cookies?.userId, {
     ...options,
     cookieStorage,
     sessionManager,

@@ -9,7 +9,7 @@ export interface UserSession {
 }
 
 export interface SessionManagerOptions {
-  apiKey: string;
+  projectToken: string;
   sessionTimeout: number;
 }
 

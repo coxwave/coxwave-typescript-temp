@@ -11,7 +11,7 @@ export enum ServerZone {
 }
 
 export interface Config {
-  apiKey: string;
+  projectToken: string;
   flushIntervalMillis: number;
   flushMaxRetries: number;
   flushQueueSize: number;
@@ -54,7 +54,7 @@ export type NodeConfig = Config;
 export type InitOptions<T extends Config> =
   | Partial<Config> &
       Omit<T, keyof Config> & {
-        apiKey: string;
+        projectToken: string;
         transportProvider: Transport;
       };
 
@@ -80,7 +80,7 @@ export type BrowserOptions = Omit<
       transport: TransportType;
     }
   >,
-  'apiKey'
+  'projectToken'
 >;
 
 export type ReactNativeOptions = Omit<
@@ -89,7 +89,7 @@ export type ReactNativeOptions = Omit<
       transport: TransportType;
     }
   >,
-  'apiKey'
+  'projectToken'
 >;
 
-export type NodeOptions = Omit<Partial<NodeConfig>, 'apiKey'>;
+export type NodeOptions = Omit<Partial<NodeConfig>, 'projectToken'>;

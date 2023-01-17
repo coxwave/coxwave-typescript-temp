@@ -5,7 +5,6 @@ export interface PayloadOptions {
 }
 
 export interface Payload {
-  api_key: string;
   events: readonly Event[];
   options?: PayloadOptions;
 }
