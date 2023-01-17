@@ -7,6 +7,5 @@ export interface Transport {
 
 export enum TransportType {
   XHR = 'xhr',
-  SendBeacon = 'beacon',
   Fetch = 'fetch',
 }

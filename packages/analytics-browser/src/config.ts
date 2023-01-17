@@ -18,7 +18,6 @@ import {
 } from '@coxwave/analytics-types';
 
 import { LocalStorage } from './storage/local-storage';
-import { SendBeaconTransport } from './transports/send-beacon';
 import { XHRTransport } from './transports/xhr';
 
 export const getDefaultConfig = () => {
@@ -220,9 +219,6 @@ export const createDeviceId = (idFromCookies?: string, idFromOptions?: string, i
 export const createTransport = (transport?: TransportType) => {
   if (transport === TransportType.XHR) {
     return new XHRTransport();
-  }
-  if (transport === TransportType.SendBeacon) {
-    return new SendBeaconTransport();
   }
   return getDefaultConfig().transportProvider;
 };

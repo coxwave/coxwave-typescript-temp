@@ -129,9 +129,6 @@ export interface BrowserClient extends Client {
    *
    * // Use XMLHttpRequest API
    * setTransport('xhr');
-   *
-   * // Use navigator.sendBeacon API
-   * setTransport('beacon');
    * ```
    */
   setTransport(transport: TransportType): void;
