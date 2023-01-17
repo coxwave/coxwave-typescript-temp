@@ -35,14 +35,6 @@ export type EventOptions = {
   session_id?: number;
   thread_id?: string; // uuid only
   ingestion_metadata?: IngestionMetadataEventProperty;
-  // TODO: move to user related options -> to identify
-  // email?: string
-  // name?: string
-  user_id?: string;
-  country?: string;
-  region?: string;
-  city?: string;
-  language?: string;
   // device related options
   device_id?: string;
   app_version?: string;
@@ -57,4 +49,14 @@ export type EventOptions = {
   location_lat?: number;
   location_lng?: number;
   ip?: string;
+};
+
+export type IdentifyOptions = {
+  email?: string;
+  name?: string;
+  user_id?: string;
+  country?: string;
+  region?: string;
+  city?: string;
+  language?: string;
 };
