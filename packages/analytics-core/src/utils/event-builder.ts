@@ -12,12 +12,15 @@ import {
   GenerationProperties,
 } from '@coxwave/analytics-types';
 
+import { UUID } from './uuid';
+
 export const createTrackEvent = (
   activityInput: string,
   activityProperties?: ActivityProperties,
   eventOptions?: EventOptions,
 ): TrackActivityEvent => {
   const baseActivity: TrackActivityEvent = {
+    id: UUID(),
     event_type: AvailableEventType.TRACK,
     event_name: activityInput,
     properties: activityProperties,
@@ -35,6 +38,7 @@ export const createLogEvent = (
   eventOptions?: EventOptions,
 ): Generation => {
   const baseGeneration: Generation = {
+    id: UUID(),
     event_type: AvailableEventType.LOG,
     event_name: generationInput,
     properties: generationProperties,
@@ -53,6 +57,7 @@ export const createFeedbackEvent = (
   eventOptions?: EventOptions,
 ): Feedback => {
   const baseFeedback: Feedback = {
+    id: UUID(),
     event_type: AvailableEventType.FEEDBACK,
     event_name: feedbackInput,
     properties: { target_id: feedbackTraget, ...feedbackProperties },
@@ -66,10 +71,11 @@ export const createFeedbackEvent = (
 
 export const createIdentifyEvent = (identify: IIdentify, eventOptions?: EventOptions): IdentifyActivityEvent => {
   const IdentifyActivityEvent: IdentifyActivityEvent = {
-    ...eventOptions,
+    id: UUID(),
     event_type: AvailableEventType.TRACK,
     event_name: SpecialEventName.IDENTIFY,
     properties: identify.getUserProperties(),
+    ...eventOptions,
   };
 
   return IdentifyActivityEvent;

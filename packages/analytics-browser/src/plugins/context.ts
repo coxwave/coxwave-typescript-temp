@@ -61,7 +61,6 @@ export class Context implements BeforePlugin {
       ...(this.config.trackingOptions.deviceModel && { device_model: deviceModel }),
       ...(this.config.trackingOptions.language && { language: getLanguage() }),
       ...(this.config.trackingOptions.ipAddress && { ip: IP_ADDRESS }),
-      //id: UUID(),
       ...(this.config.ingestionMetadata && {
         ingestion_metadata: {
           source_name: this.config.ingestionMetadata.sourceName,

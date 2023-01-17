@@ -19,6 +19,7 @@ export enum SpecialEventName {
 }
 
 export interface BaseEvent extends EventOptions {
+  id: string;
   event_type: AvailableEventType;
   event_name: string;
   properties?: { [key: string]: any };
