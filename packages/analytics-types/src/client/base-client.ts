@@ -1,5 +1,5 @@
 import { CoxwaveReturn } from '../coxwave-promise';
-import { EventOptions, Identify, GenerationPropertyType } from '../events';
+import { EventOptions, Identify, GenerationProperties } from '../events';
 import { Plugin } from '../plugin';
 import { Result } from '../result';
 
@@ -93,7 +93,7 @@ export interface BaseClient {
    */
   log(
     generationInput: string,
-    GenerationPropertyType?: GenerationPropertyType,
+    GenerationProperties?: GenerationProperties,
     generationOptions?: EventOptions,
   ): CoxwaveReturn<Result>;
 

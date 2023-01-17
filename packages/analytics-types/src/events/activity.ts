@@ -7,7 +7,7 @@ export type ValidPropertyType =
   | Array<string | number>
   | { [key: string]: ValidPropertyType };
 
-export type ActivityPropertyType = {
+export type ActivityProperties = {
   [key: string]: number | string | boolean | Array<string | number>;
 };
 
@@ -68,13 +68,13 @@ export interface IdentifyUserProperties {
   [IdentifyOperation.REMOVE]?: BaseOperationConfig;
 }
 
-export interface TrackActivity extends BaseEvent {
+export interface TrackActivityEvent extends BaseEvent {
   event_type: AvailableEventType.TRACK;
   event_name: Exclude<string, SpecialEventName>;
-  activity_properties?: ActivityPropertyType;
+  activity_properties?: ActivityProperties;
 }
 
-export interface IdentifyActivity extends BaseEvent {
+export interface IdentifyActivityEvent extends BaseEvent {
   event_type: AvailableEventType.TRACK;
   event_name: SpecialEventName.IDENTIFY;
   user_properties:
@@ -85,7 +85,7 @@ export interface IdentifyActivity extends BaseEvent {
 }
 
 // TODO: group will be implemented later
-// export interface GroupIdentifyActivity extends BaseEvent {
+// export interface GroupIdentifyActivityEvent extends BaseEvent {
 //   event_type: SpecialEventName.GROUP_IDENTIFY;
 //   group_properties:
 //     | IdentifyUserProperties
@@ -94,4 +94,4 @@ export interface IdentifyActivity extends BaseEvent {
 //       };
 // }
 
-export type Activity = TrackActivity | IdentifyActivity;
+export type Activity = TrackActivityEvent | IdentifyActivityEvent;

@@ -6,9 +6,9 @@ import {
   Identify,
   Plugin,
   Result,
-  GenerationPropertyType,
-  FeedbackPropertyType,
-  ActivityPropertyType,
+  GenerationProperties,
+  FeedbackProperties,
+  ActivityProperties,
 } from '@coxwave/analytics-types';
 
 import { CLIENT_NOT_INITIALIZED, OPT_OUT_MESSAGE } from './messages';
@@ -47,20 +47,20 @@ export class CoxwaveCore<T extends Config> implements CoreClient<T> {
     }
   }
 
-  track(activityInput: string, activityProperties?: ActivityPropertyType, eventOptions?: EventOptions) {
+  track(activityInput: string, activityProperties?: ActivityProperties, eventOptions?: EventOptions) {
     const event = createTrackEvent(activityInput, activityProperties, eventOptions);
     return this.dispatch(event);
   }
 
-  log(generationInput: string, GenerationPropertyType?: GenerationPropertyType, eventOptions?: EventOptions) {
-    const event = createLogEvent(generationInput, GenerationPropertyType, eventOptions);
+  log(generationInput: string, GenerationProperties?: GenerationProperties, eventOptions?: EventOptions) {
+    const event = createLogEvent(generationInput, GenerationProperties, eventOptions);
     return this.dispatch(event);
   }
 
   submit(
     feedbackTraget: string,
     feedbackInput: string,
-    feedbackProperties?: FeedbackPropertyType,
+    feedbackProperties?: FeedbackProperties,
     eventOptions?: EventOptions,
   ) {
     const event = createSubmitEvent(feedbackTraget, feedbackInput, feedbackProperties, eventOptions);

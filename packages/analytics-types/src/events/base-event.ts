@@ -61,8 +61,4 @@ export interface EventOptions {
   location_lat?: number;
   location_lng?: number;
   ip?: string;
-  // generation related options
-  model_id?: string;
-  // feedback_related options
-  target_id?: string;
 }

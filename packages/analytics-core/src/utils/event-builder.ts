@@ -1,23 +1,23 @@
 import {
   AvailableEventType,
-  TrackActivity,
-  IdentifyActivity,
+  TrackActivityEvent,
+  IdentifyActivityEvent,
   SpecialEventName,
   Identify as IIdentify,
   EventOptions,
   Generation,
   Feedback,
-  ActivityPropertyType,
-  FeedbackPropertyType,
-  GenerationPropertyType,
+  ActivityProperties,
+  FeedbackProperties,
+  GenerationProperties,
 } from '@coxwave/analytics-types';
 
 export const createTrackEvent = (
   activityInput: string,
-  activityProperties?: ActivityPropertyType,
+  activityProperties?: ActivityProperties,
   eventOptions?: EventOptions,
-): TrackActivity => {
-  const baseActivity: TrackActivity =
+): TrackActivityEvent => {
+  const baseActivity: TrackActivityEvent =
     typeof activityInput === 'string'
       ? { event_type: AvailableEventType.TRACK, event_name: activityInput }
       : activityInput;
@@ -30,7 +30,7 @@ export const createTrackEvent = (
 
 export const createLogEvent = (
   generationInput: string,
-  GenerationPropertyType?: GenerationPropertyType,
+  GenerationProperties?: GenerationProperties,
   eventOptions?: EventOptions,
 ): Generation => {
   const baseGeneration: Generation =
@@ -40,14 +40,14 @@ export const createLogEvent = (
   return {
     ...baseGeneration,
     ...eventOptions,
-    ...(GenerationPropertyType && { generation_properties: GenerationPropertyType }),
+    ...(GenerationProperties && { generation_properties: GenerationProperties }),
   };
 };
 
 export const createSubmitEvent = (
   feedbackTraget: string,
   feedbackInput: string,
-  feedbackProperties?: FeedbackPropertyType,
+  feedbackProperties?: FeedbackProperties,
   eventOptions?: EventOptions,
 ): Feedback => {
   const baseFeedback: Feedback =
@@ -61,13 +61,13 @@ export const createSubmitEvent = (
   };
 };
 
-export const createIdentifyEvent = (identify: IIdentify, eventOptions?: EventOptions): IdentifyActivity => {
-  const identifyActivity: IdentifyActivity = {
+export const createIdentifyEvent = (identify: IIdentify, eventOptions?: EventOptions): IdentifyActivityEvent => {
+  const IdentifyActivityEvent: IdentifyActivityEvent = {
     ...eventOptions,
     event_type: AvailableEventType.TRACK,
     event_name: SpecialEventName.IDENTIFY,
     user_properties: identify.getUserProperties(),
   };
 
-  return identifyActivity;
+  return IdentifyActivityEvent;
 };

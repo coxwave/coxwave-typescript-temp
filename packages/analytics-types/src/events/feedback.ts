@@ -1,13 +1,13 @@
 import { AvailableEventType, BaseEvent, SpecialEventName } from './base-event';
 
-export type FeedbackPropertyType = {
+export type FeedbackProperties = {
+  target_id: string;
   [key: string]: number | string | boolean | Array<string | number>;
 };
-export interface SubmitFeedback extends BaseEvent {
+export interface FeedbackEvent extends BaseEvent {
   event_type: AvailableEventType.SUBMIT;
   event_name: Exclude<string, SpecialEventName>;
-  target_id: string;
-  feedback_properties?: FeedbackPropertyType;
+  feedback_properties?: FeedbackProperties;
 }
 
-export type Feedback = SubmitFeedback;
+export type Feedback = FeedbackEvent;

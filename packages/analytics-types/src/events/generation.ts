@@ -7,7 +7,8 @@ export type GenerationIOEntityType = {
   value: number | string | Array<string | number>;
 };
 
-export type GenerationPropertyType = {
+export type GenerationProperties = {
+  model_id?: string;
   input?: {
     [key: string]: GenerationIOEntityType;
   };
@@ -16,10 +17,10 @@ export type GenerationPropertyType = {
   };
 };
 
-export interface LogGeneration extends BaseEvent {
+export interface GenerationEvent extends BaseEvent {
   event_type: AvailableEventType.LOG;
   event_name: Exclude<string, SpecialEventName>;
-  generation_properties?: GenerationPropertyType;
+  generation_properties?: GenerationProperties;
 }
 
-export type Generation = LogGeneration;
+export type Generation = GenerationEvent;
