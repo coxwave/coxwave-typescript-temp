@@ -17,10 +17,8 @@ export const createTrackEvent = (
   activityProperties?: ActivityProperties,
   eventOptions?: EventOptions,
 ): TrackActivityEvent => {
-  const baseActivity: TrackActivityEvent =
-    typeof activityInput === 'string'
-      ? { event_type: AvailableEventType.TRACK, event_name: activityInput }
-      : activityInput;
+  const baseActivity: TrackActivityEvent = { event_type: AvailableEventType.TRACK, event_name: activityInput };
+
   return {
     ...baseActivity,
     ...eventOptions,
@@ -33,10 +31,8 @@ export const createLogEvent = (
   GenerationProperties?: GenerationProperties,
   eventOptions?: EventOptions,
 ): Generation => {
-  const baseGeneration: Generation =
-    typeof generationInput === 'string'
-      ? { event_type: AvailableEventType.LOG, event_name: generationInput }
-      : generationInput;
+  const baseGeneration: Generation = { event_type: AvailableEventType.LOG, event_name: generationInput };
+
   return {
     ...baseGeneration,
     ...eventOptions,
@@ -50,14 +46,15 @@ export const createSubmitEvent = (
   feedbackProperties?: FeedbackProperties,
   eventOptions?: EventOptions,
 ): Feedback => {
-  const baseFeedback: Feedback =
-    typeof feedbackInput === 'string'
-      ? { event_type: AvailableEventType.SUBMIT, event_name: feedbackInput, target_id: feedbackTraget }
-      : feedbackInput;
+  const baseFeedback: Feedback = {
+    event_type: AvailableEventType.SUBMIT,
+    event_name: feedbackInput,
+    feedback_properties: { target_id: feedbackTraget, ...feedbackProperties },
+  };
+
   return {
     ...baseFeedback,
     ...eventOptions,
-    ...(feedbackProperties && { event_properties: feedbackProperties }),
   };
 };
 

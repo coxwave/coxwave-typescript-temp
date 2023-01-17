@@ -1,5 +1,5 @@
 import { CoxwaveReturn } from '../coxwave-promise';
-import { EventOptions, Identify, GenerationProperties } from '../events';
+import { EventOptions, Identify, ActivityProperties, GenerationProperties, FeedbackProperties } from '../events';
 import { Plugin } from '../plugin';
 import { Result } from '../result';
 
@@ -54,7 +54,7 @@ export interface BaseClient {
    */
   track(
     activityInput: string,
-    activityProperties?: Record<string, any>,
+    activityProperties?: ActivityProperties,
     activityOptions?: EventOptions,
   ): CoxwaveReturn<Result>;
 
@@ -120,7 +120,7 @@ export interface BaseClient {
   submit(
     feedbackTraget: string,
     feedbackInput: string,
-    feedbackProperties?: Record<string, number | string | boolean>,
+    feedbackProperties?: FeedbackProperties,
     feedbackOptions?: EventOptions,
   ): CoxwaveReturn<Result>;
 
