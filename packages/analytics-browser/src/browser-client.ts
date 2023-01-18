@@ -74,6 +74,18 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
     this.config.userId = userId;
   }
 
+  getDistinctId() {
+    return this.config?.distinctId;
+  }
+
+  setDistinctId(distinctId: string | undefined) {
+    if (!this.config) {
+      this.q.push(this.setDistinctId.bind(this, distinctId));
+      return;
+    }
+    this.config.distinctId = distinctId;
+  }
+
   getDeviceId() {
     return this.config?.deviceId;
   }
@@ -168,19 +180,19 @@ export const createInstance = (): BrowserClient => {
       getClientStates(client, ['config.projectToken', 'timeline.plugins']),
     ),
     track: debugWrapper(
-      returnWrapper(client.track.bind(client)),
+      client.track.bind(client),
       'track',
       getClientLogConfig(client),
       getClientStates(client, ['config.projectToken', 'timeline.queue.length']),
     ),
     log: debugWrapper(
-      returnWrapper(client.log.bind(client)),
+      client.log.bind(client),
       'log',
       getClientLogConfig(client),
       getClientStates(client, ['config.projectToken', 'timeline.queue.length']),
     ),
     feedback: debugWrapper(
-      returnWrapper(client.feedback.bind(client)),
+      client.feedback.bind(client),
       'feedback',
       getClientLogConfig(client),
       getClientStates(client, ['config.projectToken', 'timeline.queue.length']),
@@ -206,6 +218,18 @@ export const createInstance = (): BrowserClient => {
     setUserId: debugWrapper(
       client.setUserId.bind(client),
       'setUserId',
+      getClientLogConfig(client),
+      getClientStates(client, ['config', 'config.userId']),
+    ),
+    getDistinctId: debugWrapper(
+      client.getDistinctId.bind(client),
+      'getDistinctId',
+      getClientLogConfig(client),
+      getClientStates(client, ['config', 'config.userId']),
+    ),
+    setDistinctId: debugWrapper(
+      client.setDistinctId.bind(client),
+      'setDistinctId',
       getClientLogConfig(client),
       getClientStates(client, ['config', 'config.userId']),
     ),

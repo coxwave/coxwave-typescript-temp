@@ -49,12 +49,12 @@ export class CoxwaveCore<T extends Config> implements CoreClient<T> {
 
   track(activityInput: string, activityProperties?: ActivityProperties, eventOptions?: EventOptions) {
     const event = createTrackEvent(activityInput, activityProperties, eventOptions);
-    return this.dispatch(event);
+    return { id: event.id, promise: this.dispatch(event) };
   }
 
   log(generationInput: string, GenerationProperties?: GenerationProperties, eventOptions?: EventOptions) {
     const event = createLogEvent(generationInput, GenerationProperties, eventOptions);
-    return this.dispatch(event);
+    return { id: event.id, promise: this.dispatch(event) };
   }
 
   feedback(
@@ -64,7 +64,7 @@ export class CoxwaveCore<T extends Config> implements CoreClient<T> {
     eventOptions?: EventOptions,
   ) {
     const event = createFeedbackEvent(feedbackTraget, feedbackInput, feedbackProperties, eventOptions);
-    return this.dispatch(event);
+    return { id: event.id, promise: this.dispatch(event) };
   }
 
   identify(identify: Identify, eventOptions?: EventOptions) {
