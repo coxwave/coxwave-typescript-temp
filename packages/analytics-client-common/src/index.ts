@@ -1,5 +1,5 @@
 export { getQueryParams } from './query-params';
-export { getCookieName, getOldCookieName } from './cookie-name';
+export { getCookieName } from './cookie-name';
 export { CookieStorage } from './storage/cookie';
 export { SessionManager } from './session-manager';
 export { FetchTransport } from './transports/fetch';
