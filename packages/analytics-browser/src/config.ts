@@ -106,6 +106,14 @@ export class BrowserConfig extends Config implements IBrowserConfig {
     this.sessionManager.setUserId(userId);
   }
 
+  get distinctId() {
+    return this.sessionManager.getDistinctId();
+  }
+
+  set distinctId(distinctId: string | undefined) {
+    this.sessionManager.setDistinctId(distinctId);
+  }
+
   get sessionId() {
     return this.sessionManager.getSessionId();
   }
@@ -156,6 +164,7 @@ export const useBrowserConfig = async (
     ...options,
     cookieStorage,
     sessionManager,
+    distinctId: createDistinctId(cookies?.distinctId, options?.distinctId, queryParams.distinctId),
     deviceId: createDeviceId(cookies?.deviceId, options?.deviceId, queryParams.deviceId),
     domain,
     optOut: options?.optOut ?? Boolean(cookies?.optOut),
@@ -210,6 +219,10 @@ export const createEventsStorage = async (overrides?: BrowserOptions): Promise<S
     }
   }
   return undefined;
+};
+
+export const createDistinctId = (idFromCookies?: string, idFromOptions?: string, idFromQueryParams?: string) => {
+  return idFromOptions || idFromQueryParams || idFromCookies || UUID();
 };
 
 export const createDeviceId = (idFromCookies?: string, idFromOptions?: string, idFromQueryParams?: string) => {
