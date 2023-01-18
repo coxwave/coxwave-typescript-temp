@@ -40,6 +40,7 @@ export interface EventOptions {
   location_lat?: number;
   location_lng?: number;
   ip?: string;
+  custom?: { [key: string]: ValidPropertyType };
 }
 
 export type IdentifyOptions = {
