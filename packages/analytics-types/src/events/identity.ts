@@ -3,35 +3,36 @@ import { BaseEvent, TAvailableEventType, SpecialEventName, ValidPropertyType } f
 export interface Identify {
   getUserProperties(): IdentifyUserProperties;
   set(property: string, value: ValidPropertyType): Identify;
-  setOnce(property: string, value: ValidPropertyType): Identify;
-  append(property: string, value: ValidPropertyType): Identify;
-  prepend(property: string, value: ValidPropertyType): Identify;
-  postInsert(property: string, value: ValidPropertyType): Identify;
-  preInsert(property: string, value: ValidPropertyType): Identify;
-  remove(property: string, value: ValidPropertyType): Identify;
-  add(property: string, value: number): Identify;
-  unset(property: string): Identify;
-  clearAll(): Identify;
+  // setOnce(property: string, value: ValidPropertyType): Identify;
+  // append(property: string, value: ValidPropertyType): Identify;
+  // prepend(property: string, value: ValidPropertyType): Identify;
+  // postInsert(property: string, value: ValidPropertyType): Identify;
+  // preInsert(property: string, value: ValidPropertyType): Identify;
+  // remove(property: string, value: ValidPropertyType): Identify;
+  // add(property: string, value: number): Identify;
+  // unset(property: string): Identify;
+  // clearAll(): Identify;
 }
 
+// TODO: Only support for SET for now.
 export enum IdentifyOperation {
   // Base Operations to set values
   SET = '$set',
-  SET_ONCE = '$setOnce',
+  // SET_ONCE = '$setOnce',
 
-  // Operations around modifying existing values
-  ADD = '$add',
-  APPEND = '$append',
-  PREPEND = '$prepend',
-  REMOVE = '$remove',
+  // // Operations around modifying existing values
+  // ADD = '$add',
+  // APPEND = '$append',
+  // PREPEND = '$prepend',
+  // REMOVE = '$remove',
 
-  // Operations around appending values *if* they aren't present
-  PREINSERT = '$preInsert',
-  POSTINSERT = '$postInsert',
+  // // Operations around appending values *if* they aren't present
+  // PREINSERT = '$preInsert',
+  // POSTINSERT = '$postInsert',
 
-  // Operations around removing properties/values
-  UNSET = '$unset',
-  CLEAR_ALL = '$clearAll',
+  // // Operations around removing properties/values
+  // UNSET = '$unset',
+  // CLEAR_ALL = '$clearAll',
 }
 
 interface BaseOperationConfig {
@@ -40,21 +41,21 @@ interface BaseOperationConfig {
 
 export interface IdentifyUserProperties {
   // Add operations can only take numbers
-  [IdentifyOperation.ADD]?: { [key: string]: number };
+  // [IdentifyOperation.ADD]?: { [key: string]: number };
 
-  // This reads the keys of the passed object, but the values are not used
-  [IdentifyOperation.UNSET]?: BaseOperationConfig;
-  // This option does not read the key as it unsets all user properties
-  [IdentifyOperation.CLEAR_ALL]?: any;
+  // // This reads the keys of the passed object, but the values are not used
+  // [IdentifyOperation.UNSET]?: BaseOperationConfig;
+  // // This option does not read the key as it unsets all user properties
+  // [IdentifyOperation.CLEAR_ALL]?: any;
 
   // These operations can take numbers, strings, or arrays of both.
   [IdentifyOperation.SET]?: BaseOperationConfig;
-  [IdentifyOperation.SET_ONCE]?: BaseOperationConfig;
-  [IdentifyOperation.APPEND]?: BaseOperationConfig;
-  [IdentifyOperation.PREPEND]?: BaseOperationConfig;
-  [IdentifyOperation.POSTINSERT]?: BaseOperationConfig;
-  [IdentifyOperation.PREINSERT]?: BaseOperationConfig;
-  [IdentifyOperation.REMOVE]?: BaseOperationConfig;
+  // [IdentifyOperation.SET_ONCE]?: BaseOperationConfig;
+  // [IdentifyOperation.APPEND]?: BaseOperationConfig;
+  // [IdentifyOperation.PREPEND]?: BaseOperationConfig;
+  // [IdentifyOperation.POSTINSERT]?: BaseOperationConfig;
+  // [IdentifyOperation.PREINSERT]?: BaseOperationConfig;
+  // [IdentifyOperation.REMOVE]?: BaseOperationConfig;
 }
 export interface IdentifyRegisterEvent extends BaseEvent {
   event_type: TAvailableEventType;

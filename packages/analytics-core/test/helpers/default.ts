@@ -21,6 +21,7 @@ export const useDefaultConfig = (): Config => ({
 export const PROJECT_TOKEN = 'projectToken';
 export const DISTINCT_ID = 'distinctId';
 export const DEVICE_ID = 'deviceId';
+export const ALIAS_NAME = 'testAliasName';
 
 /*
 There is no way to figure out the state of a promise with normal API.

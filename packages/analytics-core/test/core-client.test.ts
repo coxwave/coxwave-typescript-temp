@@ -1,8 +1,8 @@
 import { Status, TAvailableEventType } from '@coxwave/analytics-types';
 
-import { CoxwaveCore } from '../src/index';
+import { CoxwaveCore, Identify } from '../src/index';
 
-import { matchUUID, useDefaultConfig } from './helpers/default';
+import { matchUUID, useDefaultConfig, ALIAS_NAME, DISTINCT_ID } from './helpers/default';
 
 describe('core-client', () => {
   const success = {
@@ -37,6 +37,34 @@ describe('core-client', () => {
       const result = await client.track(eventName, eventProperties).promise;
 
       expect(result).toEqual(success);
+      expect(dispatch).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('register', () => {
+    test('should call register', async () => {
+      const dispatch = jest.spyOn(client, 'dispatch').mockReturnValueOnce(Promise.resolve(success));
+      const response = await client.register(DISTINCT_ID);
+      expect(response).toEqual(success);
+      expect(dispatch).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('identify', () => {
+    test('should call identify', async () => {
+      const dispatch = jest.spyOn(client, 'dispatch').mockReturnValueOnce(Promise.resolve(success));
+      const identify: Identify = new Identify();
+      const response = await client.identify(identify, undefined);
+      expect(response).toEqual(success);
+      expect(dispatch).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('alias', () => {
+    test('should call alias', async () => {
+      const dispatch = jest.spyOn(client, 'dispatch').mockReturnValueOnce(Promise.resolve(success));
+      const response = await client.alias(ALIAS_NAME, DISTINCT_ID);
+      expect(response).toEqual(success);
       expect(dispatch).toHaveBeenCalledTimes(1);
     });
   });
