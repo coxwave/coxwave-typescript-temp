@@ -30,7 +30,7 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
     }
     this.initializing = true;
 
-    // Step 2: Create browser config
+    // Step 1: Create browser config
     const browserOptions = await useBrowserConfig(projectToken, {
       ...options,
       deviceId: options?.deviceId,
@@ -38,7 +38,11 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
       optOut: options?.optOut,
     });
 
-    await super._init(browserOptions);
+    // Step 2: Register distinctId to Server
+    if (!this.config.distinctId) {
+      this.setDistinctId(UUID());
+    }
+    await this.register(this.config.distinctId as string);
 
     // Step 3: Manage session
     if (
@@ -50,6 +54,8 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
       // 2) Previous session expired
       this.setSessionId(Date.now());
     }
+
+    await super._init(browserOptions);
 
     // Step 4: Install plugins
     // Do not track any events before this
@@ -129,20 +135,43 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
     this.config.transportProvider = createTransport(transport);
   }
 
+  register(distinctId: string) {
+    return super.register(distinctId);
+  }
+
   identify(identify: IIdentify, eventOptions?: EventOptions): Promise<Result> {
+    // TODO: identify should update distinctId
+
     if (isInstanceProxy(identify)) {
       const queue = identify._q;
       identify._q = [];
       identify = convertProxyObjectToRealObject(new Identify(), queue);
     }
-    // TODO: use of user-id need to be changed
-    // if (eventOptions?.distinct_id) {
-    //   this.setDistinctId(eventOptions.distinct_id);
-    // }
+
+    // TODO: is it okay to overwrite distinctId?
+    if (eventOptions?.distinct_id) {
+      this.setDistinctId(eventOptions.distinct_id);
+    }
     if (eventOptions?.device_id) {
       this.setDeviceId(eventOptions.device_id);
     }
+
     return super.identify(identify, eventOptions);
+  }
+
+  alias(alias: string) {
+    // TODO: consider alias need to be queued
+    // if (!this.config) {
+    //   this.q.push(this.alias.bind(this, alias));
+    //   return;
+    // }
+    const distinctId = this.getDistinctId();
+    if (!distinctId) {
+      // TODO: is it okay to just raise error?
+      return Promise.reject(new Error('DistinctId is not set'));
+    }
+
+    return super.alias(alias, distinctId);
   }
 }
 
@@ -185,9 +214,21 @@ export const createInstance = (): BrowserClient => {
       getClientLogConfig(client),
       getClientStates(client, ['config.projectToken', 'timeline.queue.length']),
     ),
+    register: debugWrapper(
+      returnWrapper(client.register.bind(client)),
+      'register',
+      getClientLogConfig(client),
+      getClientStates(client, ['config.projectToken', 'timeline.queue.length']),
+    ),
     identify: debugWrapper(
       returnWrapper(client.identify.bind(client)),
       'identify',
+      getClientLogConfig(client),
+      getClientStates(client, ['config.projectToken', 'timeline.queue.length']),
+    ),
+    alias: debugWrapper(
+      returnWrapper(client.alias.bind(client)),
+      'alias',
       getClientLogConfig(client),
       getClientStates(client, ['config.projectToken', 'timeline.queue.length']),
     ),

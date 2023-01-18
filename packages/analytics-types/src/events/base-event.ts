@@ -10,7 +10,9 @@ export type TAvailableEventType = (typeof AvailableEventType)[number];
  * and have different specifications.
  */
 export enum SpecialEventName {
+  REGISTER = '$register',
   IDENTIFY = '$identify',
+  ALIAS = '$alias',
 }
 
 export interface BaseEvent extends EventOptions {

@@ -9,7 +9,15 @@ export {
 } from './base-event';
 export { Feedback, FeedbackEvent, FeedbackProperties } from './feedback';
 export { Generation, GenerationEvent, GenerationIOEntity, GenerationProperties } from './generation';
-export { IdentifyEvent, IdentifyUserEvent, IdentifyOperation, IdentifyUserProperties, Identify } from './identity';
+export {
+  IdentifyEvent,
+  IdentifyRegisterEvent,
+  IdentifyUserEvent,
+  IdentifyAliasEvent,
+  IdentifyOperation,
+  IdentifyUserProperties,
+  Identify,
+} from './identity';
 
 import { Activity } from './activity';
 import { Feedback } from './feedback';

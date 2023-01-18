@@ -125,6 +125,22 @@ export interface BaseClient {
   ): CoxwaveReturnWithId<Result>;
 
   /**
+   * TODO: change docs here
+   * Sends an register event containing user property operations
+   *
+   * ```typescript
+   * register(id);
+   *
+   * // alternatively, this tracking method is awaitable
+   * const result = await register(id).promise;
+   * console.log(result.event); // {...}
+   * console.log(result.code); // 200
+   * console.log(result.message); // "Event tracked successfully"
+   * ```
+   */
+  register(distinctId: string): CoxwaveReturn<Result>;
+
+  /**
    * Sends an identify event containing user property operations
    *
    * ```typescript
@@ -140,6 +156,22 @@ export interface BaseClient {
    * ```
    */
   identify(identify: Identify, eventOptions?: EventOptions): CoxwaveReturn<Result>;
+
+  /**
+   * TODO: change docs here
+   * Sends an alias event containing user property operations
+   *
+   * ```typescript
+   * alias(id);
+   *
+   * // alternatively, this tracking method is awaitable
+   * const result = await alias(id).promise;
+   * console.log(result.event); // {...}
+   * console.log(result.code); // 200
+   * console.log(result.message); // "Event tracked successfully"
+   * ```
+   */
+  alias(alias: string, distinctId: string): CoxwaveReturn<Result>;
 
   /**
    * Sets a new optOut config value. This toggles event tracking on/off.

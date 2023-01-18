@@ -68,13 +68,35 @@ export const createFeedbackEvent = (
   };
 };
 
+export const createRegisterEvent = (distinct_id: string): IdentifyEvent => {
+  const IdentifyEvent: IdentifyEvent = {
+    id: UUID(),
+    event_type: '$identify',
+    event_name: SpecialEventName.REGISTER,
+    properties: { distinct_id: distinct_id },
+  };
+
+  return IdentifyEvent;
+};
+
 export const createIdentifyEvent = (identify: IIdentify, eventOptions?: EventOptions): IdentifyEvent => {
   const IdentifyEvent: IdentifyEvent = {
     id: UUID(),
-    event_type: '$track',
+    event_type: '$identify',
     event_name: SpecialEventName.IDENTIFY,
     properties: identify.getUserProperties(),
     ...eventOptions,
+  };
+
+  return IdentifyEvent;
+};
+
+export const createAliasEvent = (alias: string, distinct_id: string): IdentifyEvent => {
+  const IdentifyEvent: IdentifyEvent = {
+    id: UUID(),
+    event_type: '$identify',
+    event_name: SpecialEventName.ALIAS,
+    properties: { alias: alias, distinct_id: distinct_id },
   };
 
   return IdentifyEvent;

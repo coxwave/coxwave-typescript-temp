@@ -4,6 +4,7 @@ import { Result } from './result';
 
 export interface CoreClient<T extends Config> {
   config: T;
+
   track(
     activityInput: string,
     activityProperties?: ActivityProperties,

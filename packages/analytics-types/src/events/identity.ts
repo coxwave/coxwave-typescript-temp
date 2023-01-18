@@ -56,6 +56,13 @@ export interface IdentifyUserProperties {
   [IdentifyOperation.PREINSERT]?: BaseOperationConfig;
   [IdentifyOperation.REMOVE]?: BaseOperationConfig;
 }
+export interface IdentifyRegisterEvent extends BaseEvent {
+  event_type: TAvailableEventType;
+  event_name: SpecialEventName.REGISTER;
+  properties: {
+    distinct_id: string;
+  };
+}
 
 export interface IdentifyUserEvent extends BaseEvent {
   event_type: TAvailableEventType;
@@ -66,7 +73,14 @@ export interface IdentifyUserEvent extends BaseEvent {
         [key in Exclude<string, IdentifyOperation>]: any;
       };
 }
-
+export interface IdentifyAliasEvent extends BaseEvent {
+  event_type: TAvailableEventType;
+  event_name: SpecialEventName.ALIAS;
+  properties: {
+    alias: string;
+    distinct_id: string;
+  };
+}
 // TODO: group will be implemented later
 // export interface GroupIdentifyEvent extends BaseEvent {
 //   event_type: SpecialEventName.GROUP_IDENTIFY;
@@ -77,4 +91,4 @@ export interface IdentifyUserEvent extends BaseEvent {
 //       };
 // }
 
-export type IdentifyEvent = IdentifyUserEvent;
+export type IdentifyEvent = IdentifyRegisterEvent | IdentifyUserEvent | IdentifyAliasEvent;
