@@ -25,6 +25,24 @@ interface Client extends BaseClient {
   setUserId(userId: string | undefined): void;
 
   /**
+   * Returns current distinct ID.
+   *
+   * ```typescript
+   * const distinctId = getDistinctId();
+   * ```
+   */
+  getDistinctId(): string | undefined;
+
+  /**
+   * Sets a new distinct ID.
+   *
+   * ```typescript
+   * setDistinctId('distinctId');
+   * ```
+   */
+  setDistinctId(distinctId: string | undefined): void;
+
+  /**
    * Returns current device ID.
    *
    * ```typescript
