@@ -1,5 +1,6 @@
 export interface UserSession {
   userId?: string;
+  distinctId?: string;
   deviceId?: string;
   sessionId?: number;
   threadId?: string;
@@ -22,6 +23,8 @@ export interface SessionManager {
   setDeviceId(deviceId?: string): void;
   getUserId(): string | undefined;
   setUserId(userId?: string): void;
+  getDistinctId(): string | undefined;
+  setDistinctId(distinctId?: string): void;
   getLastEventTime(): number | undefined;
   setLastEventTime(lastEventTime?: number): void;
   getOptOut(): boolean;

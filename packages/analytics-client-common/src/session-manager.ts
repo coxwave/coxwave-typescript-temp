@@ -62,6 +62,14 @@ export class SessionManager implements ISessionManager {
     this.setSession({ userId });
   }
 
+  getDistinctId(): string | undefined {
+    return this.cache.distinctId;
+  }
+
+  setDistinctId(distinctId: string): void {
+    this.setSession({ distinctId });
+  }
+
   getLastEventTime() {
     return this.cache.lastEventTime;
   }

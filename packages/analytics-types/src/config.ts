@@ -38,6 +38,7 @@ export interface BrowserConfig extends Config {
   sessionTimeout: number;
   trackingOptions: TrackingOptions;
   userId?: string;
+  distinctId?: string;
 }
 
 export type ReactNativeConfig = Omit<BrowserConfig, 'trackingOptions'> & {
