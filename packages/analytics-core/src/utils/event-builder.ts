@@ -59,7 +59,7 @@ export const createFeedbackEvent = (
     id: UUID(),
     event_type: '$feedback',
     event_name: feedbackInput,
-    properties: { target_id: feedbackTraget, ...feedbackProperties },
+    properties: { generation_id: feedbackTraget, ...feedbackProperties },
   };
 
   return {

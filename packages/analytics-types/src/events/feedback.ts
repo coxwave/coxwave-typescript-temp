@@ -1,7 +1,7 @@
 import { TAvailableEventType, BaseEvent, SpecialEventName, ValidPropertyType } from './base-event';
 
 export interface FeedbackProperties extends Record<string, ValidPropertyType> {
-  target_id: string;
+  generation_id: string;
 }
 
 export interface FeedbackEvent extends BaseEvent {
