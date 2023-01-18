@@ -54,12 +54,11 @@ export class BrowserConfig extends Config implements IBrowserConfig {
   cookieStorage: Storage<UserSession>;
   disableCookies: boolean;
   domain: string;
-  partnerId?: string;
   sessionTimeout: number;
   trackingOptions: TrackingOptions;
   sessionManager: ISessionManager;
 
-  constructor(projectToken: string, userId?: string, options?: BrowserOptions) {
+  constructor(projectToken: string, options?: BrowserOptions) {
     const defaultConfig = getDefaultConfig();
     super({
       flushIntervalMillis: 1000,
@@ -73,21 +72,19 @@ export class BrowserConfig extends Config implements IBrowserConfig {
     this.cookieStorage = options?.cookieStorage ?? defaultConfig.cookieStorage;
     this.sessionManager = options?.sessionManager ?? defaultConfig.sessionManager;
     this.sessionTimeout = options?.sessionTimeout ?? defaultConfig.sessionTimeout;
-
-    this.appVersion = options?.appVersion;
     this.cookieExpiration = options?.cookieExpiration ?? defaultConfig.cookieExpiration;
     this.cookieSameSite = options?.cookieSameSite ?? defaultConfig.cookieSameSite;
     this.cookieSecure = options?.cookieSecure ?? defaultConfig.cookieSecure;
-    this.deviceId = options?.deviceId;
     this.disableCookies = options?.disableCookies ?? defaultConfig.disableCookies;
     this.domain = options?.domain ?? defaultConfig.domain;
     this.lastEventTime = this.lastEventTime ?? options?.lastEventTime;
+    this.trackingOptions = options?.trackingOptions ?? defaultConfig.trackingOptions;
+    this.appVersion = options?.appVersion;
     this.optOut = Boolean(options?.optOut);
-    this.threadId = options?.threadId;
     this.sessionId = options?.sessionId;
     this.threadId = options?.threadId;
-    this.trackingOptions = options?.trackingOptions ?? defaultConfig.trackingOptions;
-    this.userId = userId;
+    this.deviceId = options?.deviceId;
+    this.distinctId = options?.distinctId;
   }
 
   get deviceId() {
@@ -96,14 +93,6 @@ export class BrowserConfig extends Config implements IBrowserConfig {
 
   set deviceId(deviceId: string | undefined) {
     this.sessionManager.setDeviceId(deviceId);
-  }
-
-  get userId() {
-    return this.sessionManager.getUserId();
-  }
-
-  set userId(userId: string | undefined) {
-    this.sessionManager.setUserId(userId);
   }
 
   get distinctId() {
@@ -147,11 +136,7 @@ export class BrowserConfig extends Config implements IBrowserConfig {
   }
 }
 
-export const useBrowserConfig = async (
-  projectToken: string,
-  userId?: string,
-  options?: BrowserOptions,
-): Promise<IBrowserConfig> => {
+export const useBrowserConfig = async (projectToken: string, options?: BrowserOptions): Promise<IBrowserConfig> => {
   const defaultConfig = getDefaultConfig();
   const domain = options?.domain ?? (await getTopLevelDomain());
   const cookieStorage = await createCookieStorage({ ...options, domain });
@@ -160,11 +145,11 @@ export const useBrowserConfig = async (
   const queryParams = getQueryParams();
   const sessionManager = await new SessionManager(cookieStorage, projectToken).load();
 
-  return new BrowserConfig(projectToken, userId ?? cookies?.userId, {
+  return new BrowserConfig(projectToken, {
     ...options,
     cookieStorage,
     sessionManager,
-    distinctId: createDistinctId(cookies?.distinctId, options?.distinctId, queryParams.distinctId),
+    distinctId: createDistinctId(cookies?.distinctId),
     deviceId: createDeviceId(cookies?.deviceId, options?.deviceId, queryParams.deviceId),
     domain,
     optOut: options?.optOut ?? Boolean(cookies?.optOut),
@@ -221,8 +206,8 @@ export const createEventsStorage = async (overrides?: BrowserOptions): Promise<S
   return undefined;
 };
 
-export const createDistinctId = (idFromCookies?: string, idFromOptions?: string, idFromQueryParams?: string) => {
-  return idFromOptions || idFromQueryParams || idFromCookies || UUID();
+export const createDistinctId = (idFromCookies?: string) => {
+  return idFromCookies || UUID();
 };
 
 export const createDeviceId = (idFromCookies?: string, idFromOptions?: string, idFromQueryParams?: string) => {

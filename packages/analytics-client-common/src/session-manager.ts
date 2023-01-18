@@ -54,14 +54,6 @@ export class SessionManager implements ISessionManager {
     this.setSession({ deviceId });
   }
 
-  getUserId(): string | undefined {
-    return this.cache.userId;
-  }
-
-  setUserId(userId: string): void {
-    this.setSession({ userId });
-  }
-
   getDistinctId(): string | undefined {
     return this.cache.distinctId;
   }

@@ -19,7 +19,7 @@ export const useDefaultConfig = (): Config => ({
 });
 
 export const PROJECT_TOKEN = 'projectToken';
-export const USER_ID = 'userId';
+export const DISTINCT_ID = 'distinctId';
 export const DEVICE_ID = 'deviceId';
 
 /*

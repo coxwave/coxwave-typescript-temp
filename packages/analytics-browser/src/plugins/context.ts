@@ -49,8 +49,7 @@ export class Context implements BeforePlugin {
     const deviceVendor = this.uaResult.device.vendor;
 
     const event: Event = {
-      // TODO: user_id will be changed to something else
-      //user_id: this.config.userId,
+      distinct_id: this.config.distinctId,
       device_id: this.config.deviceId,
       session_id: this.config.sessionId,
       time,

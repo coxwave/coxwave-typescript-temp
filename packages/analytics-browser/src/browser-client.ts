@@ -23,7 +23,7 @@ import { Context } from './plugins/context';
 import { convertProxyObjectToRealObject, isInstanceProxy } from './utils/snippet-helper';
 
 export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
-  async init(projectToken = '', userId?: string, options?: BrowserOptions) {
+  async init(projectToken = '', options?: BrowserOptions) {
     // Step 0: Block concurrent initialization
     if (this.initializing) {
       return;
@@ -31,7 +31,7 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
     this.initializing = true;
 
     // Step 2: Create browser config
-    const browserOptions = await useBrowserConfig(projectToken, userId, {
+    const browserOptions = await useBrowserConfig(projectToken, {
       ...options,
       deviceId: options?.deviceId,
       sessionId: options?.sessionId,
@@ -62,18 +62,6 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
     await this.runQueuedFunctions('dispatchQ');
   }
 
-  getUserId() {
-    return this.config?.userId;
-  }
-
-  setUserId(userId: string | undefined) {
-    if (!this.config) {
-      this.q.push(this.setUserId.bind(this, userId));
-      return;
-    }
-    this.config.userId = userId;
-  }
-
   getDistinctId() {
     return this.config?.distinctId;
   }
@@ -99,7 +87,7 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
   }
 
   reset() {
-    this.setUserId(undefined);
+    this.setDistinctId(UUID());
     this.setDeviceId(UUID());
   }
 
@@ -148,8 +136,8 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
       identify = convertProxyObjectToRealObject(new Identify(), queue);
     }
     // TODO: use of user-id need to be changed
-    // if (eventOptions?.user_id) {
-    //   this.setUserId(eventOptions.user_id);
+    // if (eventOptions?.distinct_id) {
+    //   this.setDistinctId(eventOptions.distinct_id);
     // }
     if (eventOptions?.device_id) {
       this.setDeviceId(eventOptions.device_id);
@@ -209,29 +197,17 @@ export const createInstance = (): BrowserClient => {
       getClientLogConfig(client),
       getClientStates(client, ['config.projectToken', 'timeline.queue.length']),
     ),
-    getUserId: debugWrapper(
-      client.getUserId.bind(client),
-      'getUserId',
-      getClientLogConfig(client),
-      getClientStates(client, ['config', 'config.userId']),
-    ),
-    setUserId: debugWrapper(
-      client.setUserId.bind(client),
-      'setUserId',
-      getClientLogConfig(client),
-      getClientStates(client, ['config', 'config.userId']),
-    ),
     getDistinctId: debugWrapper(
       client.getDistinctId.bind(client),
       'getDistinctId',
       getClientLogConfig(client),
-      getClientStates(client, ['config', 'config.userId']),
+      getClientStates(client, ['config', 'config.distinctId']),
     ),
     setDistinctId: debugWrapper(
       client.setDistinctId.bind(client),
       'setDistinctId',
       getClientLogConfig(client),
-      getClientStates(client, ['config', 'config.userId']),
+      getClientStates(client, ['config', 'config.distinctId']),
     ),
     getDeviceId: debugWrapper(
       client.getDeviceId.bind(client),
@@ -249,7 +225,7 @@ export const createInstance = (): BrowserClient => {
       client.reset.bind(client),
       'reset',
       getClientLogConfig(client),
-      getClientStates(client, ['config', 'config.userId', 'config.deviceId']),
+      getClientStates(client, ['config', 'config.distinctId', 'config.deviceId']),
     ),
     getSessionId: debugWrapper(
       client.getSessionId.bind(client),

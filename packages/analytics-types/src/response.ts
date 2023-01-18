@@ -26,9 +26,9 @@ export interface RateLimitBody {
   error: string;
   epsThreshold: number;
   throttledDevices: { [deviceId: string]: number };
-  throttledUsers: { [userId: string]: number };
+  throttledUsers: { [distinctId: string]: number };
   exceededDailyQuotaDevices: { [deviceId: string]: number };
-  exceededDailyQuotaUsers: { [userId: string]: number };
+  exceededDailyQuotaUsers: { [distinctId: string]: number };
   throttledEvents: number[];
 }
 

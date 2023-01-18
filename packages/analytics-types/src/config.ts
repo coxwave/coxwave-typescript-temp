@@ -37,7 +37,6 @@ export interface BrowserConfig extends Config {
   sessionManager: SessionManager;
   sessionTimeout: number;
   trackingOptions: TrackingOptions;
-  userId?: string;
   distinctId?: string;
 }
 

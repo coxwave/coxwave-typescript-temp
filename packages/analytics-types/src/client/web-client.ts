@@ -7,24 +7,6 @@ import { TransportType } from '../transport';
 
 interface Client extends BaseClient {
   /**
-   * Returns current user ID.
-   *
-   * ```typescript
-   * const userId = getUserId();
-   * ```
-   */
-  getUserId(): string | undefined;
-
-  /**
-   * Sets a new user ID.
-   *
-   * ```typescript
-   * setUserId('userId');
-   * ```
-   */
-  setUserId(userId: string | undefined): void;
-
-  /**
    * Returns current distinct ID.
    *
    * ```typescript
@@ -112,11 +94,10 @@ interface Client extends BaseClient {
   /**
    * Anonymizes users after they log out, by:
    *
-   * * setting userId to undefined
+   * * setting distinctId to a new uuid value
    * * setting deviceId to a new uuid value
    * * setting threadId to undefined
    *
-   * With an undefined userId and a completely new deviceId, the current user would appear as a brand new user in dashboard.
    *
    * ```typescript
    * import { reset } from '@coxwave/analytics-browser';
@@ -136,7 +117,7 @@ export interface BrowserClient extends Client {
    * await init(PROJECT_TOKEN, options).promise;
    * ```
    */
-  init(projectToken: string, userId?: string, options?: BrowserOptions): CoxwaveReturn<void>;
+  init(projectToken: string, options?: BrowserOptions): CoxwaveReturn<void>;
 
   /**
    * Sets the network transport type for events.
@@ -161,5 +142,5 @@ export interface ReactNativeClient extends Client {
    * await init(PROJECT_TOKEN, options).promise;
    * ```
    */
-  init(projectToken: string, userId?: string, options?: ReactNativeOptions): CoxwaveReturn<void>;
+  init(projectToken: string, options?: ReactNativeOptions): CoxwaveReturn<void>;
 }

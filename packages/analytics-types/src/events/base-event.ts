@@ -22,6 +22,7 @@ export interface BaseEvent extends EventOptions {
 
 export interface EventOptions {
   // default options
+  distinct_id?: string;
   time?: number;
   library?: string;
   session_id?: number;
