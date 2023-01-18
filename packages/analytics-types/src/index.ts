@@ -19,7 +19,7 @@ export { DestinationContext } from './destination-context';
 export {
   Activity,
   ActivityProperties,
-  TrackActivityEvent,
+  ActivityEvent,
   IdentifyEvent,
   IdentifyOperation,
   IdentifyUserProperties,

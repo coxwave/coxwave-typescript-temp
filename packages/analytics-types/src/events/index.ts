@@ -1,4 +1,4 @@
-export { Activity, ActivityProperties, TrackActivityEvent } from './activity';
+export { Activity, ActivityProperties, ActivityEvent } from './activity';
 export {
   BaseEvent,
   EventOptions,

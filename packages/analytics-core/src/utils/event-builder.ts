@@ -1,5 +1,5 @@
 import {
-  TrackActivityEvent,
+  ActivityEvent,
   IdentifyEvent,
   SpecialEventName,
   Identify as IIdentify,
@@ -17,8 +17,8 @@ export const createTrackEvent = (
   activityInput: string,
   activityProperties?: ActivityProperties,
   eventOptions?: EventOptions,
-): TrackActivityEvent => {
-  const baseActivity: TrackActivityEvent = {
+): ActivityEvent => {
+  const baseActivity: ActivityEvent = {
     id: UUID(),
     event_type: '$track',
     event_name: activityInput,
