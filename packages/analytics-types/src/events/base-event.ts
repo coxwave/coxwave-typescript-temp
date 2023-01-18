@@ -43,8 +43,6 @@ export interface EventOptions {
 }
 
 export type IdentifyOptions = {
-  time?: number;
-  library?: string;
   email?: string;
   name?: string;
   user_id?: string;
