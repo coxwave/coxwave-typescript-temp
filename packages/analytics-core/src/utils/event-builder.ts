@@ -1,6 +1,6 @@
 import {
   TrackActivityEvent,
-  IdentifyActivityEvent,
+  IdentifyEvent,
   SpecialEventName,
   Identify as IIdentify,
   EventOptions,
@@ -68,8 +68,8 @@ export const createFeedbackEvent = (
   };
 };
 
-export const createIdentifyEvent = (identify: IIdentify, eventOptions?: EventOptions): IdentifyActivityEvent => {
-  const IdentifyActivityEvent: IdentifyActivityEvent = {
+export const createIdentifyEvent = (identify: IIdentify, eventOptions?: EventOptions): IdentifyEvent => {
+  const IdentifyEvent: IdentifyEvent = {
     id: UUID(),
     event_type: '$track',
     event_name: SpecialEventName.IDENTIFY,
@@ -77,5 +77,5 @@ export const createIdentifyEvent = (identify: IIdentify, eventOptions?: EventOpt
     ...eventOptions,
   };
 
-  return IdentifyActivityEvent;
+  return IdentifyEvent;
 };

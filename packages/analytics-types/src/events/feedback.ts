@@ -1,8 +1,7 @@
-import { TAvailableEventType, BaseEvent, SpecialEventName } from './base-event';
+import { TAvailableEventType, BaseEvent, SpecialEventName, ValidPropertyType } from './base-event';
 
-export interface FeedbackProperties {
+export interface FeedbackProperties extends Record<string, ValidPropertyType> {
   target_id: string;
-  [key: string]: number | string | boolean | Array<string | number>;
 }
 
 export interface FeedbackEvent extends BaseEvent {

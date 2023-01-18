@@ -1,15 +1,4 @@
-import { BaseEvent, TAvailableEventType, SpecialEventName } from './base-event';
-
-export type ValidPropertyType =
-  | number
-  | string
-  | boolean
-  | Array<string | number>
-  | { [key: string]: ValidPropertyType };
-
-export interface ActivityProperties {
-  [key: string]: number | string | boolean | Array<string | number>;
-}
+import { BaseEvent, TAvailableEventType, SpecialEventName, ValidPropertyType } from './base-event';
 
 export interface Identify {
   getUserProperties(): IdentifyUserProperties;
@@ -68,13 +57,7 @@ export interface IdentifyUserProperties {
   [IdentifyOperation.REMOVE]?: BaseOperationConfig;
 }
 
-export interface TrackActivityEvent extends BaseEvent {
-  event_type: TAvailableEventType;
-  event_name: Exclude<string, SpecialEventName>;
-  properties: ActivityProperties;
-}
-
-export interface IdentifyActivityEvent extends BaseEvent {
+export interface IdentifyUserEvent extends BaseEvent {
   event_type: TAvailableEventType;
   event_name: SpecialEventName.IDENTIFY;
   properties?:
@@ -85,7 +68,7 @@ export interface IdentifyActivityEvent extends BaseEvent {
 }
 
 // TODO: group will be implemented later
-// export interface GroupIdentifyActivityEvent extends BaseEvent {
+// export interface GroupIdentifyEvent extends BaseEvent {
 //   event_type: SpecialEventName.GROUP_IDENTIFY;
 //   group_properties:
 //     | IdentifyUserProperties
@@ -94,4 +77,4 @@ export interface IdentifyActivityEvent extends BaseEvent {
 //       };
 // }
 
-export type Activity = TrackActivityEvent | IdentifyActivityEvent;
+export type IdentifyEvent = IdentifyUserEvent;

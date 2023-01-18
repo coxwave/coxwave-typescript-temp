@@ -20,7 +20,7 @@ export {
   Activity,
   ActivityProperties,
   TrackActivityEvent,
-  IdentifyActivityEvent,
+  IdentifyEvent,
   IdentifyOperation,
   IdentifyUserProperties,
   Identify,

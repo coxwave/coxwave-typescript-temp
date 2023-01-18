@@ -2,7 +2,7 @@
  * Strings that have special meaning when used as an event's type
  * and have different specifications.
  */
-export const AvailableEventType = ['$track', '$log', '$feedback'] as const;
+export const AvailableEventType = ['$track', '$log', '$feedback', '$identify'] as const;
 export type TAvailableEventType = (typeof AvailableEventType)[number];
 
 /**
@@ -18,12 +18,9 @@ export interface BaseEvent extends EventOptions {
   event_type: TAvailableEventType;
   event_name: string;
   properties?: { [key: string]: any };
-  // TODO: implement later
-  // group_properties?: { [key: string]: any };
-  // groups?: { [key: string]: any };
 }
 
-export type EventOptions = {
+export interface EventOptions {
   // default options
   time?: number;
   library?: string;
@@ -43,9 +40,11 @@ export type EventOptions = {
   location_lat?: number;
   location_lng?: number;
   ip?: string;
-};
+}
 
 export type IdentifyOptions = {
+  time?: number;
+  library?: string;
   email?: string;
   name?: string;
   user_id?: string;
@@ -54,3 +53,11 @@ export type IdentifyOptions = {
   city?: string;
   language?: string;
 };
+
+export type ValidPropertyType =
+  | number
+  | string
+  | boolean
+  | Array<string | number>
+  | { [key: string]: ValidPropertyType }
+  | undefined;
