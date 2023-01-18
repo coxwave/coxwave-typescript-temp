@@ -1,4 +1,4 @@
-import { CoxwaveReturn } from '../coxwave-promise';
+import { CoxwaveReturn, CoxwaveReturnWithId } from '../coxwave-promise';
 import { EventOptions, Identify, ActivityProperties, GenerationProperties, FeedbackProperties } from '../events';
 import { Plugin } from '../plugin';
 import { Result } from '../result';
@@ -56,7 +56,7 @@ export interface BaseClient {
     activityInput: string,
     activityProperties?: ActivityProperties,
     activityOptions?: EventOptions,
-  ): CoxwaveReturn<Result>;
+  ): CoxwaveReturnWithId<Result>;
 
   /**
    * Logs model generated generations, with specified name, optional generation properties and optional overwrites.
@@ -95,7 +95,7 @@ export interface BaseClient {
     generationInput: string,
     GenerationProperties?: GenerationProperties,
     generationOptions?: EventOptions,
-  ): CoxwaveReturn<Result>;
+  ): CoxwaveReturnWithId<Result>;
 
   /**
    * Feedback Feedbacks, with specified name, optional feedback properties and optional overwrites.
@@ -122,7 +122,7 @@ export interface BaseClient {
     feedbackInput: string,
     feedbackProperties?: FeedbackProperties,
     feedbackOptions?: EventOptions,
-  ): CoxwaveReturn<Result>;
+  ): CoxwaveReturnWithId<Result>;
 
   /**
    * Sends an identify event containing user property operations

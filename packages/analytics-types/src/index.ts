@@ -1,4 +1,4 @@
-export { CoxwaveReturn } from './coxwave-promise';
+export { CoxwaveReturn, CoxwaveReturnWithId } from './coxwave-promise';
 export { BrowserClient, ReactNativeClient, NodeClient } from './client';
 export {
   BrowserConfig,
