@@ -7,7 +7,7 @@ export interface FeedbackProperties extends Record<string, ValidPropertyType> {
 export interface FeedbackEvent extends BaseEvent {
   event_type: TAvailableEventType;
   event_name: Exclude<string, SpecialEventName>;
-  properties: FeedbackProperties;
+  properties?: FeedbackProperties;
 }
 
 export type Feedback = FeedbackEvent;

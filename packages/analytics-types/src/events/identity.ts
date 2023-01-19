@@ -60,7 +60,7 @@ export interface IdentifyUserProperties {
 export interface IdentifyRegisterEvent extends BaseEvent {
   event_type: TAvailableEventType;
   event_name: SpecialEventName.REGISTER;
-  properties: {
+  properties?: {
     distinct_id: string;
   };
 }
@@ -77,7 +77,7 @@ export interface IdentifyUserEvent extends BaseEvent {
 export interface IdentifyAliasEvent extends BaseEvent {
   event_type: TAvailableEventType;
   event_name: SpecialEventName.ALIAS;
-  properties: {
+  properties?: {
     alias: string;
     distinct_id: string;
   };
