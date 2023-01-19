@@ -1,11 +1,5 @@
-import {
-  CookieStorage,
-  getCookieName,
-  getQueryParams,
-  SessionManager,
-  FetchTransport,
-} from '@coxwave/analytics-client-common';
-import { Config, MemoryStorage, UUID } from '@coxwave/analytics-core';
+import { CookieStorage, getQueryParams, SessionManager, FetchTransport } from '@coxwave/analytics-client-common';
+import { Config, MemoryStorage, UUID, getCookieName } from '@coxwave/analytics-core';
 import {
   Event,
   BrowserOptions,

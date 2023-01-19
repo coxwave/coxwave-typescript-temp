@@ -1,6 +1,5 @@
+import { getCookieName as getStorageKey } from '@coxwave/analytics-core';
 import { UserSession, Storage, SessionManager as ISessionManager } from '@coxwave/analytics-types';
-
-import { getCookieName as getStorageKey } from './cookie-name';
 
 export class SessionManager implements ISessionManager {
   storageKey: string;

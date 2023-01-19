@@ -14,7 +14,6 @@ import {
 } from '@coxwave/analytics-types';
 
 import { createServerConfig } from '../config';
-import { STORAGE_PREFIX } from '../constants';
 import {
   INVALID_PROJECT_TOKEN,
   MAX_RETRIES_EXCEEDED_MESSAGE,
@@ -22,6 +21,7 @@ import {
   SUCCESS_MESSAGE,
   UNEXPECTED_ERROR_MESSAGE,
 } from '../messages';
+import { getStorageName } from '../storage/naming';
 import { chunk } from '../utils/chunk';
 import { buildResult } from '../utils/result-builder';
 
@@ -42,7 +42,7 @@ export class Destination implements DestinationPlugin {
   async setup(config: Config): Promise<undefined> {
     this.config = config;
 
-    this.storageKey = `${STORAGE_PREFIX}_${this.config.projectToken.substring(0, 10)}`;
+    this.storageKey = getStorageName(this.config.projectToken);
     const unsent = await this.config.storageProvider?.get(this.storageKey);
     this.saveEvents(); // sets storage to '[]'
     if (unsent && unsent.length > 0) {
