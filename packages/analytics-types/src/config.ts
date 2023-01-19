@@ -15,6 +15,7 @@ export interface Config {
   logLevel: LogLevel;
   loggerProvider: Logger;
   optOut: boolean;
+  library?: string;
   serverUrl: string | undefined;
   serverZone?: TServerZone;
   storageProvider?: Storage<Event[]>;

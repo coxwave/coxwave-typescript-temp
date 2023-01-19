@@ -29,7 +29,8 @@ export interface EventOptions {
   library?: string;
   session_id?: number;
   thread_id?: string; // uuid only
-  // device related options
+  // user & device related options
+  user_id?: string;
   device_id?: string;
   app_version?: string;
   version_name?: string;
