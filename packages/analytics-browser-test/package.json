@@ -1,0 +1,24 @@
+{
+  "name": "@coxwave/analytics-browser-test",
+  "version": "0.0.1",
+  "private": true,
+  "description": "",
+  "author": "coxwave",
+  "homepage": "https://github.com/coxwave/coxwave-typescript",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coxwave/coxwave-typescript.git"
+  },
+  "scripts": {
+    "test": "jest -i"
+  },
+  "bugs": {
+    "url": "https://github.com/coxwave/coxwave-typescript/issues"
+  },
+  "dependencies": {
+    "@coxwave/analytics-browser": "^0.0.1"
+  },
+  "devDependencies": {
+    "nock": "^13.2.4"
+  }
+}
