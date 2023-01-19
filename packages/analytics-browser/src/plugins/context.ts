@@ -1,6 +1,6 @@
+import UAParser from '@amplitude/ua-parser-js';
 import { getLanguage } from '@coxwave/analytics-client-common';
 import { BeforePlugin, BrowserConfig, Event, PluginType } from '@coxwave/analytics-types';
-import UAParser from '@coxwave/ua-parser-js';
 
 import { VERSION } from '../version';
 
