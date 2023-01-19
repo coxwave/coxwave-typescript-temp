@@ -72,17 +72,13 @@ describe('integration', () => {
           expect(response.event).toEqual({
             device_id: deviceId, // NOTE: Device ID was set before init
             device_manufacturer: undefined,
-            event_id: 0,
             event_type: 'Event Before Init',
-            insert_id: uuid,
+            id: uuid,
             ip: '$remote',
             language: 'en-US',
             library: library,
             os_name: 'WebKit',
             os_version: '537.36',
-            partner_id: undefined,
-            plan: undefined,
-            ingestion_metadata: undefined,
             platform: platform, // NOTE: Session ID was set using a plugin added before init
             session_id: sessionId, // NOTE: Session ID was set before init
             time: number,
@@ -133,7 +129,7 @@ describe('integration', () => {
       await trackPromise;
 
       expect(requestBody1).toEqual({
-        api_key: 'PROJECT_TOKEN',
+        project_token: 'PROJECT_TOKEN',
         events: [
           {
             device_id: deviceId,
@@ -145,56 +141,15 @@ describe('integration', () => {
             os_version: '537.36',
             language: 'en-US',
             ip: '$remote',
-            insert_id: uuid,
+            id: uuid,
             event_type: '$identify',
-            user_properties: {
-              $setOnce: {
-                initial_dclid: 'EMPTY',
-                initial_fbclid: 'EMPTY',
-                initial_gbraid: 'EMPTY',
-                initial_gclid: 'EMPTY',
-                initial_ko_click_id: 'EMPTY',
-                initial_msclkid: 'EMPTY',
-                initial_referrer: 'EMPTY',
-                initial_referring_domain: 'EMPTY',
-                initial_ttclid: 'EMPTY',
-                initial_twclid: 'EMPTY',
-                initial_utm_campaign: 'EMPTY',
-                initial_utm_content: 'EMPTY',
-                initial_utm_medium: 'EMPTY',
-                initial_utm_source: 'EMPTY',
-                initial_utm_term: 'EMPTY',
-                initial_utm_id: 'EMPTY',
-                initial_wbraid: 'EMPTY',
-              },
-              $unset: {
-                dclid: '-',
-                fbclid: '-',
-                gbraid: '-',
-                gclid: '-',
-                ko_click_id: '-',
-                msclkid: '-',
-                referrer: '-',
-                referring_domain: '-',
-                ttclid: '-',
-                twclid: '-',
-                utm_campaign: '-',
-                utm_content: '-',
-                utm_id: '-',
-                utm_medium: '-',
-                utm_source: '-',
-                utm_term: '-',
-                wbraid: '-',
-              },
-            },
-            event_id: 0,
             library: library,
           },
         ],
         options: {},
       });
       expect(requestBody2).toEqual({
-        api_key: 'PROJECT_TOKEN',
+        project_token: 'PROJECT_TOKEN',
         events: [
           {
             device_id: deviceId,
@@ -206,9 +161,8 @@ describe('integration', () => {
             os_version: '537.36',
             language: 'en-US',
             ip: '$remote',
-            insert_id: uuid,
+            id: uuid,
             event_type: 'Event Before Init',
-            event_id: 1,
             library: library,
           },
         ],
@@ -240,11 +194,9 @@ describe('integration', () => {
         device_manufacturer: undefined,
         language: 'en-US',
         ip: '$remote',
-        insert_id: uuid,
-        partner_id: undefined,
+        id: uuid,
         event_type: '$track' as TAvailableEventType,
         event_name: 'test event',
-        event_id: 0,
         event_properties: {
           mode: 'test',
         },
@@ -275,11 +227,9 @@ describe('integration', () => {
         device_manufacturer: undefined,
         language: 'en-US',
         ip: '$remote',
-        insert_id: uuid,
-        partner_id: undefined,
+        id: uuid,
         event_type: '$track' as TAvailableEventType,
         event_name: 'test event',
-        event_id: 0,
         library: library,
       });
       expect(response.code).toBe(200);
@@ -309,11 +259,9 @@ describe('integration', () => {
         device_manufacturer: undefined,
         language: 'en-US',
         ip: '$remote',
-        insert_id: uuid,
-        partner_id: undefined,
+        id: uuid,
         event_type: '$track' as TAvailableEventType,
         event_name: 'test event',
-        event_id: 0,
         library: library,
       });
       expect(response.code).toBe(200);
@@ -324,8 +272,6 @@ describe('integration', () => {
     test('should track event with optional ingestionMetadata option', async () => {
       const scope = nock(url).post(path).reply(200, success);
 
-      const sourceName = 'ampli';
-      const sourceVersion = '2.0.0';
       await coxwave.init('PROJECT_TOKEN', {
         ...opts,
         library: '${sourceName} ${library.version}',
@@ -346,16 +292,10 @@ describe('integration', () => {
         device_manufacturer: undefined,
         language: 'en-US',
         ip: '$remote',
-        insert_id: uuid,
-        partner_id: undefined,
+        id: uuid,
         event_type: '$track' as TAvailableEventType,
         event_name: 'test event',
-        event_id: 0,
         library: library,
-        ingestion_metadata: {
-          source_name: sourceName,
-          source_version: sourceVersion,
-        },
       });
       expect(response.code).toBe(200);
       expect(response.message).toBe(SUCCESS_MESSAGE);
@@ -384,11 +324,9 @@ describe('integration', () => {
         device_manufacturer: undefined,
         language: 'en-US',
         ip: '$remote',
-        insert_id: uuid,
-        partner_id: undefined,
+        id: uuid,
         event_type: '$track' as TAvailableEventType,
         event_name: 'test event',
-        event_id: 0,
         library: library,
         groups: {
           org: '15',
@@ -432,10 +370,8 @@ describe('integration', () => {
         device_manufacturer: undefined,
         language: 'en-US',
         ip: '$remote',
-        insert_id: uuid,
-        partner_id: undefined,
+        id: uuid,
         event_type: 'test event 1',
-        event_id: 0,
         library: library,
       });
       expect(response[0].code).toBe(200);
@@ -451,10 +387,8 @@ describe('integration', () => {
         device_manufacturer: undefined,
         language: 'en-US',
         ip: '$remote',
-        insert_id: uuid,
-        partner_id: undefined,
+        id: uuid,
         event_type: 'test event 2',
-        event_id: 1,
         library: library,
       });
       expect(response[1].code).toBe(400);
@@ -490,10 +424,8 @@ describe('integration', () => {
         device_manufacturer: undefined,
         language: 'en-US',
         ip: '$remote',
-        insert_id: uuid,
-        partner_id: undefined,
+        id: uuid,
         event_type: 'test event 1',
-        event_id: 0,
         library: library,
       });
       expect(response[0].code).toBe(200);
@@ -509,10 +441,8 @@ describe('integration', () => {
         device_manufacturer: undefined,
         language: 'en-US',
         ip: '$remote',
-        insert_id: uuid,
-        partner_id: undefined,
+        id: uuid,
         event_type: 'test event 2',
-        event_id: 1,
         library: library,
       });
       expect(response[1].code).toBe(200);
@@ -554,10 +484,8 @@ describe('integration', () => {
         device_manufacturer: undefined,
         language: 'en-US',
         ip: '$remote',
-        insert_id: uuid,
-        partner_id: undefined,
+        id: uuid,
         event_type: 'test event 1',
-        event_id: 0,
         library: library,
       });
       expect(response[0].code).toBe(200);
@@ -573,10 +501,8 @@ describe('integration', () => {
         device_manufacturer: undefined,
         language: 'en-US',
         ip: '$remote',
-        insert_id: uuid,
-        partner_id: undefined,
+        id: uuid,
         event_type: 'test event 2',
-        event_id: 1,
         library: library,
       });
       expect(response[1].code).toBe(429);
@@ -610,10 +536,8 @@ describe('integration', () => {
         device_manufacturer: undefined,
         language: 'en-US',
         ip: '$remote',
-        insert_id: uuid,
-        partner_id: undefined,
+        id: uuid,
         event_type: 'test event 1',
-        event_id: 0,
         library: library,
       });
       expect(response[0].code).toBe(200);
@@ -629,10 +553,8 @@ describe('integration', () => {
         device_manufacturer: undefined,
         language: 'en-US',
         ip: '$remote',
-        insert_id: uuid,
-        partner_id: undefined,
+        id: uuid,
         event_type: 'test event 2',
-        event_id: 1,
         library: library,
       });
       expect(response[0].code).toBe(200);
@@ -663,11 +585,9 @@ describe('integration', () => {
         device_manufacturer: undefined,
         language: 'en-US',
         ip: '$remote',
-        insert_id: uuid,
-        partner_id: undefined,
+        id: uuid,
         event_type: '$track' as TAvailableEventType,
         event_name: 'test event',
-        event_id: 0,
         library: library,
       });
       expect(response.code).toBe(500);
@@ -718,10 +638,8 @@ describe('integration', () => {
         device_manufacturer: undefined,
         language: 'en-US',
         ip: '$remote',
-        insert_id: uuid,
-        partner_id: undefined,
+        id: uuid,
         event_type: '$identify',
-        event_id: 0,
         library: library,
         user_properties: {
           $set: {
@@ -757,11 +675,9 @@ describe('integration', () => {
           device_manufacturer: undefined,
           language: 'en-US',
           ip: '$remote',
-          insert_id: uuid,
-          partner_id: undefined,
+          id: uuid,
           event_type: '$track' as TAvailableEventType,
           event_name: 'test event',
-          event_id: 0,
           library: library,
         });
         expect(response.code).toBe(200);
@@ -800,11 +716,9 @@ describe('integration', () => {
           device_manufacturer: undefined,
           language: 'en-US',
           ip: '$remote',
-          insert_id: uuid,
-          partner_id: undefined,
+          id: uuid,
           event_type: '$track' as TAvailableEventType,
           event_name: 'test event',
-          event_id: 0,
           library: library,
         });
         expect(response.code).toBe(200);
