@@ -38,7 +38,10 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
       optOut: options?.optOut,
     });
 
-    // Step 2: Register distinctId to Server
+    // Step 2: BrowserConfig setups
+    await super._init(browserOptions);
+
+    // Step 3: Register distinctId to Server
     if (!this.config.distinctId) {
       this.setDistinctId(UUID());
     }
@@ -54,8 +57,6 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
       // 2) Previous session expired
       this.setSessionId(Date.now());
     }
-
-    await super._init(browserOptions);
 
     // Step 4: Install plugins
     // Do not track any events before this
