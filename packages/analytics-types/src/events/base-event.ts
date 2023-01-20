@@ -15,14 +15,18 @@ export enum SpecialEventName {
   ALIAS = '$alias',
 }
 
-export interface BaseEvent extends EventOptions {
+export interface BaseEvent {
   id: string;
   event_type: TAvailableEventType;
   event_name: string;
-  properties?: { [key: string]: any };
+  properties?: PredefinedPropertyType;
 }
 
-export interface EventOptions {
+export interface CustomProperties {
+  [key: string]: ValidPropertyType | undefined | object;
+}
+
+export interface PredefinedEventProperties {
   // default options
   distinct_id?: string;
   time?: number;
@@ -47,20 +51,21 @@ export interface EventOptions {
   custom?: { [key: string]: ValidPropertyType };
 }
 
-export type IdentifyOptions = {
-  email?: string;
+export interface PredefinedIdentifyProperties extends PredefinedEventProperties {
+  alias?: string;
   name?: string;
-  user_id?: string;
-  country?: string;
-  region?: string;
+  email?: string;
   city?: string;
+  region?: string;
+  country?: string;
   language?: string;
-};
+  custom?: { [key: string]: ValidPropertyType };
+}
 
+export type PredefinedPropertyType = PredefinedEventProperties | PredefinedIdentifyProperties;
 export type ValidPropertyType =
   | number
   | string
   | boolean
   | Array<string | number>
-  | { [key: string]: ValidPropertyType }
-  | undefined;
+  | { [key: string]: ValidPropertyType };

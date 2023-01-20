@@ -15,12 +15,13 @@ describe('timeline', () => {
 
   test('should update event using before/enrichment plugin', async () => {
     const beforeSetup = jest.fn().mockReturnValue(Promise.resolve());
-    const beforeExecute = jest.fn().mockImplementation((event: Event) =>
-      Promise.resolve({
-        ...event,
-        session_id: '1',
-      }),
-    );
+    const beforeExecute = jest.fn().mockImplementation((event: Event) => {
+      const newEvent = { ...event };
+      newEvent.properties = { ...newEvent.properties, session_id: 1 };
+
+      return Promise.resolve(newEvent);
+    });
+
     const before: Plugin = {
       name: 'plugin:before',
       type: PluginType.BEFORE,
@@ -28,12 +29,13 @@ describe('timeline', () => {
       execute: beforeExecute,
     };
     const enrichmentSetup = jest.fn().mockReturnValue(Promise.resolve());
-    const enrichmentExecute = jest.fn().mockImplementation((event: Event) =>
-      Promise.resolve({
-        ...event,
-        thread_id: '2',
-      }),
-    );
+    const enrichmentExecute = jest.fn().mockImplementation((event: Event) => {
+      const newEvent = { ...event };
+      newEvent.properties = { ...newEvent.properties, thread_id: '2' };
+
+      return Promise.resolve(newEvent);
+    });
+
     const enrichment: Plugin = {
       name: 'plugin:enrichment',
       type: PluginType.ENRICHMENT,
@@ -46,14 +48,14 @@ describe('timeline', () => {
       .fn()
       // error once
       .mockImplementationOnce((event: Event) => {
-        expect(event.session_id).toBe('1');
-        expect(event.thread_id).toBe('2');
+        expect(event.properties?.session_id).toBe(1);
+        expect(event.properties?.thread_id).toBe('2');
         return Promise.reject({});
       })
       // success for the rest
       .mockImplementation((event: Event) => {
-        expect(event.session_id).toBe('1');
-        expect(event.thread_id).toBe('2');
+        expect(event.properties?.session_id).toBe(1);
+        expect(event.properties?.thread_id).toBe('2');
         return Promise.resolve();
       });
     const destination: Plugin = {

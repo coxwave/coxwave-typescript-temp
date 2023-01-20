@@ -229,8 +229,8 @@ export class Destination implements DestinationPlugin {
       if (
         // TODO: user-id changed to distinct-id or alias
         //(context.event.distinct_id && dropDistinctIdsSet.has(context.event.distinct_id)) ||
-        context.event.device_id &&
-        dropDeviceIdsSet.has(context.event.device_id)
+        context.event.properties?.distinct_id &&
+        dropDeviceIdsSet.has(context.event.properties.distinct_id)
       ) {
         this.fulfillRequest([context], res.statusCode, res.body.error);
         return;

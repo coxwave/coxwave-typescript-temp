@@ -1,6 +1,7 @@
 import UAParser from '@amplitude/ua-parser-js';
 import { getLanguage } from '@coxwave/analytics-client-common';
 import { BeforePlugin, BrowserConfig, Event, PluginType } from '@coxwave/analytics-types';
+import { PredefinedPropertyType } from '@coxwave/analytics-types/lib/esm/events/base-event';
 
 import { VERSION } from '../version';
 
@@ -32,7 +33,7 @@ export class Context implements BeforePlugin {
     return Promise.resolve(undefined);
   }
 
-  async execute(context: Event): Promise<Event> {
+  async execute(event: Event): Promise<Event> {
     /**
      * Manages user session triggered by new events
      */
@@ -48,7 +49,7 @@ export class Context implements BeforePlugin {
     const deviceModel = this.uaResult.device.model || this.uaResult.os.name;
     const deviceVendor = this.uaResult.device.vendor;
 
-    const event: Event = {
+    const properties: PredefinedPropertyType = {
       distinct_id: this.config.distinctId,
       device_id: this.config.deviceId,
       session_id: this.config.sessionId,
@@ -61,9 +62,10 @@ export class Context implements BeforePlugin {
       ...(this.config.trackingOptions.deviceModel && { device_model: deviceModel }),
       ...(this.config.trackingOptions.language && { language: getLanguage() }),
       ...(this.config.trackingOptions.ipAddress && { ip: IP_ADDRESS }),
-      ...context,
       library: this.library,
     };
+    event.properties = { ...properties, ...event.properties };
+
     return event;
   }
 

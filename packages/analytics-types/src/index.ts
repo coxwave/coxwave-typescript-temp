@@ -18,7 +18,6 @@ export { CoreClient } from './core-client';
 export { DestinationContext } from './destination-context';
 export {
   Activity,
-  ActivityProperties,
   ActivityEvent,
   IdentifyEvent,
   IdentifyOperation,
@@ -30,17 +29,24 @@ export {
   ValidPropertyType,
   Feedback,
   FeedbackEvent,
-  FeedbackProperties,
   Generation,
   GenerationEvent,
   GenerationIOEntity,
-  GenerationProperties,
   BaseEvent,
-  EventOptions,
+  CustomProperties,
+  PredefinedEventProperties,
+  PredefinedIdentifyProperties,
+  PredefinedPropertyType,
   AvailableEventType,
   TAvailableEventType,
   SpecialEventName,
   Event,
+  SpecialActivityPropertyKey,
+  SpecialFeedbackPropertyKey,
+  SpecialGenerationPropertyKey,
+  ActivityProperties,
+  GenerationProperties,
+  FeedbackProperties,
 } from './events';
 export { EventCallback } from './event-callback';
 export { Logger, LogLevel, LogConfig, DebugContext } from './logger';

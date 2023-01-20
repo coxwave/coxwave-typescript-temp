@@ -12,7 +12,7 @@ import {
   BrowserClient,
   BrowserConfig,
   BrowserOptions,
-  EventOptions,
+  PredefinedEventProperties,
   Identify as IIdentify,
   Result,
   TransportType,
@@ -140,7 +140,7 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
     return super.register(distinctId);
   }
 
-  identify(identify: IIdentify, eventOptions?: EventOptions): Promise<Result> {
+  identify(identify: IIdentify, predefinedProperties?: PredefinedEventProperties): Promise<Result> {
     // TODO: identify should update distinctId
 
     if (isInstanceProxy(identify)) {
@@ -150,14 +150,14 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
     }
 
     // TODO: is it okay to overwrite distinctId?
-    if (eventOptions?.distinct_id) {
-      this.setDistinctId(eventOptions.distinct_id);
+    if (predefinedProperties?.distinct_id) {
+      this.setDistinctId(predefinedProperties.distinct_id);
     }
-    if (eventOptions?.device_id) {
-      this.setDeviceId(eventOptions.device_id);
+    if (predefinedProperties?.device_id) {
+      this.setDeviceId(predefinedProperties.device_id);
     }
 
-    return super.identify(identify, eventOptions);
+    return super.identify(identify, predefinedProperties);
   }
 
   alias(alias: string) {

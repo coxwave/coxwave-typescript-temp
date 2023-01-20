@@ -2,13 +2,14 @@ import {
   CoreClient,
   Config,
   Event,
-  EventOptions,
   Identify,
   Plugin,
   Result,
+  PredefinedIdentifyProperties,
+  PredefinedEventProperties,
+  ActivityProperties,
   GenerationProperties,
   FeedbackProperties,
-  ActivityProperties,
 } from '@coxwave/analytics-types';
 
 import { CLIENT_NOT_INITIALIZED, OPT_OUT_MESSAGE } from './messages';
@@ -54,23 +55,30 @@ export class CoxwaveCore<T extends Config> implements CoreClient<T> {
     }
   }
 
-  track(activityInput: string, activityProperties?: ActivityProperties, eventOptions?: EventOptions) {
-    const event = createTrackEvent(activityInput, activityProperties, eventOptions);
+  track(
+    activityName: string,
+    activityProperties?: ActivityProperties,
+    predefinedProperties?: PredefinedEventProperties,
+  ) {
+    const event = createTrackEvent(activityName, activityProperties, predefinedProperties);
     return { id: event.id, promise: this.dispatch(event) };
   }
 
-  log(generationInput: string, GenerationProperties?: GenerationProperties, eventOptions?: EventOptions) {
-    const event = createLogEvent(generationInput, GenerationProperties, eventOptions);
+  log(
+    generationName: string,
+    CustomProperties?: GenerationProperties,
+    predefinedProperties?: PredefinedEventProperties,
+  ) {
+    const event = createLogEvent(generationName, CustomProperties, predefinedProperties);
     return { id: event.id, promise: this.dispatch(event) };
   }
 
   feedback(
-    feedbackTraget: string,
-    feedbackInput: string,
-    feedbackProperties?: FeedbackProperties,
-    eventOptions?: EventOptions,
+    feedbackName: string,
+    feedbackProperties: FeedbackProperties,
+    predefinedProperties?: PredefinedEventProperties,
   ) {
-    const event = createFeedbackEvent(feedbackTraget, feedbackInput, feedbackProperties, eventOptions);
+    const event = createFeedbackEvent(feedbackName, feedbackProperties, predefinedProperties);
     return { id: event.id, promise: this.dispatch(event) };
   }
 
@@ -79,8 +87,8 @@ export class CoxwaveCore<T extends Config> implements CoreClient<T> {
     return this.dispatch(event);
   }
 
-  identify(identify: Identify, eventOptions?: EventOptions) {
-    const event = createIdentifyEvent(identify, eventOptions);
+  identify(identify: Identify, predefinedProperties?: PredefinedIdentifyProperties) {
+    const event = createIdentifyEvent(identify, predefinedProperties);
     return this.dispatch(event);
   }
 
