@@ -18,7 +18,6 @@ export { CoreClient } from './core-client';
 export { DestinationContext } from './destination-context';
 export {
   Activity,
-  ActivityProperties,
   ActivityEvent,
   IdentifyEvent,
   IdentifyOperation,
@@ -30,22 +29,39 @@ export {
   ValidPropertyType,
   Feedback,
   FeedbackEvent,
-  FeedbackProperties,
   Generation,
   GenerationEvent,
   GenerationIOEntity,
-  GenerationProperties,
   BaseEvent,
-  EventOptions,
+  CustomProperties,
+  PredefinedEventProperties,
+  PredefinedIdentifyProperties,
+  PredefinedPropertyType,
   AvailableEventType,
   TAvailableEventType,
   SpecialEventName,
   Event,
+  SpecialActivityPropertyKey,
+  SpecialFeedbackPropertyKey,
+  SpecialGenerationPropertyKey,
+  ActivityProperties,
+  GenerationProperties,
+  FeedbackProperties,
 } from './events';
 export { EventCallback } from './event-callback';
 export { Logger, LogLevel, LogConfig, DebugContext } from './logger';
-export { Payload } from './payload';
-export { Plugin, BeforePlugin, EnrichmentPlugin, DestinationPlugin, PluginType } from './plugin';
+export { Payload, GeneralPayload, ActivityPayload, GenerationPayload, FeedbackPayload } from './payload';
+export {
+  Plugin,
+  BeforePlugin,
+  EnrichmentPlugin,
+  DestinationPlugin,
+  ActivityDestinationPlugin,
+  GenerationDestinationPlugin,
+  FeedbackDestinationPlugin,
+  IdentifyDestinationPlugin,
+  PluginType,
+} from './plugin';
 export { Result } from './result';
 export { Response, SuccessResponse, InvalidResponse, PayloadTooLargeResponse, RateLimitResponse } from './response';
 export { SessionManager, SessionManagerOptions, UserSession } from './session-manager';

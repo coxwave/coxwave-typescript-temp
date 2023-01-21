@@ -15,48 +15,54 @@ export enum SpecialEventName {
   ALIAS = '$alias',
 }
 
-export interface BaseEvent extends EventOptions {
+export interface BaseEvent extends Record<string, any> {
   id: string;
-  event_type: TAvailableEventType;
-  event_name: string;
-  properties?: { [key: string]: any };
+  eventType: TAvailableEventType;
+  eventName: string;
+  properties?: PredefinedPropertyType;
 }
 
-export interface EventOptions {
+export interface CustomProperties {
+  [key: string]: ValidPropertyType;
+}
+
+export interface PredefinedEventProperties {
   // default options
-  distinct_id?: string;
+  distinctId?: string;
   time?: number;
   library?: string;
-  session_id?: number;
-  thread_id?: string; // uuid only
+  sessionId?: number;
+  threadId?: string; // uuid only
   // user & device related options
-  user_id?: string;
-  device_id?: string;
-  app_version?: string;
-  version_name?: string;
+  userId?: string;
+  deviceId?: string;
+  appVersion?: string;
+  versionName?: string;
   platform?: string;
-  os_name?: string;
-  os_version?: string;
-  device_brand?: string;
-  device_manufacturer?: string;
-  device_model?: string;
+  osName?: string;
+  osVersion?: string;
+  deviceBrand?: string;
+  deviceManufacturer?: string;
+  deviceModel?: string;
   // location related options
-  location_lat?: number;
-  location_lng?: number;
+  locationLat?: number;
+  locationLng?: number;
   ip?: string;
-  custom?: { [key: string]: ValidPropertyType };
+  custom?: CustomProperties;
 }
 
-export type IdentifyOptions = {
-  email?: string;
+export interface PredefinedIdentifyProperties extends PredefinedEventProperties {
+  alias?: string;
   name?: string;
-  user_id?: string;
-  country?: string;
-  region?: string;
+  email?: string;
   city?: string;
+  region?: string;
+  country?: string;
   language?: string;
-};
+  custom?: CustomProperties;
+}
 
+export type PredefinedPropertyType = PredefinedEventProperties | PredefinedIdentifyProperties;
 export type ValidPropertyType =
   | number
   | string

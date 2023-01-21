@@ -1,6 +1,7 @@
 import UAParser from '@amplitude/ua-parser-js';
 import { getLanguage } from '@coxwave/analytics-client-common';
 import { BeforePlugin, BrowserConfig, Event, PluginType } from '@coxwave/analytics-types';
+import { PredefinedPropertyType } from '@coxwave/analytics-types/lib/esm/events/base-event';
 
 import { VERSION } from '../version';
 
@@ -32,7 +33,7 @@ export class Context implements BeforePlugin {
     return Promise.resolve(undefined);
   }
 
-  async execute(context: Event): Promise<Event> {
+  async execute(event: Event): Promise<Event> {
     /**
      * Manages user session triggered by new events
      */
@@ -48,22 +49,23 @@ export class Context implements BeforePlugin {
     const deviceModel = this.uaResult.device.model || this.uaResult.os.name;
     const deviceVendor = this.uaResult.device.vendor;
 
-    const event: Event = {
-      distinct_id: this.config.distinctId,
-      device_id: this.config.deviceId,
-      session_id: this.config.sessionId,
+    const properties: PredefinedPropertyType = {
+      distinctId: this.config.distinctId,
+      deviceId: this.config.deviceId,
+      sessionId: this.config.sessionId,
       time,
-      ...(this.config.appVersion && { app_version: this.config.appVersion }),
+      ...(this.config.appVersion && { appVersion: this.config.appVersion }),
       ...(this.config.trackingOptions.platform && { platform: BROWSER_PLATFORM }),
-      ...(this.config.trackingOptions.osName && { os_name: osName }),
-      ...(this.config.trackingOptions.osVersion && { os_version: osVersion }),
-      ...(this.config.trackingOptions.deviceManufacturer && { device_manufacturer: deviceVendor }),
-      ...(this.config.trackingOptions.deviceModel && { device_model: deviceModel }),
+      ...(this.config.trackingOptions.osName && { osName: osName }),
+      ...(this.config.trackingOptions.osVersion && { osVersion: osVersion }),
+      ...(this.config.trackingOptions.deviceManufacturer && { deviceManufacturer: deviceVendor }),
+      ...(this.config.trackingOptions.deviceModel && { deviceModel: deviceModel }),
       ...(this.config.trackingOptions.language && { language: getLanguage() }),
       ...(this.config.trackingOptions.ipAddress && { ip: IP_ADDRESS }),
-      ...context,
       library: this.library,
     };
+    event.properties = { ...properties, ...event.properties };
+
     return event;
   }
 

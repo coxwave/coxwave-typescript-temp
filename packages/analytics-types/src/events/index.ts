@@ -1,14 +1,23 @@
-export { Activity, ActivityProperties, ActivityEvent } from './activity';
+export { Activity, ActivityEvent, SpecialActivityPropertyKey, ActivityProperties } from './activity';
 export {
   BaseEvent,
-  EventOptions,
+  CustomProperties,
+  PredefinedEventProperties,
+  PredefinedIdentifyProperties,
+  PredefinedPropertyType,
   AvailableEventType,
   TAvailableEventType,
   SpecialEventName,
   ValidPropertyType,
 } from './base-event';
-export { Feedback, FeedbackEvent, FeedbackProperties } from './feedback';
-export { Generation, GenerationEvent, GenerationIOEntity, GenerationProperties } from './generation';
+export { Feedback, FeedbackEvent, SpecialFeedbackPropertyKey, FeedbackProperties } from './feedback';
+export {
+  Generation,
+  GenerationEvent,
+  GenerationIOEntity,
+  SpecialGenerationPropertyKey,
+  GenerationProperties,
+} from './generation';
 export {
   IdentifyEvent,
   IdentifyRegisterEvent,

@@ -1,12 +1,13 @@
-import { BaseEvent, TAvailableEventType, SpecialEventName, ValidPropertyType } from './base-event';
+import { BaseEvent, PredefinedEventProperties, SpecialEventName } from './base-event';
+
+export const SpecialActivityPropertyKey = [] as const;
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface ActivityProperties extends Record<string, ValidPropertyType> {}
+export interface ActivityProperties extends Record<string, any> {}
 
-export interface ActivityEvent extends BaseEvent {
-  event_type: TAvailableEventType;
-  event_name: Exclude<string, SpecialEventName>;
-  properties?: ActivityProperties;
+export interface ActivityEvent extends BaseEvent, ActivityProperties {
+  eventName: Exclude<string, SpecialEventName>;
+  properties?: PredefinedEventProperties;
 }
 
 export type Activity = ActivityEvent;

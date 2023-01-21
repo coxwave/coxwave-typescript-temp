@@ -1,5 +1,6 @@
 import { CoxwaveReturn, CoxwaveReturnWithId } from '../coxwave-promise';
-import { EventOptions, Identify, ActivityProperties, GenerationProperties, FeedbackProperties } from '../events';
+import { ActivityProperties, FeedbackProperties, GenerationProperties } from '../events';
+import { PredefinedEventProperties, PredefinedIdentifyProperties, Identify } from '../events';
 import { Plugin } from '../plugin';
 import { Result } from '../result';
 
@@ -53,9 +54,9 @@ export interface BaseClient {
    * ```
    */
   track(
-    activityInput: string,
+    activityName: string,
     activityProperties?: ActivityProperties,
-    activityOptions?: EventOptions,
+    predefinedProperties?: PredefinedEventProperties,
   ): CoxwaveReturnWithId<Result>;
 
   /**
@@ -92,9 +93,9 @@ export interface BaseClient {
    * ```
    */
   log(
-    generationInput: string,
-    GenerationProperties?: GenerationProperties,
-    generationOptions?: EventOptions,
+    generationName: string,
+    generationProperties?: GenerationProperties,
+    predefinedProperties?: PredefinedEventProperties,
   ): CoxwaveReturnWithId<Result>;
 
   /**
@@ -118,10 +119,9 @@ export interface BaseClient {
    * ```
    */
   feedback(
-    feedbackTraget: string,
-    feedbackInput: string,
+    feedbackName: string,
     feedbackProperties?: FeedbackProperties,
-    feedbackOptions?: EventOptions,
+    predefinedProperties?: PredefinedEventProperties,
   ): CoxwaveReturnWithId<Result>;
 
   /**
@@ -155,7 +155,7 @@ export interface BaseClient {
    * console.log(result.message); // "Event tracked successfully"
    * ```
    */
-  identify(identify: Identify, eventOptions?: EventOptions): CoxwaveReturn<Result>;
+  identify(identify: Identify, predefinedProperties?: PredefinedIdentifyProperties): CoxwaveReturn<Result>;
 
   /**
    * TODO: change docs here

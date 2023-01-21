@@ -1,18 +1,20 @@
 import {
   CoxwaveCore,
-  Destination,
+  ActivityDestination,
   Identify,
   UUID,
   returnWrapper,
   debugWrapper,
   getClientLogConfig,
   getClientStates,
+  GenerationDestination,
+  FeedbackDestination,
 } from '@coxwave/analytics-core';
 import {
   BrowserClient,
   BrowserConfig,
   BrowserOptions,
-  EventOptions,
+  PredefinedEventProperties,
   Identify as IIdentify,
   Result,
   TransportType,
@@ -45,7 +47,6 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
     if (!this.config.distinctId) {
       this.setDistinctId(UUID());
     }
-    await this.register(this.config.distinctId as string);
 
     // Step 3: Manage session
     if (
@@ -61,8 +62,11 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
     // Step 4: Install plugins
     // Do not track any events before this
     await this.add(new Context());
-    await this.add(new Destination());
+    await this.add(new ActivityDestination());
+    await this.add(new GenerationDestination());
+    await this.add(new FeedbackDestination());
 
+    // await this.register(this.config.distinctId as string);
     this.initializing = false;
 
     // Step 6: Run queued dispatch functions
@@ -140,7 +144,7 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
     return super.register(distinctId);
   }
 
-  identify(identify: IIdentify, eventOptions?: EventOptions): Promise<Result> {
+  identify(identify: IIdentify, predefinedProperties?: PredefinedEventProperties): Promise<Result> {
     // TODO: identify should update distinctId
 
     if (isInstanceProxy(identify)) {
@@ -150,14 +154,14 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
     }
 
     // TODO: is it okay to overwrite distinctId?
-    if (eventOptions?.distinct_id) {
-      this.setDistinctId(eventOptions.distinct_id);
+    if (predefinedProperties?.distinctId) {
+      this.setDistinctId(predefinedProperties.distinctId);
     }
-    if (eventOptions?.device_id) {
-      this.setDeviceId(eventOptions.device_id);
+    if (predefinedProperties?.deviceId) {
+      this.setDeviceId(predefinedProperties.deviceId);
     }
 
-    return super.identify(identify, eventOptions);
+    return super.identify(identify, predefinedProperties);
   }
 
   alias(alias: string) {

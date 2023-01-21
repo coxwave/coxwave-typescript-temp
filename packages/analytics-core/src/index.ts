@@ -1,6 +1,11 @@
 export { CoxwaveCore } from './core-client';
 export { Identify } from './identify';
-export { Destination } from './plugins/destination';
+export {
+  _BaseDestination,
+  ActivityDestination,
+  GenerationDestination,
+  FeedbackDestination,
+} from './plugins/destinations';
 export { Config } from './config';
 export { Logger } from './logger';
 export { COXWAVE_PREFIX } from './constants';

@@ -3,100 +3,132 @@ import {
   IdentifyEvent,
   SpecialEventName,
   Identify as IIdentify,
-  EventOptions,
   Generation,
   Feedback,
+  CustomProperties,
+  PredefinedEventProperties,
+  PredefinedIdentifyProperties,
+  SpecialActivityPropertyKey,
+  SpecialGenerationPropertyKey,
+  SpecialFeedbackPropertyKey,
   ActivityProperties,
-  FeedbackProperties,
   GenerationProperties,
+  FeedbackProperties,
 } from '@coxwave/analytics-types';
 
 import { UUID } from './uuid';
 
+export const splitProperties = (
+  properties: CustomProperties,
+  specialKeys: readonly string[],
+): Record<string, CustomProperties> => {
+  const specialProperties: CustomProperties = {};
+  const customProperties: CustomProperties = {};
+
+  for (const [key, value] of Object.entries(properties)) {
+    if (specialKeys.includes(key)) {
+      specialProperties[key] = value;
+    } else {
+      customProperties[key] = value;
+    }
+  }
+
+  return { specialProperties, customProperties };
+};
+
 export const createTrackEvent = (
-  activityInput: string,
-  activityProperties?: ActivityProperties,
-  eventOptions?: EventOptions,
+  activityName: string,
+  activityProperties: ActivityProperties = {},
+  predefinedProperties: PredefinedEventProperties = {},
 ): ActivityEvent => {
-  const baseActivity: ActivityEvent = {
-    id: UUID(),
-    event_type: '$track',
-    event_name: activityInput,
-    properties: activityProperties,
-  };
+  const { specialProperties, customProperties } = splitProperties(activityProperties, SpecialActivityPropertyKey);
+
+  predefinedProperties.custom = predefinedProperties.custom
+    ? { ...predefinedProperties.custom, ...customProperties }
+    : customProperties;
 
   return {
-    ...baseActivity,
-    ...eventOptions,
+    id: UUID(),
+    eventType: '$track',
+    eventName: activityName,
+    ...specialProperties,
+    properties: predefinedProperties,
   };
 };
 
 export const createLogEvent = (
-  generationInput: string,
-  generationProperties?: GenerationProperties,
-  eventOptions?: EventOptions,
+  generationName: string,
+  generationProperties: GenerationProperties = {},
+  predefinedProperties: PredefinedEventProperties = {},
 ): Generation => {
-  const baseGeneration: Generation = {
-    id: UUID(),
-    event_type: '$log',
-    event_name: generationInput,
-    properties: generationProperties,
-  };
+  const { specialProperties, customProperties } = splitProperties(generationProperties, SpecialGenerationPropertyKey);
+
+  predefinedProperties.custom = predefinedProperties.custom
+    ? { ...predefinedProperties.custom, ...customProperties }
+    : customProperties;
 
   return {
-    ...baseGeneration,
-    ...eventOptions,
+    id: UUID(),
+    eventType: '$log',
+    eventName: generationName,
+    ...specialProperties,
+    properties: predefinedProperties,
   };
 };
 
 export const createFeedbackEvent = (
-  feedbackTraget: string,
-  feedbackInput: string,
-  feedbackProperties?: FeedbackProperties,
-  eventOptions?: EventOptions,
+  feedbackName: string,
+  feedbackProperties: FeedbackProperties,
+  predefinedProperties: PredefinedEventProperties = {},
 ): Feedback => {
-  const baseFeedback: Feedback = {
-    id: UUID(),
-    event_type: '$feedback',
-    event_name: feedbackInput,
-    properties: { generation_id: feedbackTraget, ...feedbackProperties },
-  };
+  const { specialProperties, customProperties } = splitProperties(feedbackProperties, SpecialFeedbackPropertyKey);
+
+  predefinedProperties.custom = predefinedProperties.custom
+    ? { ...predefinedProperties.custom, ...customProperties }
+    : customProperties;
 
   return {
-    ...baseFeedback,
-    ...eventOptions,
+    id: UUID(),
+    eventType: '$feedback',
+    eventName: feedbackName,
+    ...(specialProperties as FeedbackProperties),
+    properties: predefinedProperties,
   };
 };
 
-export const createRegisterEvent = (distinct_id: string): IdentifyEvent => {
+export const createRegisterEvent = (distinctId: string): IdentifyEvent => {
   const IdentifyEvent: IdentifyEvent = {
     id: UUID(),
-    event_type: '$identify',
-    event_name: SpecialEventName.REGISTER,
-    properties: { distinct_id: distinct_id },
+    eventType: '$identify',
+    eventName: SpecialEventName.REGISTER,
+    distinctId: distinctId,
   };
 
   return IdentifyEvent;
 };
 
-export const createIdentifyEvent = (identify: IIdentify, eventOptions?: EventOptions): IdentifyEvent => {
+export const createIdentifyEvent = (
+  identify: IIdentify,
+  predefinedProperties?: PredefinedIdentifyProperties,
+): IdentifyEvent => {
   const IdentifyEvent: IdentifyEvent = {
     id: UUID(),
-    event_type: '$identify',
-    event_name: SpecialEventName.IDENTIFY,
+    eventType: '$identify',
+    eventName: SpecialEventName.IDENTIFY,
     properties: identify.getUserProperties(),
-    ...eventOptions,
+    ...predefinedProperties,
   };
 
   return IdentifyEvent;
 };
 
-export const createAliasEvent = (alias: string, distinct_id: string): IdentifyEvent => {
+export const createAliasEvent = (alias: string, distinctId: string): IdentifyEvent => {
   const IdentifyEvent: IdentifyEvent = {
     id: UUID(),
-    event_type: '$identify',
-    event_name: SpecialEventName.ALIAS,
-    properties: { alias: alias, distinct_id: distinct_id },
+    eventType: '$identify',
+    eventName: SpecialEventName.ALIAS,
+    alias: alias,
+    distinctId: distinctId,
   };
 
   return IdentifyEvent;

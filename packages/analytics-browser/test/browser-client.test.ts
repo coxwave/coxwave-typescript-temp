@@ -201,7 +201,7 @@ describe('browser-client', () => {
         ...trackingConfig,
       });
       const identifyObject = new core.Identify();
-      const result = await client.identify(identifyObject, { device_id: '123' });
+      const result = await client.identify(identifyObject, { deviceId: '123' });
       expect(result.code).toEqual(200);
       expect(send).toHaveBeenCalledTimes(1);
     });

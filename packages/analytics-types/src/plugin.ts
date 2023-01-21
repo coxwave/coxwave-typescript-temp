@@ -6,6 +6,10 @@ export enum PluginType {
   BEFORE = 'before',
   ENRICHMENT = 'enrichment',
   DESTINATION = 'destination',
+  DESTINATION_ACTIVITY = 'destination_activity',
+  DESTINATION_GENERATION = 'destination_generation',
+  DESTINATION_FEEDBACK = 'destination_feedback',
+  DESTINATION_IDENTIFY = 'destination_identify',
 }
 
 export interface BeforePlugin {
@@ -24,10 +28,33 @@ export interface EnrichmentPlugin {
 
 export interface DestinationPlugin {
   name: string;
-  type: PluginType.DESTINATION;
+  type: string;
   setup(config: Config): Promise<void>;
   execute(context: Event): Promise<Result>;
   flush?(): Promise<void>;
 }
 
-export type Plugin = BeforePlugin | EnrichmentPlugin | DestinationPlugin;
+export interface ActivityDestinationPlugin extends DestinationPlugin {
+  type: PluginType.DESTINATION_ACTIVITY;
+}
+
+export interface GenerationDestinationPlugin extends DestinationPlugin {
+  type: PluginType.DESTINATION_GENERATION;
+}
+
+export interface FeedbackDestinationPlugin extends DestinationPlugin {
+  type: PluginType.DESTINATION_FEEDBACK;
+}
+
+export interface IdentifyDestinationPlugin extends DestinationPlugin {
+  type: PluginType.DESTINATION_IDENTIFY;
+}
+
+export type Plugin =
+  | BeforePlugin
+  | EnrichmentPlugin
+  | DestinationPlugin
+  | ActivityDestinationPlugin
+  | GenerationDestinationPlugin
+  | FeedbackDestinationPlugin
+  | IdentifyDestinationPlugin;

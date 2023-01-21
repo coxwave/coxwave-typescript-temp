@@ -1,13 +1,14 @@
-import { TAvailableEventType, BaseEvent, SpecialEventName, ValidPropertyType } from './base-event';
+import { BaseEvent, PredefinedEventProperties, SpecialEventName } from './base-event';
 
-export interface FeedbackProperties extends Record<string, ValidPropertyType> {
+export const SpecialFeedbackPropertyKey = ['generation_id'] as const;
+
+export interface FeedbackProperties extends Record<string, any> {
   generation_id: string;
 }
 
-export interface FeedbackEvent extends BaseEvent {
-  event_type: TAvailableEventType;
-  event_name: Exclude<string, SpecialEventName>;
-  properties?: FeedbackProperties;
+export interface FeedbackEvent extends BaseEvent, FeedbackProperties {
+  eventName: Exclude<string, SpecialEventName>;
+  properties?: PredefinedEventProperties;
 }
 
 export type Feedback = FeedbackEvent;
