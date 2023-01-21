@@ -23,7 +23,7 @@ export interface BaseEvent {
 }
 
 export interface CustomProperties {
-  [key: string]: ValidPropertyType | undefined | object;
+  [key: string]: ValidPropertyType;
 }
 
 export interface PredefinedEventProperties {
@@ -48,7 +48,7 @@ export interface PredefinedEventProperties {
   location_lat?: number;
   location_lng?: number;
   ip?: string;
-  custom?: { [key: string]: ValidPropertyType };
+  custom?: CustomProperties;
 }
 
 export interface PredefinedIdentifyProperties extends PredefinedEventProperties {
@@ -59,7 +59,7 @@ export interface PredefinedIdentifyProperties extends PredefinedEventProperties 
   region?: string;
   country?: string;
   language?: string;
-  custom?: { [key: string]: ValidPropertyType };
+  custom?: CustomProperties;
 }
 
 export type PredefinedPropertyType = PredefinedEventProperties | PredefinedIdentifyProperties;
@@ -68,4 +68,5 @@ export type ValidPropertyType =
   | string
   | boolean
   | Array<string | number>
-  | { [key: string]: ValidPropertyType };
+  | { [key: string]: ValidPropertyType }
+  | undefined;

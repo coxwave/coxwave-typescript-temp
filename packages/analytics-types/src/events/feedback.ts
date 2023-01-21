@@ -1,8 +1,8 @@
-import { BaseEvent, CustomProperties, PredefinedEventProperties, SpecialEventName } from './base-event';
+import { BaseEvent, PredefinedEventProperties, SpecialEventName } from './base-event';
 
 export const SpecialFeedbackPropertyKey = ['generation_id'] as const;
 
-export interface FeedbackProperties extends CustomProperties {
+export interface FeedbackProperties extends Record<string, any> {
   generation_id: string;
 }
 

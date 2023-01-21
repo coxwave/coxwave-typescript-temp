@@ -1,4 +1,4 @@
-import { BaseEvent, CustomProperties, PredefinedEventProperties, SpecialEventName } from './base-event';
+import { BaseEvent, PredefinedEventProperties, SpecialEventName } from './base-event';
 
 export const LoggableGenerationMedia = ['text', 'image', 'audio', 'video'] as const;
 export type TLoggableGenerationMedia = (typeof LoggableGenerationMedia)[number];
@@ -10,7 +10,7 @@ export interface GenerationIOEntity {
   value: number | string | Array<string | number>;
 }
 
-export interface GenerationProperties extends CustomProperties {
+export interface GenerationProperties extends Record<string, any> {
   model_id?: string;
   input?: {
     [key: string]: GenerationIOEntity | number | string | boolean;
