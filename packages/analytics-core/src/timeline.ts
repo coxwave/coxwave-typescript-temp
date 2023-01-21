@@ -82,7 +82,7 @@ export class Timeline {
       event = await plugin.execute({ ...event });
     }
 
-    switch (event.event_type) {
+    switch (event.eventType) {
       case '$track':
         this._executeDestination(PluginType.DESTINATION_ACTIVITY, event, resolve);
         break;

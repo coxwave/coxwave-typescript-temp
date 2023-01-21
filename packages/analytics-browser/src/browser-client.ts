@@ -154,11 +154,11 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
     }
 
     // TODO: is it okay to overwrite distinctId?
-    if (predefinedProperties?.distinct_id) {
-      this.setDistinctId(predefinedProperties.distinct_id);
+    if (predefinedProperties?.distinctId) {
+      this.setDistinctId(predefinedProperties.distinctId);
     }
-    if (predefinedProperties?.device_id) {
-      this.setDeviceId(predefinedProperties.device_id);
+    if (predefinedProperties?.deviceId) {
+      this.setDeviceId(predefinedProperties.deviceId);
     }
 
     return super.identify(identify, predefinedProperties);

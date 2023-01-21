@@ -21,7 +21,7 @@ export interface GenerationProperties extends Record<string, any> {
 }
 
 export interface GenerationEvent extends BaseEvent, GenerationProperties {
-  event_name: Exclude<string, SpecialEventName>;
+  eventName: Exclude<string, SpecialEventName>;
   properties?: PredefinedEventProperties;
 }
 

@@ -20,18 +20,18 @@ export interface IdentifyUserProperties extends PredefinedIdentifyProperties {
 }
 
 export interface IdentifyRegisterEvent extends BaseEvent {
-  event_name: SpecialEventName.REGISTER;
-  distinct_id: string;
+  eventName: SpecialEventName.REGISTER;
+  distinctId: string;
 }
 
 export interface IdentifyUserEvent extends BaseEvent, IdentifyUserProperties {
-  event_name: SpecialEventName.IDENTIFY;
+  eventName: SpecialEventName.IDENTIFY;
 }
 
 export interface IdentifyAliasEvent extends BaseEvent {
-  event_name: SpecialEventName.ALIAS;
+  eventName: SpecialEventName.ALIAS;
   alias: string;
-  distinct_id: string;
+  distinctId: string;
 }
 
 export type IdentifyEvent = IdentifyRegisterEvent | IdentifyUserEvent | IdentifyAliasEvent;

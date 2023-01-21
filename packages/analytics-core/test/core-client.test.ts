@@ -7,7 +7,7 @@ import { matchUUID, useDefaultConfig, ALIAS_NAME, DISTINCT_ID } from './helpers/
 describe('core-client', () => {
   const success = {
     id: '_',
-    event: { id: '_', event_type: '$track' as TAvailableEventType, event_name: 'sample' },
+    event: { id: '_', eventType: '$track' as TAvailableEventType, eventName: 'sample' },
     code: 200,
     message: Status.Success,
   };

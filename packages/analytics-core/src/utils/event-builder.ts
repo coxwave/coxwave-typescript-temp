@@ -49,8 +49,8 @@ export const createTrackEvent = (
 
   return {
     id: UUID(),
-    event_type: '$track',
-    event_name: activityName,
+    eventType: '$track',
+    eventName: activityName,
     ...specialProperties,
     properties: predefinedProperties,
   };
@@ -69,8 +69,8 @@ export const createLogEvent = (
 
   return {
     id: UUID(),
-    event_type: '$log',
-    event_name: generationName,
+    eventType: '$log',
+    eventName: generationName,
     ...specialProperties,
     properties: predefinedProperties,
   };
@@ -89,19 +89,19 @@ export const createFeedbackEvent = (
 
   return {
     id: UUID(),
-    event_type: '$feedback',
-    event_name: feedbackName,
+    eventType: '$feedback',
+    eventName: feedbackName,
     ...(specialProperties as FeedbackProperties),
     properties: predefinedProperties,
   };
 };
 
-export const createRegisterEvent = (distinct_id: string): IdentifyEvent => {
+export const createRegisterEvent = (distinctId: string): IdentifyEvent => {
   const IdentifyEvent: IdentifyEvent = {
     id: UUID(),
-    event_type: '$identify',
-    event_name: SpecialEventName.REGISTER,
-    distinct_id: distinct_id,
+    eventType: '$identify',
+    eventName: SpecialEventName.REGISTER,
+    distinctId: distinctId,
   };
 
   return IdentifyEvent;
@@ -113,8 +113,8 @@ export const createIdentifyEvent = (
 ): IdentifyEvent => {
   const IdentifyEvent: IdentifyEvent = {
     id: UUID(),
-    event_type: '$identify',
-    event_name: SpecialEventName.IDENTIFY,
+    eventType: '$identify',
+    eventName: SpecialEventName.IDENTIFY,
     properties: identify.getUserProperties(),
     ...predefinedProperties,
   };
@@ -122,13 +122,13 @@ export const createIdentifyEvent = (
   return IdentifyEvent;
 };
 
-export const createAliasEvent = (alias: string, distinct_id: string): IdentifyEvent => {
+export const createAliasEvent = (alias: string, distinctId: string): IdentifyEvent => {
   const IdentifyEvent: IdentifyEvent = {
     id: UUID(),
-    event_type: '$identify',
-    event_name: SpecialEventName.ALIAS,
+    eventType: '$identify',
+    eventName: SpecialEventName.ALIAS,
     alias: alias,
-    distinct_id: distinct_id,
+    distinctId: distinctId,
   };
 
   return IdentifyEvent;

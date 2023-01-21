@@ -7,7 +7,7 @@ export interface FeedbackProperties extends Record<string, any> {
 }
 
 export interface FeedbackEvent extends BaseEvent, FeedbackProperties {
-  event_name: Exclude<string, SpecialEventName>;
+  eventName: Exclude<string, SpecialEventName>;
   properties?: PredefinedEventProperties;
 }
 

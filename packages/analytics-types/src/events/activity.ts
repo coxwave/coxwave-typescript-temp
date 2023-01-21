@@ -6,7 +6,7 @@ export const SpecialActivityPropertyKey = [] as const;
 export interface ActivityProperties extends Record<string, any> {}
 
 export interface ActivityEvent extends BaseEvent, ActivityProperties {
-  event_name: Exclude<string, SpecialEventName>;
+  eventName: Exclude<string, SpecialEventName>;
   properties?: PredefinedEventProperties;
 }
 

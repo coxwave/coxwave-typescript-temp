@@ -17,7 +17,7 @@ describe('timeline', () => {
     const beforeSetup = jest.fn().mockReturnValue(Promise.resolve());
     const beforeExecute = jest.fn().mockImplementation((event: Event) => {
       const newEvent = { ...event };
-      newEvent.properties = { ...newEvent.properties, session_id: 1 };
+      newEvent.properties = { ...newEvent.properties, sessionId: 1 };
 
       return Promise.resolve(newEvent);
     });
@@ -31,7 +31,7 @@ describe('timeline', () => {
     const enrichmentSetup = jest.fn().mockReturnValue(Promise.resolve());
     const enrichmentExecute = jest.fn().mockImplementation((event: Event) => {
       const newEvent = { ...event };
-      newEvent.properties = { ...newEvent.properties, thread_id: '2' };
+      newEvent.properties = { ...newEvent.properties, threadId: '2' };
 
       return Promise.resolve(newEvent);
     });
@@ -48,14 +48,14 @@ describe('timeline', () => {
       .fn()
       // error once
       .mockImplementationOnce((event: Event) => {
-        expect(event.properties?.session_id).toBe(1);
-        expect(event.properties?.thread_id).toBe('2');
+        expect(event.properties?.sessionId).toBe(1);
+        expect(event.properties?.threadId).toBe('2');
         return Promise.reject({});
       })
       // success for the rest
       .mockImplementation((event: Event) => {
-        expect(event.properties?.session_id).toBe(1);
-        expect(event.properties?.thread_id).toBe('2');
+        expect(event.properties?.sessionId).toBe(1);
+        expect(event.properties?.threadId).toBe('2');
         return Promise.resolve();
       });
     const destination: Plugin = {
@@ -76,8 +76,8 @@ describe('timeline', () => {
     expect(timeline.plugins.length).toBe(3);
     const event = (id: number): Event => ({
       id: 'event_id',
-      event_type: '$track' as TAvailableEventType,
-      event_name: `${id}:event_type`,
+      eventType: '$track' as TAvailableEventType,
+      eventName: `${id}:eventType`,
     });
     await Promise.all([
       timeline.push(event(1)).then(() => timeline.push(event(1.1))),
@@ -106,8 +106,8 @@ describe('timeline', () => {
     test('should skip event processing when config is missing', async () => {
       const event = {
         id: 'tempid',
-        event_type: '$track' as TAvailableEventType,
-        event_name: 'hello',
+        eventType: '$track' as TAvailableEventType,
+        eventName: 'hello',
       };
       const result = timeline.push(event);
       expect(await promiseState(result)).toEqual('pending');

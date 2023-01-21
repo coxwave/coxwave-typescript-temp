@@ -15,10 +15,10 @@ export enum SpecialEventName {
   ALIAS = '$alias',
 }
 
-export interface BaseEvent {
+export interface BaseEvent extends Record<string, any> {
   id: string;
-  event_type: TAvailableEventType;
-  event_name: string;
+  eventType: TAvailableEventType;
+  eventName: string;
   properties?: PredefinedPropertyType;
 }
 
@@ -28,25 +28,25 @@ export interface CustomProperties {
 
 export interface PredefinedEventProperties {
   // default options
-  distinct_id?: string;
+  distinctId?: string;
   time?: number;
   library?: string;
-  session_id?: number;
-  thread_id?: string; // uuid only
+  sessionId?: number;
+  threadId?: string; // uuid only
   // user & device related options
-  user_id?: string;
-  device_id?: string;
-  app_version?: string;
-  version_name?: string;
+  userId?: string;
+  deviceId?: string;
+  appVersion?: string;
+  versionName?: string;
   platform?: string;
-  os_name?: string;
-  os_version?: string;
-  device_brand?: string;
-  device_manufacturer?: string;
-  device_model?: string;
+  osName?: string;
+  osVersion?: string;
+  deviceBrand?: string;
+  deviceManufacturer?: string;
+  deviceModel?: string;
   // location related options
-  location_lat?: number;
-  location_lng?: number;
+  locationLat?: number;
+  locationLng?: number;
   ip?: string;
   custom?: CustomProperties;
 }
