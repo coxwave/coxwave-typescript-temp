@@ -117,17 +117,12 @@ export abstract class _BaseDestination implements DestinationPlugin {
     await Promise.all(batches.map((batch) => this.send(batch, useRetry)));
   }
 
-  _createPayload(contexts: Context[]): Payload {
-    return {
-      events: contexts.map((context) => {
-        return context.event;
-      }),
-      options: {},
-    };
+  _createPayload(_contexts: Context[]): Payload {
+    throw new Error('Not implemented');
   }
 
-  _createEndpointUrl(serverUrl: string) {
-    return serverUrl;
+  _createEndpointUrl(_serverUrl: string): string {
+    throw new Error('Not implemented');
   }
 
   async send(list: Context[], useRetry = true) {
@@ -239,9 +234,9 @@ export abstract class _BaseDestination implements DestinationPlugin {
     const retry = list.filter((context, index) => {
       if (
         // TODO: user-id changed to distinct-id or alias
-        //(context.event.distinct_id && dropDistinctIdsSet.has(context.event.distinct_id)) ||
-        context.event.properties?.distinct_id &&
-        dropDeviceIdsSet.has(context.event.properties.distinct_id)
+        //(context.event.distinctId && dropDistinctIdsSet.has(context.event.distinctId)) ||
+        context.event.properties?.distinctId &&
+        dropDeviceIdsSet.has(context.event.properties.distinctId)
       ) {
         this.fulfillRequest([context], res.statusCode, res.body.error);
         return;

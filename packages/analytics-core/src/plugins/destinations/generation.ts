@@ -4,13 +4,15 @@ import { SERVER_GENERATIONS_PATH } from '../../constants';
 
 import { _BaseDestination } from './base-destination';
 
+import { syncServerSpec } from '../../utils/payload';
+
 export class GenerationDestination extends _BaseDestination {
   type = PluginType.DESTINATION_GENERATION as const;
 
   _createPayload(contexts: Context[]): Payload {
     return {
       generations: contexts.map((context) => {
-        return context.event as GenerationEvent;
+        return syncServerSpec(context.event) as GenerationEvent;
       }),
       options: {},
     };
