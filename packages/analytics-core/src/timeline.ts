@@ -82,9 +82,28 @@ export class Timeline {
       event = await plugin.execute({ ...event });
     }
 
-    const destination = this.plugins.filter<DestinationPlugin>(
-      (plugin: Plugin): plugin is DestinationPlugin => plugin.type === PluginType.DESTINATION,
-    );
+    switch (event.event_type) {
+      case '$track':
+        this._executeDestination(PluginType.DESTINATION_ACTIVITY, event, resolve);
+        break;
+      case '$log':
+        this._executeDestination(PluginType.DESTINATION_GENERATION, event, resolve);
+        break;
+      case '$feedback':
+        this._executeDestination(PluginType.DESTINATION_FEEDBACK, event, resolve);
+        break;
+      case '$identify':
+        this._executeDestination(PluginType.DESTINATION_IDENTIFY, event, resolve);
+        break;
+      default:
+        resolve(buildResult(event, 500, 'Event type not supported'));
+    }
+
+    return;
+  }
+
+  private _executeDestination<T extends DestinationPlugin>(pluginType: string, event: Event, resolve: EventCallback) {
+    const destination = this.plugins.filter<T>((plugin: Plugin): plugin is T => plugin.type === pluginType);
 
     const executeDestinations = destination.map((plugin) => {
       const eventClone = { ...event };
@@ -94,8 +113,6 @@ export class Timeline {
     void Promise.all(executeDestinations).then(([result]) => {
       resolve(result);
     });
-
-    return;
   }
 
   async flush() {
@@ -104,9 +121,14 @@ export class Timeline {
 
     await Promise.all(queue.map((item) => this.apply(item)));
 
-    const destination = this.plugins.filter<DestinationPlugin>(
-      (plugin: Plugin): plugin is DestinationPlugin => plugin.type === PluginType.DESTINATION,
-    );
+    await this._flushDestination(PluginType.DESTINATION_ACTIVITY);
+    await this._flushDestination(PluginType.DESTINATION_GENERATION);
+    await this._flushDestination(PluginType.DESTINATION_FEEDBACK);
+    await this._flushDestination(PluginType.DESTINATION_IDENTIFY);
+  }
+
+  private async _flushDestination<T extends DestinationPlugin>(pluginType: string) {
+    const destination = this.plugins.filter<T>((plugin: Plugin): plugin is T => plugin.type === pluginType);
 
     const executeDestinations = destination.map((plugin) => {
       return plugin.flush && plugin.flush();

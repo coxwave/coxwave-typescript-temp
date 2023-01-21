@@ -1,12 +1,14 @@
 import {
   CoxwaveCore,
-  Destination,
+  ActivityDestination,
   Identify,
   UUID,
   returnWrapper,
   debugWrapper,
   getClientLogConfig,
   getClientStates,
+  GenerationDestination,
+  FeedbackDestination,
 } from '@coxwave/analytics-core';
 import {
   BrowserClient,
@@ -45,7 +47,6 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
     if (!this.config.distinctId) {
       this.setDistinctId(UUID());
     }
-    await this.register(this.config.distinctId as string);
 
     // Step 3: Manage session
     if (
@@ -61,8 +62,11 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
     // Step 4: Install plugins
     // Do not track any events before this
     await this.add(new Context());
-    await this.add(new Destination());
+    await this.add(new ActivityDestination());
+    await this.add(new GenerationDestination());
+    await this.add(new FeedbackDestination());
 
+    // await this.register(this.config.distinctId as string);
     this.initializing = false;
 
     // Step 6: Run queued dispatch functions

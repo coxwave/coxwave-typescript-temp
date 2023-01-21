@@ -19,7 +19,7 @@ import {
 import { UUID } from './uuid';
 
 export const splitProperties = (
-  properties: CustomProperties = {},
+  properties: CustomProperties,
   specialKeys: readonly string[],
 ): Record<string, CustomProperties> => {
   const specialProperties: CustomProperties = {};
@@ -38,49 +38,61 @@ export const splitProperties = (
 
 export const createTrackEvent = (
   activityName: string,
-  activityProperties?: ActivityProperties,
-  predefinedProperties?: PredefinedEventProperties,
+  activityProperties: ActivityProperties = {},
+  predefinedProperties: PredefinedEventProperties = {},
 ): ActivityEvent => {
   const { specialProperties, customProperties } = splitProperties(activityProperties, SpecialActivityPropertyKey);
+
+  predefinedProperties.custom = predefinedProperties.custom
+    ? { ...predefinedProperties.custom, ...customProperties }
+    : customProperties;
 
   return {
     id: UUID(),
     event_type: '$track',
     event_name: activityName,
-    ...(specialProperties as ActivityProperties),
-    ...{ ...predefinedProperties, custom: customProperties },
+    ...specialProperties,
+    properties: predefinedProperties,
   };
 };
 
 export const createLogEvent = (
   generationName: string,
-  generationProperties?: GenerationProperties,
-  predefinedProperties?: PredefinedEventProperties,
+  generationProperties: GenerationProperties = {},
+  predefinedProperties: PredefinedEventProperties = {},
 ): Generation => {
   const { specialProperties, customProperties } = splitProperties(generationProperties, SpecialGenerationPropertyKey);
+
+  predefinedProperties.custom = predefinedProperties.custom
+    ? { ...predefinedProperties.custom, ...customProperties }
+    : customProperties;
 
   return {
     id: UUID(),
     event_type: '$log',
     event_name: generationName,
     ...specialProperties,
-    ...{ ...predefinedProperties, custom: customProperties },
+    properties: predefinedProperties,
   };
 };
 
 export const createFeedbackEvent = (
   feedbackName: string,
   feedbackProperties: FeedbackProperties,
-  predefinedProperties?: PredefinedEventProperties,
+  predefinedProperties: PredefinedEventProperties = {},
 ): Feedback => {
   const { specialProperties, customProperties } = splitProperties(feedbackProperties, SpecialFeedbackPropertyKey);
+
+  predefinedProperties.custom = predefinedProperties.custom
+    ? { ...predefinedProperties.custom, ...customProperties }
+    : customProperties;
 
   return {
     id: UUID(),
     event_type: '$feedback',
     event_name: feedbackName,
     ...(specialProperties as FeedbackProperties),
-    ...{ ...predefinedProperties, custom: customProperties },
+    properties: predefinedProperties,
   };
 };
 

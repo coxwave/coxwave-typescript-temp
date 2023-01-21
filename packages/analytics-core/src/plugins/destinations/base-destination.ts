@@ -4,6 +4,7 @@ import {
   DestinationPlugin,
   Event,
   InvalidResponse,
+  Payload,
   PayloadTooLargeResponse,
   PluginType,
   RateLimitResponse,
@@ -13,21 +14,21 @@ import {
   SuccessResponse,
 } from '@coxwave/analytics-types';
 
-import { createServerConfig } from '../config';
+import { createServerConfig } from '../../config';
 import {
   INVALID_PROJECT_TOKEN,
   MAX_RETRIES_EXCEEDED_MESSAGE,
   MISSING_PROJECT_TOKEN_MESSAGE,
   SUCCESS_MESSAGE,
   UNEXPECTED_ERROR_MESSAGE,
-} from '../messages';
-import { getStorageName } from '../storage/naming';
-import { chunk } from '../utils/chunk';
-import { buildResult } from '../utils/result-builder';
+} from '../../messages';
+import { getStorageName } from '../../storage/naming';
+import { chunk } from '../../utils/chunk';
+import { buildResult } from '../../utils/result-builder';
 
-export class Destination implements DestinationPlugin {
+export abstract class _BaseDestination implements DestinationPlugin {
   name = 'coxwave';
-  type = PluginType.DESTINATION as const;
+  type = PluginType.DESTINATION;
 
   retryTimeout = 1000;
   throttleTimeout = 30000;
@@ -116,21 +117,31 @@ export class Destination implements DestinationPlugin {
     await Promise.all(batches.map((batch) => this.send(batch, useRetry)));
   }
 
+  _createPayload(contexts: Context[]): Payload {
+    return {
+      events: contexts.map((context) => {
+        return context.event;
+      }),
+      options: {},
+    };
+  }
+
+  _createEndpointUrl(serverUrl: string) {
+    return serverUrl;
+  }
+
   async send(list: Context[], useRetry = true) {
     if (!this.config.projectToken) {
       return this.fulfillRequest(list, 400, MISSING_PROJECT_TOKEN_MESSAGE);
     }
     const projectToken = this.config.projectToken;
-    const payload = {
-      events: list.map((context) => {
-        return context.event;
-      }),
-      options: {},
-    };
+    const payload = this._createPayload(list);
 
     try {
       const { serverUrl } = createServerConfig(this.config.serverUrl, this.config.serverZone, this.config.useBatch);
-      const res = await this.config.transportProvider.send(serverUrl, payload, projectToken);
+      const endpointUrl = this._createEndpointUrl(serverUrl);
+
+      const res = await this.config.transportProvider.send(endpointUrl, payload, projectToken);
       if (res === null) {
         this.fulfillRequest(list, 0, UNEXPECTED_ERROR_MESSAGE);
         return;
