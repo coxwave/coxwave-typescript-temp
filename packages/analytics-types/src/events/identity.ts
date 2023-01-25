@@ -1,8 +1,16 @@
-import { BaseEvent, PredefinedIdentifyProperties, SpecialEventName, ValidPropertyType } from './base-event';
+import {
+  BaseEvent,
+  CustomProperties,
+  PredefinedIdentifyProperties,
+  SpecialEventName,
+  ValidPropertyType,
+} from './base-event';
+
+export const SpecialIdentifyPropertyKey = ['name', 'email', 'city', 'region', 'country', 'language', 'custom'] as const;
 
 export interface Identify {
-  getUserProperties(): IdentifyUserProperties;
-  set(property: string, value: ValidPropertyType): Identify;
+  getUserProperties(): CustomProperties; //IdentifyUserProperties;
+  set(property: Exclude<string, PredefinedIdentifyProperties>, value: ValidPropertyType): Identify;
 }
 
 // TODO: Only support for SET for now.
@@ -11,21 +19,23 @@ export enum IdentifyOperation {
   SET = '$set',
 }
 
-interface BaseOperationConfig {
-  [key: string]: ValidPropertyType;
-}
+// interface BaseOperationConfig {
+//   [key: string]: ValidPropertyType;
+// }
 
-export interface IdentifyUserProperties extends PredefinedIdentifyProperties {
-  [IdentifyOperation.SET]?: BaseOperationConfig;
-}
+// TODO: All other platforms use this schema
+// export interface IdentifyUserProperties extends PredefinedIdentifyProperties {
+//   [IdentifyOperation.SET]?: BaseOperationConfig;
+// }
 
 export interface IdentifyRegisterEvent extends BaseEvent {
   eventName: SpecialEventName.REGISTER;
   distinctId: string;
 }
 
-export interface IdentifyUserEvent extends BaseEvent, IdentifyUserProperties {
+export interface IdentifyUserEvent extends BaseEvent, PredefinedIdentifyProperties {
   eventName: SpecialEventName.IDENTIFY;
+  alias: string;
 }
 
 export interface IdentifyAliasEvent extends BaseEvent {

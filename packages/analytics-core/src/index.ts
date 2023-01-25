@@ -5,6 +5,7 @@ export {
   ActivityDestination,
   GenerationDestination,
   FeedbackDestination,
+  IdentifyDestination,
 } from './plugins/destinations';
 export { Config } from './config';
 export { Logger } from './logger';

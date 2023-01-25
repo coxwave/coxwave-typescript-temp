@@ -1,4 +1,4 @@
-import { Activity, Event, Feedback, Generation } from './events';
+import { Activity, Event, Feedback, Generation, ValidPropertyType } from './events';
 
 export interface PayloadOptions {
   [key: string]: any;
@@ -24,4 +24,16 @@ export interface FeedbackPayload {
   options?: PayloadOptions;
 }
 
-export type Payload = GeneralPayload | ActivityPayload | GenerationPayload | FeedbackPayload;
+export interface IdentifyPayload {
+  alias?: string;
+  distinctId?: string;
+  name?: string;
+  email?: string;
+  city?: string;
+  region?: string;
+  country?: string;
+  language?: string;
+  custom?: ValidPropertyType;
+}
+
+export type Payload = GeneralPayload | ActivityPayload | GenerationPayload | FeedbackPayload | IdentifyPayload;

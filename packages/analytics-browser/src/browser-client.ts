@@ -9,6 +9,7 @@ import {
   getClientStates,
   GenerationDestination,
   FeedbackDestination,
+  IdentifyDestination,
 } from '@coxwave/analytics-core';
 import {
   BrowserClient,
@@ -42,11 +43,12 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
 
     // Step 2: BrowserConfig setups
     await super._init(browserOptions);
-
-    // Step 3: Register distinctId to Server
     if (!this.config.distinctId) {
-      this.setDistinctId(UUID());
+      throw new Error('DistinctId is not set');
     }
+
+    // Step 3: Notify my DistinctId to server
+    await this.register(this.config.distinctId);
 
     // Step 3: Manage session
     if (
@@ -65,6 +67,7 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
     await this.add(new ActivityDestination());
     await this.add(new GenerationDestination());
     await this.add(new FeedbackDestination());
+    await this.add(new IdentifyDestination());
 
     // await this.register(this.config.distinctId as string);
     this.initializing = false;
@@ -144,7 +147,7 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
     return super.register(distinctId);
   }
 
-  identify(identify: IIdentify, predefinedProperties?: PredefinedEventProperties): Promise<Result> {
+  identify(alias: string, identify: IIdentify, predefinedProperties?: PredefinedEventProperties): Promise<Result> {
     // TODO: identify should update distinctId
 
     if (isInstanceProxy(identify)) {
@@ -154,14 +157,13 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
     }
 
     // TODO: is it okay to overwrite distinctId?
-    if (predefinedProperties?.distinctId) {
-      this.setDistinctId(predefinedProperties.distinctId);
-    }
+    // if (predefinedProperties?.distinctId) {
+    //   this.setDistinctId(predefinedProperties.distinctId);
+    // }
     if (predefinedProperties?.deviceId) {
       this.setDeviceId(predefinedProperties.deviceId);
     }
-
-    return super.identify(identify, predefinedProperties);
+    return super.identify(alias, identify, predefinedProperties);
   }
 
   alias(alias: string) {

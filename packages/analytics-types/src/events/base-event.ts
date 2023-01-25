@@ -52,7 +52,6 @@ export interface PredefinedEventProperties {
 }
 
 export interface PredefinedIdentifyProperties extends PredefinedEventProperties {
-  alias?: string;
   name?: string;
   email?: string;
   city?: string;
