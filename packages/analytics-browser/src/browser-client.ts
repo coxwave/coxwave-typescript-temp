@@ -47,9 +47,6 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
       throw new Error('DistinctId is not set');
     }
 
-    // Step 3: Notify my DistinctId to server
-    await this.register(this.config.distinctId);
-
     // Step 3: Manage session
     if (
       !this.config.sessionId ||
@@ -69,6 +66,9 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
     await this.add(new FeedbackDestination());
     await this.add(new IdentifyDestination());
 
+    // Step 3: Notify my DistinctId to server
+    void this.register();
+
     // await this.register(this.config.distinctId as string);
     this.initializing = false;
 
@@ -80,7 +80,7 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
     return this.config?.distinctId;
   }
 
-  setDistinctId(distinctId: string | undefined) {
+  setDistinctId(distinctId: string) {
     if (!this.config) {
       this.q.push(this.setDistinctId.bind(this, distinctId));
       return;
@@ -143,7 +143,11 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
     this.config.transportProvider = createTransport(transport);
   }
 
-  register(distinctId: string) {
+  register() {
+    if (!this.config) {
+      this.q.push(this.register.bind(this));
+    }
+    const distinctId = this.getDistinctId() as string;
     return super.register(distinctId);
   }
 
@@ -163,21 +167,25 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
     if (predefinedProperties?.deviceId) {
       this.setDeviceId(predefinedProperties.deviceId);
     }
-    return super.identify(alias, identify, predefinedProperties);
+
+    const updateDistinctIdCallback = (result: Result) => {
+      const newId = result?.body?.distinctId;
+      if (newId) this.setDistinctId(newId as string);
+      return result;
+    };
+
+    return super.identify(alias, identify, predefinedProperties).then((result: Result) => {
+      return updateDistinctIdCallback(result);
+    });
   }
 
   alias(alias: string) {
     // TODO: consider alias need to be queued
-    // if (!this.config) {
-    //   this.q.push(this.alias.bind(this, alias));
-    //   return;
-    // }
-    const distinctId = this.getDistinctId();
-    if (!distinctId) {
-      // TODO: is it okay to just raise error?
-      return Promise.reject(new Error('DistinctId is not set'));
+    if (!this.config) {
+      this.q.push(this.alias.bind(this, alias));
     }
 
+    const distinctId = this.getDistinctId() as string;
     return super.alias(alias, distinctId);
   }
 }

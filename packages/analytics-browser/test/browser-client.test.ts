@@ -2,19 +2,13 @@ import { FetchTransport } from '@coxwave/analytics-client-common';
 import * as core from '@coxwave/analytics-core';
 import { Status, TransportType, UserSession } from '@coxwave/analytics-types';
 
+import { PROJECT_TOKEN, DEVICE_ID, trackingConfig } from './helpers/default';
+
 import { CoxwaveBrowser } from '../src/browser-client';
 import * as Config from '../src/config';
 import * as SnippetHelper from '../src/utils/snippet-helper';
 
 describe('browser-client', () => {
-  const PROJECT_TOKEN = 'PROJECT_TOKEN';
-  const DEVICE_ID = 'DEVICE_ID';
-  const trackingConfig = {
-    trackingOptions: {
-      platform: false,
-    },
-  };
-
   afterEach(() => {
     // clean up cookies
     document.cookie = 'COX_PROJECT_TOKEN=null; expires=-1';
@@ -28,7 +22,11 @@ describe('browser-client', () => {
         deviceId: DEVICE_ID,
         optOut: false,
       });
+
+      const register = jest.fn();
       const client = new CoxwaveBrowser();
+      client.register = register;
+
       await client.init(PROJECT_TOKEN, {
         optOut: true,
         cookieStorage,
@@ -40,7 +38,11 @@ describe('browser-client', () => {
 
     test('should call prevent concurrent init executions', async () => {
       const useBrowserConfig = jest.spyOn(Config, 'useBrowserConfig');
+
+      const register = jest.fn();
       const client = new CoxwaveBrowser();
+      client.register = register;
+
       await Promise.all([
         client.init(PROJECT_TOKEN, {
           ...trackingConfig,
@@ -55,11 +57,27 @@ describe('browser-client', () => {
       // NOTE: `parseOldCookies` and `useBrowserConfig` are only called once despite multiple init calls
       expect(useBrowserConfig).toHaveBeenCalledTimes(1);
     });
+
+    test('should call register while init executions', async () => {
+      const register = jest.fn();
+      const client = new CoxwaveBrowser();
+      client.register = register;
+
+      await client.init(PROJECT_TOKEN, {
+        ...trackingConfig,
+      });
+
+      // NOTE: `parseOldCookies` and `useBrowserConfig` are only called once despite multiple init calls
+      expect(register).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('getDeviceId', () => {
     test('should get device id', async () => {
+      const register = jest.fn();
       const client = new CoxwaveBrowser();
+      client.register = register;
+
       await client.init(PROJECT_TOKEN, {
         deviceId: DEVICE_ID,
         ...trackingConfig,
@@ -68,14 +86,20 @@ describe('browser-client', () => {
     });
 
     test('should handle undefined config', async () => {
+      const register = jest.fn();
       const client = new CoxwaveBrowser();
+      client.register = register;
+
       expect(client.getDeviceId()).toBe(undefined);
     });
   });
 
   describe('setDeviceId', () => {
     test('should set device id config', async () => {
+      const register = jest.fn();
       const client = new CoxwaveBrowser();
+      client.register = register;
+
       await client.init(PROJECT_TOKEN, {
         ...trackingConfig,
       });
@@ -85,7 +109,10 @@ describe('browser-client', () => {
 
     test('should defer set device id', () => {
       return new Promise<void>((resolve) => {
+        const register = jest.fn();
         const client = new CoxwaveBrowser();
+        client.register = register;
+
         void client
           .init(PROJECT_TOKEN, {
             ...trackingConfig,
@@ -101,7 +128,10 @@ describe('browser-client', () => {
 
   describe('reset', () => {
     test('should reset user id and generate new device id config', async () => {
+      const register = jest.fn();
       const client = new CoxwaveBrowser();
+      client.register = register;
+
       await client.init(PROJECT_TOKEN);
       client.setDeviceId(DEVICE_ID);
       expect(client.getDeviceId()).toBe(DEVICE_ID);
@@ -112,7 +142,10 @@ describe('browser-client', () => {
 
   describe('getSessionId', () => {
     test('should get session id', async () => {
+      const register = jest.fn();
       const client = new CoxwaveBrowser();
+      client.register = register;
+
       await client.init(PROJECT_TOKEN, {
         sessionId: 1,
         ...trackingConfig,
@@ -121,14 +154,20 @@ describe('browser-client', () => {
     });
 
     test('should handle undefined config', async () => {
+      const register = jest.fn();
       const client = new CoxwaveBrowser();
+      client.register = register;
+
       expect(client.getSessionId()).toBe(undefined);
     });
   });
 
   describe('setSessionId', () => {
     test('should set session id', async () => {
+      const register = jest.fn();
       const client = new CoxwaveBrowser();
+      client.register = register;
+
       await client.init(PROJECT_TOKEN, {
         ...trackingConfig,
       });
@@ -138,7 +177,10 @@ describe('browser-client', () => {
 
     test('should defer set session id', () => {
       return new Promise<void>((resolve) => {
+        const register = jest.fn();
         const client = new CoxwaveBrowser();
+        client.register = register;
+
         void client
           .init(PROJECT_TOKEN, {
             ...trackingConfig,
@@ -155,8 +197,12 @@ describe('browser-client', () => {
   describe('setTransport', () => {
     test('should set transport', async () => {
       const fetch = new FetchTransport();
-      const createTransport = jest.spyOn(Config, 'createTransport').mockReturnValueOnce(fetch);
+      const createTransport = jest.spyOn(Config, 'createTransport').mockReturnValue(fetch);
+
+      const register = jest.fn();
       const client = new CoxwaveBrowser();
+      client.register = register;
+
       await client.init(PROJECT_TOKEN, {
         ...trackingConfig,
       });
@@ -167,8 +213,12 @@ describe('browser-client', () => {
     test('should defer set transport', () => {
       return new Promise<void>((resolve) => {
         const fetch = new FetchTransport();
-        const createTransport = jest.spyOn(Config, 'createTransport').mockReturnValueOnce(fetch);
+        const createTransport = jest.spyOn(Config, 'createTransport').mockReturnValue(fetch);
+
+        const register = jest.fn();
         const client = new CoxwaveBrowser();
+        client.register = register;
+
         void client
           .init(PROJECT_TOKEN, {
             ...trackingConfig,
@@ -184,7 +234,7 @@ describe('browser-client', () => {
 
   describe('identify', () => {
     test('should track identify', async () => {
-      const send = jest.fn().mockReturnValueOnce({
+      const send = jest.fn().mockReturnValue({
         status: Status.Success,
         statusCode: 200,
         body: {
@@ -193,21 +243,52 @@ describe('browser-client', () => {
           serverUploadTime: 1,
         },
       });
+
+      const register = jest.fn();
       const client = new CoxwaveBrowser();
+      client.register = register;
+
       await client.init(PROJECT_TOKEN, {
         transportProvider: {
           send,
         },
-        ...trackingConfig,
       });
       const identifyObject = new core.Identify();
-      const result = await client.identify(identifyObject, { deviceId: '123' });
+      const result = await client.identify('my-alias', identifyObject, { userId: '123', deviceId: '123' });
       expect(result.code).toEqual(200);
       expect(send).toHaveBeenCalledTimes(1);
     });
 
+    test('should update distinctId', async () => {
+      const send = jest.fn().mockReturnValue({
+        status: Status.Success,
+        statusCode: 200,
+        body: {
+          eventsIngested: 1,
+          payloadSizeBytes: 1,
+          serverUploadTime: 1,
+          distinctId: 'new-distinct-id',
+        },
+      });
+
+      const register = jest.fn();
+      const client = new CoxwaveBrowser();
+      client.register = register;
+
+      await client.init(PROJECT_TOKEN, {
+        transportProvider: {
+          send,
+        },
+      });
+      const identifyObject = new core.Identify();
+      const result = await client.identify('my-alias', identifyObject, { userId: '123', deviceId: '123' });
+      expect(result.code).toEqual(200);
+      expect(send).toHaveBeenCalledTimes(1);
+      expect(client.getDistinctId()).toEqual('new-distinct-id');
+    });
+
     test('should track identify using proxy', async () => {
-      const send = jest.fn().mockReturnValueOnce({
+      const send = jest.fn().mockReturnValue({
         status: Status.Success,
         statusCode: 200,
         body: {
@@ -219,7 +300,11 @@ describe('browser-client', () => {
       const convertProxyObjectToRealObject = jest
         .spyOn(SnippetHelper, 'convertProxyObjectToRealObject')
         .mockReturnValueOnce(new core.Identify());
+
+      const register = jest.fn();
       const client = new CoxwaveBrowser();
+      client.register = register;
+
       await client.init(PROJECT_TOKEN, {
         transportProvider: {
           send,
@@ -231,10 +316,35 @@ describe('browser-client', () => {
       };
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore to verify behavior in snippet installation
-      const result = await client.identify(identifyObject);
+      const result = await client.identify('my-alias', identifyObject);
       expect(result.code).toEqual(200);
       expect(send).toHaveBeenCalledTimes(1);
       expect(convertProxyObjectToRealObject).toHaveBeenCalledTimes(1);
     });
+  });
+
+  test('should track alias', async () => {
+    const send = jest.fn().mockReturnValue({
+      status: Status.Success,
+      statusCode: 200,
+      body: {
+        eventsIngested: 1,
+        payloadSizeBytes: 1,
+        serverUploadTime: 1,
+      },
+    });
+
+    const register = jest.fn();
+    const client = new CoxwaveBrowser();
+    client.register = register;
+
+    await client.init(PROJECT_TOKEN, {
+      transportProvider: {
+        send,
+      },
+    });
+    const result = await client.alias('my-alias');
+    expect(result.code).toEqual(200);
+    expect(send).toHaveBeenCalledTimes(1);
   });
 });

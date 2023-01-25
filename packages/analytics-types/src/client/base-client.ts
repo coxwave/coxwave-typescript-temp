@@ -175,7 +175,7 @@ export interface BaseClient {
    * console.log(result.message); // "Event tracked successfully"
    * ```
    */
-  alias(alias: string, distinctId: string): CoxwaveReturn<Result>;
+  alias(alias: string, distinctId?: string): CoxwaveReturn<Result>;
 
   /**
    * Sets a new optOut config value. This toggles event tracking on/off.

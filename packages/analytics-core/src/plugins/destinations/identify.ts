@@ -1,15 +1,15 @@
 import { DestinationContext as Context, IdentifyEvent, Payload, PluginType, Result } from '@coxwave/analytics-types';
-import { syncIdentifyServerSpec } from 'src/utils/payload';
 
 import { _BaseDestination } from './base-destination';
 
 import { createServerConfig } from '../../config';
-import { SERVER_GENERATIONS_PATH } from '../../constants';
+import {
+  SERVER_IDENTIFY_REGISTER_PATH,
+  SERVER_IDENTIFY_IDENTIFY_PATH,
+  SERVER_IDENTIFY_ALIAS_PATH,
+} from '../../constants';
 import { MISSING_PROJECT_TOKEN_MESSAGE, UNEXPECTED_ERROR_MESSAGE } from '../../messages';
-
-export const SERVER_IDENTIFY_REGISTER_PATH = '/user-identities/init';
-export const SERVER_IDENTIFY_IDENTIFY_PATH = '/user-identities/identify';
-export const SERVER_IDENTIFY_ALIAS_PATH = '/user-identities/alias';
+import { syncIdentifyServerSpec } from '../../utils/payload';
 
 export class IdentifyDestination extends _BaseDestination {
   type = PluginType.DESTINATION_IDENTIFY as const;
@@ -31,8 +31,16 @@ export class IdentifyDestination extends _BaseDestination {
     return syncIdentifyServerSpec(event as IdentifyEvent);
   }
 
-  _createEndpointUrl(serverUrl: string) {
-    return serverUrl + SERVER_GENERATIONS_PATH;
+  _createEndpointUrl(serverUrl: string, forUse: string): string {
+    switch (forUse) {
+      case '$register':
+        return serverUrl + SERVER_IDENTIFY_REGISTER_PATH;
+      case '$identify':
+        return serverUrl + SERVER_IDENTIFY_IDENTIFY_PATH;
+      case '$alias':
+        return serverUrl + SERVER_IDENTIFY_ALIAS_PATH;
+    }
+    throw new Error(`Unknown event name: ${forUse}`);
   }
 
   async sendIdentify(event: Context, useRetry = true) {
@@ -44,7 +52,7 @@ export class IdentifyDestination extends _BaseDestination {
 
     try {
       const { serverUrl } = createServerConfig(this.config.serverUrl, this.config.serverZone, this.config.useBatch);
-      const endpointUrl = this._createEndpointUrl(serverUrl);
+      const endpointUrl = this._createEndpointUrl(serverUrl, event.event.eventName);
 
       const res = await this.config.transportProvider.send(endpointUrl, payload, projectToken);
       if (res === null) {

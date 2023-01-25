@@ -117,11 +117,11 @@ export abstract class _BaseDestination implements DestinationPlugin {
     await Promise.all(batches.map((batch) => this.send(batch, useRetry)));
   }
 
-  _createPayload(_contexts: Context[]): Payload {
+  _createPayload(_contexts: Context[], _forUse?: string): Payload {
     throw new Error('Not implemented');
   }
 
-  _createEndpointUrl(_serverUrl: string): string {
+  _createEndpointUrl(_serverUrl: string, _forUse?: string): string {
     throw new Error('Not implemented');
   }
 
@@ -186,7 +186,7 @@ export abstract class _BaseDestination implements DestinationPlugin {
   }
 
   handleSuccessResponse(res: SuccessResponse, list: Context[]) {
-    this.fulfillRequest(list, res.statusCode, SUCCESS_MESSAGE);
+    this.fulfillRequest(list, res.statusCode, SUCCESS_MESSAGE, res.body);
   }
 
   handleInvalidResponse(res: InvalidResponse, list: Context[]) {
@@ -259,9 +259,9 @@ export abstract class _BaseDestination implements DestinationPlugin {
     );
   }
 
-  fulfillRequest(list: Context[], code: number, message: string) {
+  fulfillRequest(list: Context[], code: number, message: string, body: Record<string, any> = {}) {
     this.saveEvents();
-    list.forEach((context) => context.callback(buildResult(context.event, code, message)));
+    list.forEach((context) => context.callback(buildResult(context.event, code, message, body)));
   }
 
   /**

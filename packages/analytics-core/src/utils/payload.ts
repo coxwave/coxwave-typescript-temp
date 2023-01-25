@@ -12,6 +12,6 @@ export const syncServerSpec = (event: Event): Event => {
 };
 
 export const syncIdentifyServerSpec = (event: IdentifyEvent): IdentifyEvent => {
-  //const { eventName, ...eventWithoutName } = event;
-  return event;
+  const { properties, ...eventWithoutProperties } = event;
+  return eventWithoutProperties;
 };
