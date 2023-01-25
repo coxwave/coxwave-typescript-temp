@@ -1,4 +1,4 @@
-import { DestinationContext as Context, Payload, GenerationEvent, PluginType } from '@coxwave/analytics-types';
+import { DestinationContext as Context, GenerationPayload, GenerationEvent } from '@coxwave/analytics-types';
 
 import { SERVER_GENERATIONS_PATH } from '../../constants';
 
@@ -7,9 +7,7 @@ import { _BaseDestination } from './base-destination';
 import { syncServerSpec } from '../../utils/payload';
 
 export class GenerationDestination extends _BaseDestination {
-  type = PluginType.DESTINATION_GENERATION as const;
-
-  _createPayload(contexts: Context[]): Payload {
+  _createPayload(contexts: Context[]): GenerationPayload {
     return {
       generations: contexts.map((context) => {
         return syncServerSpec(context.event) as GenerationEvent;

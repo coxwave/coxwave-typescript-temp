@@ -1,7 +1,6 @@
 import UAParser from '@amplitude/ua-parser-js';
 import { getLanguage } from '@coxwave/analytics-client-common';
-import { BeforePlugin, BrowserConfig, Event, PluginType } from '@coxwave/analytics-types';
-import { PredefinedPropertyType } from '@coxwave/analytics-types/lib/esm/events/base-event';
+import { PredefinedEventProperties, BeforePlugin, BrowserConfig, Event, PluginType } from '@coxwave/analytics-types';
 
 import { VERSION } from '../version';
 
@@ -10,7 +9,7 @@ const IP_ADDRESS = '$remote';
 
 export class Context implements BeforePlugin {
   name = 'context';
-  type = PluginType.BEFORE as const;
+  type = PluginType.BEFORE;
 
   // this.config is defined in setup() which will always be called first
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -50,7 +49,7 @@ export class Context implements BeforePlugin {
     const deviceModel = this.uaResult.device.model || this.uaResult.os.name;
     const deviceVendor = this.uaResult.device.vendor;
 
-    const properties: PredefinedPropertyType = {
+    const properties: PredefinedEventProperties = {
       distinctId: this.config.distinctId,
       deviceId: this.config.deviceId,
       sessionId: this.config.sessionId,

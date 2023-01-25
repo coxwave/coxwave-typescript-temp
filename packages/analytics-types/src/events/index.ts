@@ -1,36 +1,39 @@
-export { Activity, ActivityEvent, SpecialActivityPropertyKey, ActivityProperties } from './activity';
+export { SpecialActivityPropertyKey, TSpecialActivityPropertyKey, ActivityProperties, ActivityEvent } from './activity';
 export {
-  BaseEvent,
-  CustomProperties,
-  PredefinedEventProperties,
-  PredefinedIdentifyProperties,
-  PredefinedPropertyType,
   AvailableEventType,
   TAvailableEventType,
   SpecialEventName,
+  TSpecialEventName,
+  BaseEvent,
+  PredefinedEventProperties,
+  PredefinedIdentifyProperties,
   ValidPropertyType,
 } from './base-event';
-export { Feedback, FeedbackEvent, SpecialFeedbackPropertyKey, FeedbackProperties } from './feedback';
+export { SpecialFeedbackPropertyKey, TSpecialFeedbackPropertyKey, FeedbackProperties, FeedbackEvent } from './feedback';
 export {
-  Generation,
-  GenerationEvent,
-  GenerationIOEntity,
+  LoggableGenerationMedia,
+  TLoggableGenerationMedia,
   SpecialGenerationPropertyKey,
+  TSpecialGenerationPropertyKey,
+  GenerationIOEntity,
   GenerationProperties,
+  GenerationEvent,
 } from './generation';
 export {
   SpecialIdentifyPropertyKey,
-  IdentifyEvent,
+  TSpecialIdentifyPropertyKey,
+  IdentifyUserProperties,
+  Identify,
+  IdentifyOperation,
   IdentifyRegisterEvent,
   IdentifyUserEvent,
   IdentifyAliasEvent,
-  IdentifyOperation,
-  Identify,
 } from './identity';
 
-import { Activity } from './activity';
-import { Feedback } from './feedback';
-import { Generation } from './generation';
-import { IdentifyEvent } from './identity';
+import { ActivityEvent } from './activity';
+import { FeedbackEvent } from './feedback';
+import { GenerationEvent } from './generation';
+import { IdentifyRegisterEvent, IdentifyUserEvent, IdentifyAliasEvent } from './identity';
 
-export type Event = Activity | Feedback | Generation | IdentifyEvent;
+export type Event = ActivityEvent | FeedbackEvent | GenerationEvent | IdentifyEvent;
+export type IdentifyEvent = IdentifyRegisterEvent | IdentifyUserEvent | IdentifyAliasEvent;

@@ -1,4 +1,5 @@
 import {
+  AvailableEventType,
   BeforePlugin,
   Config,
   DestinationPlugin,
@@ -83,16 +84,16 @@ export class Timeline {
     }
 
     switch (event.eventType) {
-      case '$track':
+      case AvailableEventType.TRACK:
         this._executeDestination(PluginType.DESTINATION_ACTIVITY, event, resolve);
         break;
-      case '$log':
+      case AvailableEventType.LOG:
         this._executeDestination(PluginType.DESTINATION_GENERATION, event, resolve);
         break;
-      case '$feedback':
+      case AvailableEventType.FEEDBACK:
         this._executeDestination(PluginType.DESTINATION_FEEDBACK, event, resolve);
         break;
-      case '$identify':
+      case AvailableEventType.IDENTIFY:
         this._executeDestination(PluginType.DESTINATION_IDENTIFY, event, resolve);
         break;
       default:

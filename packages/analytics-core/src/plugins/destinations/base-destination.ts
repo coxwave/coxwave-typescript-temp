@@ -26,7 +26,7 @@ import { getStorageName } from '../../storage/naming';
 import { chunk } from '../../utils/chunk';
 import { buildResult } from '../../utils/result-builder';
 
-export abstract class _BaseDestination implements DestinationPlugin {
+export class _BaseDestination implements DestinationPlugin {
   name = 'coxwave';
   type = PluginType.DESTINATION;
 
