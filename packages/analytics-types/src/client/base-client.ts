@@ -155,7 +155,11 @@ export interface BaseClient {
    * console.log(result.message); // "Event tracked successfully"
    * ```
    */
-  identify(identify: Identify, predefinedProperties?: PredefinedIdentifyProperties): CoxwaveReturn<Result>;
+  identify(
+    alias: string,
+    identify: Identify,
+    predefinedProperties?: PredefinedIdentifyProperties,
+  ): CoxwaveReturn<Result>;
 
   /**
    * TODO: change docs here
@@ -171,7 +175,7 @@ export interface BaseClient {
    * console.log(result.message); // "Event tracked successfully"
    * ```
    */
-  alias(alias: string, distinctId: string): CoxwaveReturn<Result>;
+  alias(alias: string, distinctId?: string): CoxwaveReturn<Result>;
 
   /**
    * Sets a new optOut config value. This toggles event tracking on/off.

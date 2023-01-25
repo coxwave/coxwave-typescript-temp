@@ -1,4 +1,4 @@
-import { Event } from '@coxwave/analytics-types';
+import { Event, IdentifyEvent } from '@coxwave/analytics-types';
 
 export const syncServerSpec = (event: Event): Event => {
   const syncedEvent = {
@@ -9,4 +9,9 @@ export const syncServerSpec = (event: Event): Event => {
     time: event.properties?.time || new Date().getTime(),
   };
   return syncedEvent;
+};
+
+export const syncIdentifyServerSpec = (event: IdentifyEvent): IdentifyEvent => {
+  const { properties, ...eventWithoutProperties } = event;
+  return eventWithoutProperties;
 };

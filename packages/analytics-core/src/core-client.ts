@@ -87,8 +87,8 @@ export class CoxwaveCore<T extends Config> implements CoreClient<T> {
     return this.dispatch(event);
   }
 
-  identify(identify: Identify, predefinedProperties?: PredefinedIdentifyProperties) {
-    const event = createIdentifyEvent(identify, predefinedProperties);
+  identify(alias: string, identify: Identify, predefinedProperties?: PredefinedIdentifyProperties) {
+    const event = createIdentifyEvent(alias, identify, predefinedProperties);
     return this.dispatch(event);
   }
 

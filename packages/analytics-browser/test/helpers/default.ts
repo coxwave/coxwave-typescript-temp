@@ -8,8 +8,13 @@ export const useDefaultConfig = (overrides?: Partial<InitOptions<BrowserConfig>>
   new BrowserConfig(PROJECT_TOKEN, { ...DEFAULT_OPTIONS, ...overrides });
 
 export const PROJECT_TOKEN = 'projectToken';
-
 export const USER_ID = 'userId';
+export const DEVICE_ID = 'DEVICE_ID';
+export const trackingConfig = {
+  trackingOptions: {
+    platform: false,
+  },
+};
 
 const cookieStorage = new MemoryStorage<UserSession>();
 

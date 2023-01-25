@@ -19,12 +19,12 @@ export {
   GenerationProperties,
 } from './generation';
 export {
+  SpecialIdentifyPropertyKey,
   IdentifyEvent,
   IdentifyRegisterEvent,
   IdentifyUserEvent,
   IdentifyAliasEvent,
   IdentifyOperation,
-  IdentifyUserProperties,
   Identify,
 } from './identity';
 

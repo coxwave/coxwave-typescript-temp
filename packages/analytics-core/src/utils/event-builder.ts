@@ -11,6 +11,7 @@ import {
   SpecialActivityPropertyKey,
   SpecialGenerationPropertyKey,
   SpecialFeedbackPropertyKey,
+  SpecialIdentifyPropertyKey,
   ActivityProperties,
   GenerationProperties,
   FeedbackProperties,
@@ -108,15 +109,22 @@ export const createRegisterEvent = (distinctId: string): IdentifyEvent => {
 };
 
 export const createIdentifyEvent = (
+  alias: string,
   identify: IIdentify,
   predefinedProperties?: PredefinedIdentifyProperties,
 ): IdentifyEvent => {
+  const identifyProperties = identify.getUserProperties();
+  const { specialProperties, customProperties } = splitProperties(identifyProperties, SpecialIdentifyPropertyKey);
+
   const IdentifyEvent: IdentifyEvent = {
     id: UUID(),
     eventType: '$identify',
     eventName: SpecialEventName.IDENTIFY,
-    properties: identify.getUserProperties(),
+    alias: alias,
+    // TODO: check this is okay
+    ...specialProperties,
     ...predefinedProperties,
+    custom: customProperties,
   };
 
   return IdentifyEvent;

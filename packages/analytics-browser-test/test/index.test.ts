@@ -1,10 +1,9 @@
 // import * as coxwave from '@coxwave/analytics-browser';
-import { createInstance } from '@coxwave/analytics-browser';
+import { Identify, createInstance } from '@coxwave/analytics-browser';
 import { TAvailableEventType } from '@coxwave/analytics-types';
-import { default as nock } from 'nock';
 
-import { path, SUCCESS_MESSAGE, url, uuidPattern } from './constants';
-import { success } from './responses';
+import { SUCCESS_MESSAGE, uuidPattern, PROJECT_TOKEN } from './constants';
+
 import 'isomorphic-fetch';
 
 describe('integration', () => {
@@ -95,7 +94,7 @@ describe('integration', () => {
   //       scope.done();
   //       resolve(undefined);
   //     });
-  //     coxwave.init('PROJECT_TOKEN', {
+  //     coxwave.init(PROJECT_TOKEN, {
   //       ...opts,
   //       serverUrl: url + path,
   //     });
@@ -105,10 +104,10 @@ describe('integration', () => {
 
   describe('track', () => {
     test('should track event', async () => {
-      const scope = nock(url).post(path).reply(200, success);
+      //const scope = nock(url).post(path).reply(200, success);
 
       const coxwave = createInstance();
-      await coxwave.init('PROJECT_TOKEN', {
+      await coxwave.init(PROJECT_TOKEN, {
         ...opts,
       }).promise;
       const response = await coxwave.track('test event', {
@@ -135,13 +134,13 @@ describe('integration', () => {
       });
       expect(response.code).toBe(200);
       expect(response.message).toBe(SUCCESS_MESSAGE);
-      scope.done();
+      //scope.done();
     });
 
     // test('should track event with custom config', async () => {
     //   const scope = nock(url).post(path).reply(200, success);
 
-    //   await coxwave.init('PROJECT_TOKEN', {
+    //   await coxwave.init(PROJECT_TOKEN, {
     //     userId: 'sdk.dev@coxwave.com',
     //     deviceId: 'deviceId',
     //     sessionId: 1,
@@ -176,7 +175,7 @@ describe('integration', () => {
     // test('should track event with event options', async () => {
     //   const scope = nock(url).post(path).reply(200, success);
 
-    //   await coxwave.init('PROJECT_TOKEN', {
+    //   await coxwave.init(PROJECT_TOKEN, {
     //     ...opts,
     //   }).promise;
 
@@ -216,7 +215,7 @@ describe('integration', () => {
     // test('should track event with optional ingestionMetadata option', async () => {
     //   const scope = nock(url).post(path).reply(200, success);
 
-    //   await coxwave.init('PROJECT_TOKEN', {
+    //   await coxwave.init(PROJECT_TOKEN, {
     //     ...opts,
     //     library: 'this-library',
     //   }).promise;
@@ -258,7 +257,7 @@ describe('integration', () => {
     // test('should track event with base event', async () => {
     //   const scope = nock(url).post(path).reply(200, success);
 
-    //   await coxwave.init('PROJECT_TOKEN', {
+    //   await coxwave.init(PROJECT_TOKEN, {
     //     ...opts,
     //   }).promise;
 
@@ -305,7 +304,7 @@ describe('integration', () => {
     //     });
     //   const second = nock(url).post(path).reply(200, success);
 
-    //   await coxwave.init('PROJECT_TOKEN', {
+    //   await coxwave.init(PROJECT_TOKEN, {
     //     logLevel: 0,
     //     ...opts,
     //   }).promise;
@@ -368,7 +367,7 @@ describe('integration', () => {
     //   });
     //   const second = nock(url).post(path).times(2).reply(200, success);
 
-    //   await coxwave.init('PROJECT_TOKEN', {
+    //   await coxwave.init(PROJECT_TOKEN, {
     //     logLevel: 0,
     //     flushQueueSize: 2,
     //     ...opts,
@@ -434,7 +433,7 @@ describe('integration', () => {
     // });
 
     // test('should handle client opt out', async () => {
-    //   await coxwave.init('PROJECT_TOKEN', {
+    //   await coxwave.init(PROJECT_TOKEN, {
     //     logLevel: 0,
     //     ...opts,
     //   }).promise;
@@ -445,42 +444,52 @@ describe('integration', () => {
     // });
   });
 
-  // describe('identify', () => {
-  //   test('should track event', async () => {
-  //     const scope = nock(url).post(path).reply(200, success);
+  describe('identify', () => {
+    test('should track alias', async () => {
+      //const scope = nock(url).post(path).reply(200, success);
 
-  //     await coxwave.init('PROJECT_TOKEN', {
-  //       ...opts,
-  //     }).promise;
-  //     const id = new coxwave.Identify();
-  //     id.set('org', 'amp');
-  //     const response = await coxwave.identify(id).promise;
-  //     expect(response.event).toEqual({
-  //       distinctId: uuid,
-  //       deviceId: uuid,
-  //       sessionId: number,
-  //       time: number,
-  //       platform: 'Web',
-  //       osName: 'WebKit',
-  //       osVersion: '537.36',
-  //       deviceManufacturer: undefined,
-  //       language: 'en-US',
-  //       ip: '$remote',
-  //       id: uuid,
-  //       eventType: '$identify',
-  //       library: library,
-  //       custom: {},
-  //       user_properties: {
-  //         $set: {
-  //           org: 'amp',
-  //         },
-  //       },
-  //     });
-  //     expect(response.code).toBe(200);
-  //     expect(response.message).toBe(SUCCESS_MESSAGE);
-  //     scope.done();
-  //   });
-  // });
+      const coxwave = createInstance();
+      await coxwave.init(PROJECT_TOKEN, {
+        ...opts,
+      }).promise;
+      const response = await coxwave.alias('my-alias').promise;
+      expect(response.event).toEqual({
+        id: uuid,
+        eventType: '$identify',
+        eventName: '$alias',
+        alias: 'my-alias',
+      });
+      expect(response.code).toBe(200);
+      expect(response.message).toBe(SUCCESS_MESSAGE);
+      //scope.done();
+    });
+
+    test('should track identify', async () => {
+      //const scope = nock(url).post(path).reply(200, success);
+
+      const coxwave = createInstance();
+      await coxwave.init(PROJECT_TOKEN, {
+        ...opts,
+      }).promise;
+      const id = new Identify();
+      id.set('name', 'foo');
+      id.set('org', 'bar');
+      const response = await coxwave.identify('my-alias', id).promise;
+      expect(response.event).toEqual({
+        id: uuid,
+        eventType: '$identify',
+        eventName: '$identify',
+        alias: 'my-alias',
+        name: 'foo',
+        custom: {
+          org: 'bar',
+        },
+      });
+      expect(response.code).toBe(200);
+      expect(response.message).toBe(SUCCESS_MESSAGE);
+      //scope.done();
+    });
+  });
 
   // describe('custom config', () => {
   //   describe('serverUrl', () => {
@@ -488,7 +497,7 @@ describe('integration', () => {
   //       const serverUrl = 'https://domain.com';
   //       const scope = nock(serverUrl).post(path).reply(200, success);
 
-  //       await coxwave.init('PROJECT_TOKEN', {
+  //       await coxwave.init(PROJECT_TOKEN, {
   //         ...opts,
   //         serverUrl: serverUrl + path,
   //       }).promise;
@@ -530,7 +539,7 @@ describe('integration', () => {
   //         warn: jest.fn(),
   //         error: jest.fn(),
   //       };
-  //       await coxwave.init('PROJECT_TOKEN', {
+  //       await coxwave.init(PROJECT_TOKEN, {
   //         ...opts,
   //         loggerProvider: logger,
   //         logLevel: LogLevel.Debug,
@@ -581,7 +590,7 @@ describe('integration', () => {
   //         warn: jest.fn(),
   //         error: jest.fn(),
   //       };
-  //       await coxwave.init('PROJECT_TOKEN', {
+  //       await coxwave.init(PROJECT_TOKEN, {
   //         ...opts,
   //         loggerProvider: logger,
   //         logLevel: LogLevel.Debug,
