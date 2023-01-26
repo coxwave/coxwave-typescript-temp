@@ -7,11 +7,14 @@ import { Result } from '../result';
 export interface BaseClient {
   /**
    * Adds a new plugin.
+   * Plugin has 3 types: `ENRICHMENT`, `PROCESSING`, `DESTINATION`.
+   * and has 5 coverages: `ALL`, `ACTIVITIES`, `GENERATIONS`, `FEEDBACK`, `IDENTIFY`.
    *
    * ```typescript
    * const plugin = {
    *   name: 'myPlugin',
    *   type: PluginType.ENRICHMENT,
+   *   coverage: PluginCoverage.ALL,
    *   setup(config: Config) {
    *     return;
    *   },
@@ -34,7 +37,7 @@ export interface BaseClient {
   remove(pluginName: string): CoxwaveReturn<void>;
 
   /**
-   * Tracks user-defined activity, with specified name, optional activity properties and optional overwrites.
+   * Tracks user-defined activity, with specified name, activity properties and predefinedProperties.
    *
    * ```typescript
    * // activity tracking with activity name only
@@ -43,8 +46,8 @@ export interface BaseClient {
    * // activity tracking with activity name and additional activity properties
    * track('Page Load', { loadTime: 1000 });
    *
-   * // activity tracking with activity name, additional activity properties, and overwritten activity options
-   * track('Page Load', { loadTime: 1000 }, { sessionId: -1 });
+   * // activity tracking with activity name, additional activity properties and predefinedProperties
+   * track('Page Load', { loadTime: 1000 }, { userId: "joowon.kim" });
    *
    * // alternatively, this method is awaitable
    * const result = await track('Page Load').promise;
@@ -60,7 +63,7 @@ export interface BaseClient {
   ): CoxwaveReturnWithId<Result>;
 
   /**
-   * Logs model generated generations, with specified name, optional generation properties and optional overwrites.
+   * Logs model generations, with specified name, generation properties and predefinedProperties.
    *
    * ```typescript
    * // generation logging with generation name only
@@ -75,14 +78,14 @@ export interface BaseClient {
    *  },
    * );
    *
-   * // generation logging with generation name, additional generation properties, and overwritten generation options
+   * // generation logging with generation name, additional generation properties and predefinedProperties
    * log(
    *  'Blog-Contents',
    *  {
    *    input: { foo: { type: "text", value: "hello world" }},
    *    output: { bar: { type: "text", value: "hello world" }}
    *  },
-   *  { sessionId: -1 }
+   *  { userId: "joowon.kim" }
    * );
    *
    * // alternatively, this method is awaitable
@@ -99,23 +102,23 @@ export interface BaseClient {
   ): CoxwaveReturnWithId<Result>;
 
   /**
-   * Feedback Feedbacks, with specified name, optional feedback properties and optional overwrites.
+   * Feedbacks, with specified name, feedback properties and PredefinedEventProperties.
    *
    * ```typescript
    * // feedback feedback with generation_id and feedback name
-   * feedback(<generation_id>, 'Thumbs-Up', );
+   * feedback('Thumbs-Up', { generationId: <generation_id> });
    *
    * // feedback feedback with generation_id, feedback name and additional feedback properties
-   * feedback(<generation_id>, 'rating', { score: 5 });
+   * feedback('rating', { generationId: <generation_id>, score: 5 });
    *
-   * // feedback feedback with generation_id, feedback name, additional feedback properties, and overwritten event options
-   * feedback(<generation_id>, 'rating', { score: 5 }, { sessionId: -1 });
+   * // feedback feedback with generation_id, feedback name, additional feedback properties, and PredefinedEventProperties
+   * feedback('rating', { generationId: <generation_id>, score: 5 }, { userId: "joowon.kim" });
    *
    * // alternatively, this method is awaitable
-   * const result = await feedback(<generation_id>, 'Thumbs-Up').promise;
+   * const result = await feedback('Thumbs-Up', { generationId: <generation_id> }).promise;
    * console.log(result.event); // {...}
    * console.log(result.code); // 200
-   * console.log(result.message); // "Feedback Feedbackted successfully"
+   * console.log(result.message); // "Feedback successfully"
    * ```
    */
   feedback(
@@ -125,8 +128,7 @@ export interface BaseClient {
   ): CoxwaveReturnWithId<Result>;
 
   /**
-   * TODO: change docs here
-   * Sends an register event containing user property operations
+   * Sends an register event for notifying new distinctId to coxwave.
    *
    * ```typescript
    * register(id);
@@ -146,10 +148,13 @@ export interface BaseClient {
    * ```typescript
    * const id = new Identify();
    * id.set('colors', ['rose', 'gold']);
-   * identify(id);
+   * identify("joowon.kim", id);
+   *
+   * // identifyidentify event containing user property and additional PredefinedIdentifyProperties
+   * identify("joowon.kim", id, { city: "Seoul"});
    *
    * // alternatively, this tracking method is awaitable
-   * const result = await identify(id).promise;
+   * const result = await identify("joowon.kim", id).promise;
    * console.log(result.event); // {...}
    * console.log(result.code); // 200
    * console.log(result.message); // "Event tracked successfully"
@@ -163,13 +168,13 @@ export interface BaseClient {
 
   /**
    * TODO: change docs here
-   * Sends an alias event containing user property operations
+   * Sends an alias event for connecting alias with distinctId
    *
    * ```typescript
-   * alias(id);
+   * alias("joowon.kim", <distinct_id>);
    *
    * // alternatively, this tracking method is awaitable
-   * const result = await alias(id).promise;
+   * const result = await alias("joowon.kim", <distinct_id>)).promise;
    * console.log(result.event); // {...}
    * console.log(result.code); // 200
    * console.log(result.message); // "Event tracked successfully"
