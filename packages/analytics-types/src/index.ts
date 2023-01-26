@@ -54,7 +54,16 @@ export {
 export { EventCallback } from './event-callback';
 export { Logger, LogLevel, LogConfig, DebugContext } from './logger';
 export { Payload, ActivityPayload, GenerationPayload, FeedbackPayload, IdentifyPayload } from './payload';
-export { Plugin, BeforePlugin, EnrichmentPlugin, DestinationPlugin, PluginType } from './plugin';
+export {
+  Plugin,
+  BeforePlugin,
+  EnrichmentPlugin,
+  DestinationPlugin,
+  PluginType,
+  TPluginType,
+  PluginCoverage,
+  TPluginCoverage,
+} from './plugin';
 export { Result } from './result';
 export { Response, SuccessResponse, InvalidResponse, PayloadTooLargeResponse, RateLimitResponse } from './response';
 export { SessionManager, SessionManagerOptions, UserSession } from './session-manager';

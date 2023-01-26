@@ -12,6 +12,8 @@ import {
   Result,
   Status,
   SuccessResponse,
+  PluginCoverage,
+  TPluginCoverage,
 } from '@coxwave/analytics-types';
 
 import { createServerConfig } from '../../config';
@@ -29,6 +31,7 @@ import { buildResult } from '../../utils/result-builder';
 export class _BaseDestination implements DestinationPlugin {
   name = 'coxwave';
   type = PluginType.DESTINATION;
+  coverage: TPluginCoverage = PluginCoverage.ALL;
 
   retryTimeout = 1000;
   throttleTimeout = 30000;

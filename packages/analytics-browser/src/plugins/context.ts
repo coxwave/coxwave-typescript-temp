@@ -1,6 +1,14 @@
 import UAParser from '@amplitude/ua-parser-js';
 import { getLanguage } from '@coxwave/analytics-client-common';
-import { PredefinedEventProperties, BeforePlugin, BrowserConfig, Event, PluginType } from '@coxwave/analytics-types';
+import {
+  PredefinedEventProperties,
+  BeforePlugin,
+  BrowserConfig,
+  Event,
+  PluginType,
+  PluginCoverage,
+  TPluginCoverage,
+} from '@coxwave/analytics-types';
 
 import { VERSION } from '../version';
 
@@ -10,6 +18,7 @@ const IP_ADDRESS = '$remote';
 export class Context implements BeforePlugin {
   name = 'context';
   type = PluginType.BEFORE;
+  coverage: TPluginCoverage = PluginCoverage.ALL;
 
   // this.config is defined in setup() which will always be called first
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment

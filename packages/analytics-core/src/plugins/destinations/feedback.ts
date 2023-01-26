@@ -1,4 +1,9 @@
-import { DestinationContext as Context, FeedbackPayload, FeedbackEvent } from '@coxwave/analytics-types';
+import {
+  DestinationContext as Context,
+  FeedbackPayload,
+  FeedbackEvent,
+  PluginCoverage,
+} from '@coxwave/analytics-types';
 
 import { SERVER_FEEDBACKS_PATH } from '../../constants';
 
@@ -7,6 +12,8 @@ import { _BaseDestination } from './base-destination';
 import { syncServerSpec } from '../../utils/payload';
 
 export class FeedbackDestination extends _BaseDestination {
+  coverage = PluginCoverage.FEEDBACK;
+
   _createPayload(contexts: Context[]): FeedbackPayload {
     return {
       feedbacks: contexts.map((context) => {

@@ -1,4 +1,10 @@
-import { DestinationContext as Context, IdentifyEvent, IdentifyPayload, Result } from '@coxwave/analytics-types';
+import {
+  DestinationContext as Context,
+  IdentifyEvent,
+  IdentifyPayload,
+  PluginCoverage,
+  Result,
+} from '@coxwave/analytics-types';
 
 import { _BaseDestination } from './base-destination';
 
@@ -12,6 +18,8 @@ import { MISSING_PROJECT_TOKEN_MESSAGE, UNEXPECTED_ERROR_MESSAGE } from '../../m
 import { syncIdentifyServerSpec } from '../../utils/payload';
 
 export class IdentifyDestination extends _BaseDestination {
+  coverage = PluginCoverage.IDENTIFY;
+
   execute(event: IdentifyEvent): Promise<Result> {
     return new Promise((resolve) => {
       const context = {
