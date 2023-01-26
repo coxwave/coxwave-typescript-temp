@@ -16,4 +16,4 @@ export { UUID } from './utils/uuid';
 export { MemoryStorage } from './storage/memory';
 export { getCookieName, getStorageName } from './storage/naming';
 export { BaseTransport } from './transports/base';
-export { createIdentifyEvent } from './utils/event-builder';
+export { createIdentifyUserEvent } from './utils/event-builder';

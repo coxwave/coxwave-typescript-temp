@@ -15,12 +15,12 @@ import {
 import { CLIENT_NOT_INITIALIZED, OPT_OUT_MESSAGE } from './messages';
 import { Timeline } from './timeline';
 import {
-  createIdentifyEvent,
+  createIdentifyUserEvent,
   createTrackEvent,
   createLogEvent,
   createFeedbackEvent,
-  createRegisterEvent,
-  createAliasEvent,
+  createIdentifyRegisterEvent,
+  createIdentifyAliasEvent,
 } from './utils/event-builder';
 import { buildResult } from './utils/result-builder';
 
@@ -83,17 +83,17 @@ export class CoxwaveCore<T extends Config> implements CoreClient<T> {
   }
 
   register(distinctId: string) {
-    const event = createRegisterEvent(distinctId);
+    const event = createIdentifyRegisterEvent(distinctId);
     return this.dispatch(event);
   }
 
   identify(alias: string, identify: Identify, predefinedProperties?: PredefinedIdentifyProperties) {
-    const event = createIdentifyEvent(alias, identify, predefinedProperties);
+    const event = createIdentifyUserEvent(alias, identify, predefinedProperties);
     return this.dispatch(event);
   }
 
   alias(alias: string, distinctId: string) {
-    const event = createAliasEvent(alias, distinctId);
+    const event = createIdentifyAliasEvent(alias, distinctId);
     return this.dispatch(event);
   }
 

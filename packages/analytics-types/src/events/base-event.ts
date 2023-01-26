@@ -2,28 +2,30 @@
  * Strings that have special meaning when used as an event's type
  * and have different specifications.
  */
-export const AvailableEventType = ['$track', '$log', '$feedback', '$identify'] as const;
-export type TAvailableEventType = (typeof AvailableEventType)[number];
+export const AvailableEventType = {
+  TRACK: '$register',
+  LOG: '$identify',
+  FEEDBACK: '$alias',
+  IDENTIFY: '$identify',
+} as const;
+export type TAvailableEventType = (typeof AvailableEventType)[keyof typeof AvailableEventType];
 
 /**
  * Strings that have special meaning when used as an event's name
  * and have different specifications.
  */
-export enum SpecialEventName {
-  REGISTER = '$register',
-  IDENTIFY = '$identify',
-  ALIAS = '$alias',
-}
+export const SpecialEventName = {
+  REGISTER: '$register',
+  IDENTIFY: '$identify',
+  ALIAS: '$alias',
+} as const;
+export type TSpecialEventName = (typeof SpecialEventName)[keyof typeof SpecialEventName];
 
-export interface BaseEvent extends Record<string, any> {
+export interface BaseEvent {
   id: string;
   eventType: TAvailableEventType;
   eventName: string;
-  properties?: PredefinedPropertyType;
-}
-
-export interface CustomProperties {
-  [key: string]: ValidPropertyType;
+  properties?: PredefinedEventProperties;
 }
 
 export interface PredefinedEventProperties {
@@ -48,24 +50,22 @@ export interface PredefinedEventProperties {
   locationLat?: number;
   locationLng?: number;
   ip?: string;
-  custom?: CustomProperties;
+  custom?: { [key: string]: any };
 }
 
-export interface PredefinedIdentifyProperties extends PredefinedEventProperties {
+export interface PredefinedIdentifyProperties {
   name?: string;
   email?: string;
   city?: string;
   region?: string;
   country?: string;
   language?: string;
-  custom?: CustomProperties;
+  custom?: { [key: string]: any };
 }
 
-export type PredefinedPropertyType = PredefinedEventProperties | PredefinedIdentifyProperties;
 export type ValidPropertyType =
   | number
   | string
   | boolean
   | Array<string | number>
-  | { [key: string]: ValidPropertyType }
-  | undefined;
+  | { [key: string]: ValidPropertyType };

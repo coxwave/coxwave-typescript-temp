@@ -1,4 +1,4 @@
-import { ValidPropertyType, Identify as IIdentify, CustomProperties } from '@coxwave/analytics-types';
+import { ValidPropertyType, Identify as IIdentify, IdentifyUserProperties } from '@coxwave/analytics-types';
 
 import { isValidProperties } from './utils/valid-properties';
 
@@ -6,9 +6,9 @@ import { isValidProperties } from './utils/valid-properties';
 
 export class Identify implements IIdentify {
   protected readonly _propertySet: Set<string> = new Set<string>();
-  protected _properties: CustomProperties = {};
+  protected _properties: IdentifyUserProperties = {};
 
-  public getUserProperties(): CustomProperties {
+  public getUserProperties(): IdentifyUserProperties {
     return { ...this._properties };
   }
 

@@ -1,4 +1,5 @@
 import {
+  AvailableEventType,
   BeforePlugin,
   Config,
   DestinationPlugin,
@@ -8,6 +9,8 @@ import {
   Plugin,
   PluginType,
   Result,
+  PluginCoverage,
+  TPluginCoverage,
 } from '@coxwave/analytics-types';
 
 import { buildResult } from './utils/result-builder';
@@ -83,17 +86,17 @@ export class Timeline {
     }
 
     switch (event.eventType) {
-      case '$track':
-        this._executeDestination(PluginType.DESTINATION_ACTIVITY, event, resolve);
+      case AvailableEventType.TRACK:
+        this._executeDestination(PluginCoverage.ACTIVITY, event, resolve);
         break;
-      case '$log':
-        this._executeDestination(PluginType.DESTINATION_GENERATION, event, resolve);
+      case AvailableEventType.LOG:
+        this._executeDestination(PluginCoverage.GENERATION, event, resolve);
         break;
-      case '$feedback':
-        this._executeDestination(PluginType.DESTINATION_FEEDBACK, event, resolve);
+      case AvailableEventType.FEEDBACK:
+        this._executeDestination(PluginCoverage.FEEDBACK, event, resolve);
         break;
-      case '$identify':
-        this._executeDestination(PluginType.DESTINATION_IDENTIFY, event, resolve);
+      case AvailableEventType.IDENTIFY:
+        this._executeDestination(PluginCoverage.IDENTIFY, event, resolve);
         break;
       default:
         resolve(buildResult(event, 500, 'Event type not supported'));
@@ -102,8 +105,12 @@ export class Timeline {
     return;
   }
 
-  private _executeDestination<T extends DestinationPlugin>(pluginType: string, event: Event, resolve: EventCallback) {
-    const destination = this.plugins.filter<T>((plugin: Plugin): plugin is T => plugin.type === pluginType);
+  private _executeDestination<T extends DestinationPlugin>(
+    coverage: TPluginCoverage,
+    event: Event,
+    resolve: EventCallback,
+  ) {
+    const destination = this.plugins.filter<T>((plugin: Plugin): plugin is T => plugin.coverage === coverage);
 
     const executeDestinations = destination.map((plugin) => {
       const eventClone = { ...event };
@@ -121,14 +128,14 @@ export class Timeline {
 
     await Promise.all(queue.map((item) => this.apply(item)));
 
-    await this._flushDestination(PluginType.DESTINATION_ACTIVITY);
-    await this._flushDestination(PluginType.DESTINATION_GENERATION);
-    await this._flushDestination(PluginType.DESTINATION_FEEDBACK);
-    await this._flushDestination(PluginType.DESTINATION_IDENTIFY);
+    await this._flushDestination(PluginCoverage.ACTIVITY);
+    await this._flushDestination(PluginCoverage.GENERATION);
+    await this._flushDestination(PluginCoverage.FEEDBACK);
+    await this._flushDestination(PluginCoverage.IDENTIFY);
   }
 
-  private async _flushDestination<T extends DestinationPlugin>(pluginType: string) {
-    const destination = this.plugins.filter<T>((plugin: Plugin): plugin is T => plugin.type === pluginType);
+  private async _flushDestination<T extends DestinationPlugin>(coverage: TPluginCoverage) {
+    const destination = this.plugins.filter<T>((plugin: Plugin): plugin is T => plugin.coverage === coverage);
 
     const executeDestinations = destination.map((plugin) => {
       return plugin.flush && plugin.flush();

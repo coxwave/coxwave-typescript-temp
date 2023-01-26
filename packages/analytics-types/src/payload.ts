@@ -1,26 +1,21 @@
-import { Activity, Event, Feedback, Generation, ValidPropertyType } from './events';
+import { ActivityEvent, FeedbackEvent, GenerationEvent, ValidPropertyType } from './events';
 
 export interface PayloadOptions {
   [key: string]: any;
 }
 
-export interface GeneralPayload {
-  events: readonly Event[];
-  options?: PayloadOptions;
-}
-
 export interface ActivityPayload {
-  activities: readonly Activity[];
+  activities: readonly ActivityEvent[];
   options?: PayloadOptions;
 }
 
 export interface GenerationPayload {
-  generations: readonly Generation[];
+  generations: readonly GenerationEvent[];
   options?: PayloadOptions;
 }
 
 export interface FeedbackPayload {
-  feedbacks: readonly Feedback[];
+  feedbacks: readonly FeedbackEvent[];
   options?: PayloadOptions;
 }
 
@@ -36,4 +31,4 @@ export interface IdentifyPayload {
   custom?: ValidPropertyType;
 }
 
-export type Payload = GeneralPayload | ActivityPayload | GenerationPayload | FeedbackPayload | IdentifyPayload;
+export type Payload = ActivityPayload | GenerationPayload | FeedbackPayload | IdentifyPayload;
