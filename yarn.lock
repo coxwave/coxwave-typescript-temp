@@ -2,11 +2,6 @@
 # yarn lockfile v1
 
 
-"@amplitude/ua-parser-js@^0.7.31":
-  version "0.7.31"
-  resolved "https://registry.yarnpkg.com/@amplitude/ua-parser-js/-/ua-parser-js-0.7.31.tgz#749bf7cb633cfcc7ff3c10805bad7c5f6fbdbc61"
-  integrity sha512-+z8UGRaj13Pt5NDzOnkTBy49HE2CX64jeL0ArB86HAtilpnfkPB7oqkigN7Lf2LxscMg4QhFD7mmCfedh3rqTg==
-
 "@ampproject/remapping@^2.1.0":
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@ampproject/remapping/-/remapping-2.2.0.tgz#56c133824780de3174aed5ab6834f3026790154d"
@@ -1429,6 +1424,11 @@
   integrity sha512-2NjAnq5IcxY9kXtUeO2Ac0aPpvkuOmwbH/BxIm36XXK5LtWFObWJWjXOA+kcaABMrthjWu6la+FUpyYFMHRvbA==
   dependencies:
     chalk "^4.1.0"
+
+"@coxwave/ua-parser-js@^0.7.31":
+  version "0.7.33"
+  resolved "https://registry.yarnpkg.com/@coxwave/ua-parser-js/-/ua-parser-js-0.7.33.tgz#4e7f00dbbe1a31fd957d7eb0ce8400926d2fa21a"
+  integrity sha512-f4ob2MXj+c1VQflahuR0Ea/o7Hr44VsLfb72R71SyQQl3GhVUqln1xY0byJM7iI7fiAMOlIoL9JDK1r12rktPg==
 
 "@cspotcode/source-map-support@^0.8.0":
   version "0.8.1"

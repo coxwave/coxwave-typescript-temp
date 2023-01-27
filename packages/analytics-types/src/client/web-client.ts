@@ -25,6 +25,26 @@ interface Client extends BaseClient {
   setDistinctId(distinctId: string | undefined): void;
 
   /**
+   * Returns current user ID.
+   *
+   * ```typescript
+   * const userId = getUserId();
+   * ```
+   */
+  getUserId(): string | undefined;
+
+  /**
+   * Sets a new user ID.
+   * When setting a custom user ID, make sure the value is sufficiently unique.
+   * A uuid is recommended.
+   *
+   * ```typescript
+   * setUserId('userId');
+   * ```
+   */
+  setUserId(userId: string): void;
+
+  /**
    * Returns current device ID.
    *
    * ```typescript
@@ -117,7 +137,7 @@ export interface BrowserClient extends Client {
    * await init(PROJECT_TOKEN, options).promise;
    * ```
    */
-  init(projectToken: string, options?: BrowserOptions): CoxwaveReturn<void>;
+  init(projectToken: string, userId?: string, options?: BrowserOptions): CoxwaveReturn<void>;
 
   /**
    * Sets the network transport type for events.

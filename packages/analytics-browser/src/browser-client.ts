@@ -26,7 +26,7 @@ import { Context } from './plugins/context';
 import { convertProxyObjectToRealObject, isInstanceProxy } from './utils/snippet-helper';
 
 export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
-  async init(projectToken = '', options?: BrowserOptions) {
+  async init(projectToken = '', userId?: string, options?: BrowserOptions) {
     // Step 0: Block concurrent initialization
     if (this.initializing) {
       return;
@@ -36,6 +36,7 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
     // Step 1: Create browser config
     const browserOptions = await useBrowserConfig(projectToken, {
       ...options,
+      userId: userId || options?.userId,
       deviceId: options?.deviceId,
       sessionId: options?.sessionId,
       optOut: options?.optOut,
@@ -86,6 +87,18 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
       return;
     }
     this.config.distinctId = distinctId;
+  }
+
+  getUserId() {
+    return this.config?.userId;
+  }
+
+  setUserId(userId: string) {
+    if (!this.config) {
+      this.q.push(this.setUserId.bind(this, userId));
+      return;
+    }
+    this.config.userId = userId;
   }
 
   getDeviceId() {
@@ -264,6 +277,18 @@ export const createInstance = (): BrowserClient => {
       'setDistinctId',
       getClientLogConfig(client),
       getClientStates(client, ['config', 'config.distinctId']),
+    ),
+    getUserId: debugWrapper(
+      client.getUserId.bind(client),
+      'getUserId',
+      getClientLogConfig(client),
+      getClientStates(client, ['config', 'config.deviceId']),
+    ),
+    setUserId: debugWrapper(
+      client.setUserId.bind(client),
+      'setUserId',
+      getClientLogConfig(client),
+      getClientStates(client, ['config', 'config.deviceId']),
     ),
     getDeviceId: debugWrapper(
       client.getDeviceId.bind(client),

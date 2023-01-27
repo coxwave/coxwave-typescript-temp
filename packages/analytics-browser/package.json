@@ -45,7 +45,7 @@
     "@coxwave/analytics-client-common": "^0.0.1",
     "@coxwave/analytics-core": "^0.0.1",
     "@coxwave/analytics-types": "^0.0.1",
-    "@amplitude/ua-parser-js": "^0.7.31",
+    "@coxwave/ua-parser-js": "^0.7.31",
     "tslib": "^2.4.1"
   },
   "devDependencies": {

@@ -77,8 +77,17 @@ export class BrowserConfig extends Config implements IBrowserConfig {
     this.optOut = Boolean(options?.optOut);
     this.sessionId = options?.sessionId;
     this.threadId = options?.threadId;
+    this.userId = options?.userId;
     this.deviceId = options?.deviceId;
     this.distinctId = options?.distinctId;
+  }
+
+  get userId() {
+    return this.sessionManager.getUserId();
+  }
+
+  set userId(userId: string | undefined) {
+    this.sessionManager.setUserId(userId);
   }
 
   get deviceId() {

@@ -1,4 +1,3 @@
-import UAParser from '@amplitude/ua-parser-js';
 import { getLanguage } from '@coxwave/analytics-client-common';
 import {
   PredefinedEventProperties,
@@ -9,6 +8,7 @@ import {
   PluginCoverage,
   TPluginCoverage,
 } from '@coxwave/analytics-types';
+import UAParser from '@coxwave/ua-parser-js';
 
 import { VERSION } from '../version';
 
@@ -60,6 +60,7 @@ export class Context implements BeforePlugin {
 
     const properties: PredefinedEventProperties = {
       distinctId: this.config.distinctId,
+      userId: this.config.userId,
       deviceId: this.config.deviceId,
       sessionId: this.config.sessionId,
       time,
