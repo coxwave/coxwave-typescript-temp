@@ -111,10 +111,10 @@ export const createIdentifyRegisterEvent = (distinctId: string): IdentifyRegiste
 
 export const createIdentifyUserEvent = (
   alias: string,
-  identify: IIdentify,
+  identify?: IIdentify,
   predefinedProperties?: PredefinedIdentifyProperties,
 ): IdentifyUserEvent => {
-  const identifyProperties = identify.getUserProperties();
+  const identifyProperties = identify?.getUserProperties() || {};
   const { specialProperties, customProperties } = splitProperties(identifyProperties, SpecialIdentifyPropertyKey);
 
   const IdentifyUserEvent: IdentifyUserEvent = {

@@ -11,7 +11,7 @@ import * as SnippetHelper from '../src/utils/snippet-helper';
 describe('browser-client', () => {
   afterEach(() => {
     // clean up cookies
-    document.cookie = 'COX_PROJECT_TOKEN=null; expires=-1';
+    document.cookie = `COX_${PROJECT_TOKEN}=null; expires=-1`;
   });
 
   describe('init', () => {

@@ -26,7 +26,7 @@ import { Context } from './plugins/context';
 import { convertProxyObjectToRealObject, isInstanceProxy } from './utils/snippet-helper';
 
 export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
-  async init(projectToken = '', userId?: string, options?: BrowserOptions) {
+  async init(projectToken = '', options?: BrowserOptions) {
     // Step 0: Block concurrent initialization
     if (this.initializing) {
       return;
@@ -36,7 +36,7 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
     // Step 1: Create browser config
     const browserOptions = await useBrowserConfig(projectToken, {
       ...options,
-      userId: userId || options?.userId,
+      userId: options?.userId,
       deviceId: options?.deviceId,
       sessionId: options?.sessionId,
       optOut: options?.optOut,
@@ -60,18 +60,16 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
     }
 
     // Step 4: Install plugins
-    // Do not track any events before this
     await this.add(new Context());
     await this.add(new ActivityDestination());
     await this.add(new GenerationDestination());
     await this.add(new FeedbackDestination());
     await this.add(new IdentifyDestination());
 
-    // Step 3: Notify my DistinctId to server
-    void this.register();
-
-    // await this.register(this.config.distinctId as string);
     this.initializing = false;
+
+    // Step 5: Notify my DistinctId to server
+    void this.register();
 
     // Step 6: Run queued dispatch functions
     await this.runQueuedFunctions('dispatchQ');
@@ -93,7 +91,7 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
     return this.config?.userId;
   }
 
-  setUserId(userId: string) {
+  setUserId(userId?: string) {
     if (!this.config) {
       this.q.push(this.setUserId.bind(this, userId));
       return;
@@ -115,6 +113,7 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
 
   reset() {
     this.setDistinctId(UUID());
+    this.setUserId();
     this.setDeviceId(UUID());
   }
 
@@ -164,19 +163,20 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
     return super.register(distinctId);
   }
 
-  identify(alias: string, identify: IIdentify, predefinedProperties?: PredefinedEventProperties): Promise<Result> {
-    // TODO: identify should update distinctId
-
+  identify(alias?: string, identify?: IIdentify, predefinedProperties?: PredefinedEventProperties): Promise<Result> {
     if (isInstanceProxy(identify)) {
       const queue = identify._q;
       identify._q = [];
       identify = convertProxyObjectToRealObject(new Identify(), queue);
     }
 
-    // TODO: is it okay to overwrite distinctId?
-    // if (predefinedProperties?.distinctId) {
-    //   this.setDistinctId(predefinedProperties.distinctId);
-    // }
+    alias = alias || predefinedProperties?.userId || this.getUserId();
+    if (alias === undefined) {
+      throw new Error("alias is not set. Please set alias in identify() or in the constructor's options.");
+    } else {
+      this.setUserId(alias);
+    }
+
     if (predefinedProperties?.deviceId) {
       this.setDeviceId(predefinedProperties.deviceId);
     }
@@ -192,14 +192,20 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
     });
   }
 
-  alias(alias: string) {
-    // TODO: consider alias need to be queued
+  alias(alias?: string) {
     if (!this.config) {
       this.q.push(this.alias.bind(this, alias));
     }
 
+    const userId = alias || this.getUserId();
+    if (userId === undefined) {
+      throw new Error("alias is not set. Please set alias in alias() or in the constructor's options.");
+    } else {
+      this.setUserId(userId);
+    }
     const distinctId = this.getDistinctId() as string;
-    return super.alias(alias, distinctId);
+
+    return super.alias(userId, distinctId);
   }
 }
 

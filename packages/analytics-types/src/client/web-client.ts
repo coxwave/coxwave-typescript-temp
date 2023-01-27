@@ -137,7 +137,7 @@ export interface BrowserClient extends Client {
    * await init(PROJECT_TOKEN, options).promise;
    * ```
    */
-  init(projectToken: string, userId?: string, options?: BrowserOptions): CoxwaveReturn<void>;
+  init(projectToken: string, options?: BrowserOptions): CoxwaveReturn<void>;
 
   /**
    * Sets the network transport type for events.

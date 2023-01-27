@@ -7,7 +7,7 @@ import { BrowserConfig } from '../../src/config';
 export const useDefaultConfig = (overrides?: Partial<InitOptions<BrowserConfig>>) =>
   new BrowserConfig(PROJECT_TOKEN, { ...DEFAULT_OPTIONS, ...overrides });
 
-export const PROJECT_TOKEN = 'projectToken';
+export const PROJECT_TOKEN = 'PROJECT_TOKEN';
 export const USER_ID = 'userId';
 export const DEVICE_ID = 'DEVICE_ID';
 export const trackingConfig = {
