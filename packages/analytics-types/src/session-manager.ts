@@ -1,5 +1,6 @@
 export interface UserSession {
   distinctId?: string;
+  userId?: string;
   deviceId?: string;
   sessionId?: number;
   threadId?: string;
@@ -18,6 +19,8 @@ export interface SessionManager {
   setSessionId(sessionId?: number): void;
   getThreadId(): string | undefined;
   setThreadId(threadId?: string): void;
+  getUserId(): string | undefined;
+  setUserId(userId?: string): void;
   getDeviceId(): string | undefined;
   setDeviceId(deviceId?: string): void;
   getDistinctId(): string | undefined;

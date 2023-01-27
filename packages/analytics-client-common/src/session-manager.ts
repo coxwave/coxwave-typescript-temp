@@ -45,6 +45,14 @@ export class SessionManager implements ISessionManager {
     this.setSession({ threadId });
   }
 
+  getUserId(): string | undefined {
+    return this.cache.userId;
+  }
+
+  setUserId(userId: string): void {
+    this.setSession({ userId });
+  }
+
   getDeviceId(): string | undefined {
     return this.cache.deviceId;
   }
