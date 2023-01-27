@@ -17,6 +17,7 @@ import {
   SpecialFeedbackPropertyKey,
   SpecialIdentifyPropertyKey,
   ValidPropertyType,
+  SpecialGenerationPropertyKey,
 } from '@coxwave/analytics-types';
 
 import { UUID } from './uuid';
@@ -63,7 +64,7 @@ export const createLogEvent = (
   generationProperties: GenerationProperties = {},
   predefinedProperties: PredefinedEventProperties = {},
 ): GenerationEvent => {
-  const { specialProperties, customProperties } = splitProperties(generationProperties, SpecialActivityPropertyKey);
+  const { specialProperties, customProperties } = splitProperties(generationProperties, SpecialGenerationPropertyKey);
 
   predefinedProperties.custom = predefinedProperties.custom
     ? { ...predefinedProperties.custom, ...customProperties }

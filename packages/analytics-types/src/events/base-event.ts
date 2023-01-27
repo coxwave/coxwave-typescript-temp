@@ -3,9 +3,9 @@
  * and have different specifications.
  */
 export const AvailableEventType = {
-  TRACK: '$register',
-  LOG: '$identify',
-  FEEDBACK: '$alias',
+  TRACK: '$track',
+  LOG: '$log',
+  FEEDBACK: '$feedback',
   IDENTIFY: '$identify',
 } as const;
 export type TAvailableEventType = (typeof AvailableEventType)[keyof typeof AvailableEventType];
