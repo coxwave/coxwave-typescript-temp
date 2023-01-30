@@ -238,8 +238,8 @@ export class _BaseDestination implements DestinationPlugin {
       if (
         // TODO: user-id changed to distinct-id or alias
         //(context.event.distinctId && dropDistinctIdsSet.has(context.event.distinctId)) ||
-        context.event.properties?.distinctId &&
-        dropDeviceIdsSet.has(context.event.properties.distinctId)
+        context.event.properties?.$distinctId &&
+        dropDeviceIdsSet.has(context.event.properties?.$distinctId)
       ) {
         this.fulfillRequest([context], res.statusCode, res.body.error);
         return;

@@ -27,7 +27,6 @@ export {
   TSpecialEventName,
   BaseEvent,
   PredefinedEventProperties,
-  PredefinedIdentifyProperties,
   ValidPropertyType,
   SpecialFeedbackPropertyKey,
   TSpecialFeedbackPropertyKey,

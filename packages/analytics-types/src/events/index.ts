@@ -6,7 +6,6 @@ export {
   TSpecialEventName,
   BaseEvent,
   PredefinedEventProperties,
-  PredefinedIdentifyProperties,
   ValidPropertyType,
 } from './base-event';
 export { SpecialFeedbackPropertyKey, TSpecialFeedbackPropertyKey, FeedbackProperties, FeedbackEvent } from './feedback';
