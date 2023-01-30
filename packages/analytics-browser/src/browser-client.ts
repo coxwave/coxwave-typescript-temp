@@ -15,7 +15,6 @@ import {
   BrowserClient,
   BrowserConfig,
   BrowserOptions,
-  PredefinedEventProperties,
   Identify as IIdentify,
   Result,
   TransportType,
@@ -163,22 +162,18 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
     return super.register(distinctId);
   }
 
-  identify(alias?: string, identify?: IIdentify, predefinedProperties?: PredefinedEventProperties): Promise<Result> {
+  identify(alias?: string, identify?: IIdentify): Promise<Result> {
     if (isInstanceProxy(identify)) {
       const queue = identify._q;
       identify._q = [];
       identify = convertProxyObjectToRealObject(new Identify(), queue);
     }
 
-    alias = alias || predefinedProperties?.userId || this.getUserId();
+    alias = alias || this.getUserId();
     if (alias === undefined) {
       throw new Error("alias is not set. Please set alias in identify() or in the constructor's options.");
     } else {
       this.setUserId(alias);
-    }
-
-    if (predefinedProperties?.deviceId) {
-      this.setDeviceId(predefinedProperties.deviceId);
     }
 
     const updateDistinctIdCallback = (result: Result) => {
@@ -187,7 +182,7 @@ export class CoxwaveBrowser extends CoxwaveCore<BrowserConfig> {
       return result;
     };
 
-    return super.identify(alias, identify, predefinedProperties).then((result: Result) => {
+    return super.identify(alias, identify).then((result: Result) => {
       return updateDistinctIdCallback(result);
     });
   }

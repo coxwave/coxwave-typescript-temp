@@ -1,4 +1,4 @@
-import { BaseEvent, PredefinedIdentifyProperties, TSpecialEventName, ValidPropertyType } from './base-event';
+import { BaseEvent, TSpecialEventName, ValidPropertyType } from './base-event';
 
 export const SpecialIdentifyPropertyKey = ['name', 'email', 'city', 'region', 'country', 'language', 'custom'] as const;
 export type TSpecialIdentifyPropertyKey = (typeof SpecialIdentifyPropertyKey)[number];
@@ -9,7 +9,7 @@ export interface IdentifyUserProperties {
 
 export interface Identify {
   getUserProperties(): IdentifyUserProperties;
-  set(property: Exclude<string, PredefinedIdentifyProperties>, value: ValidPropertyType): Identify;
+  set(property: string, value: ValidPropertyType): Identify;
 }
 
 // TODO: Only support for SET for now.
@@ -22,7 +22,7 @@ export interface IdentifyRegisterEvent extends BaseEvent {
   distinctId: string;
 }
 
-export interface IdentifyUserEvent extends BaseEvent, PredefinedIdentifyProperties {
+export interface IdentifyUserEvent extends BaseEvent {
   eventName: TSpecialEventName;
   alias: string;
 }

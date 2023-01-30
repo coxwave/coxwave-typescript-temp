@@ -1,6 +1,6 @@
 import { CoxwaveReturn, CoxwaveReturnWithId } from '../coxwave-promise';
 import { ActivityProperties, FeedbackProperties, GenerationProperties } from '../events';
-import { PredefinedEventProperties, PredefinedIdentifyProperties, Identify } from '../events';
+import { Identify } from '../events';
 import { Plugin } from '../plugin';
 import { Result } from '../result';
 
@@ -56,11 +56,7 @@ export interface BaseClient {
    * console.log(result.message); // "User Activity tracked successfully"
    * ```
    */
-  track(
-    activityName: string,
-    activityProperties?: ActivityProperties,
-    predefinedProperties?: PredefinedEventProperties,
-  ): CoxwaveReturnWithId<Result>;
+  track(activityName: string, activityProperties?: ActivityProperties): CoxwaveReturnWithId<Result>;
 
   /**
    * Logs model generations, with specified name, generation properties and predefinedProperties.
@@ -95,11 +91,7 @@ export interface BaseClient {
    * console.log(result.message); // "Event logged successfully"
    * ```
    */
-  log(
-    generationName: string,
-    generationProperties?: GenerationProperties,
-    predefinedProperties?: PredefinedEventProperties,
-  ): CoxwaveReturnWithId<Result>;
+  log(generationName: string, generationProperties?: GenerationProperties): CoxwaveReturnWithId<Result>;
 
   /**
    * Feedbacks, with specified name, feedback properties and PredefinedEventProperties.
@@ -121,11 +113,7 @@ export interface BaseClient {
    * console.log(result.message); // "Feedback successfully"
    * ```
    */
-  feedback(
-    feedbackName: string,
-    feedbackProperties?: FeedbackProperties,
-    predefinedProperties?: PredefinedEventProperties,
-  ): CoxwaveReturnWithId<Result>;
+  feedback(feedbackName: string, feedbackProperties?: FeedbackProperties): CoxwaveReturnWithId<Result>;
 
   /**
    * Sends an register event for notifying new distinctId to coxwave.
@@ -148,10 +136,8 @@ export interface BaseClient {
    * ```typescript
    * const id = new Identify();
    * id.set('colors', ['rose', 'gold']);
+   * id.set('colors', ['$city', 'Seoul']);
    * identify("joowon.kim", id);
-   *
-   * // identifyidentify event containing user property and additional PredefinedIdentifyProperties
-   * identify("joowon.kim", id, { city: "Seoul"});
    *
    * // alternatively, this tracking method is awaitable
    * const result = await identify("joowon.kim", id).promise;
@@ -160,11 +146,7 @@ export interface BaseClient {
    * console.log(result.message); // "Event tracked successfully"
    * ```
    */
-  identify(
-    alias: string,
-    identify: Identify,
-    predefinedProperties?: PredefinedIdentifyProperties,
-  ): CoxwaveReturn<Result>;
+  identify(alias: string, identify: Identify): CoxwaveReturn<Result>;
 
   /**
    * TODO: change docs here

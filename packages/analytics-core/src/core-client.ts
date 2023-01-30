@@ -5,8 +5,6 @@ import {
   Identify,
   Plugin,
   Result,
-  PredefinedIdentifyProperties,
-  PredefinedEventProperties,
   ActivityProperties,
   GenerationProperties,
   FeedbackProperties,
@@ -55,30 +53,18 @@ export class CoxwaveCore<T extends Config> implements CoreClient<T> {
     }
   }
 
-  track(
-    activityName: string,
-    activityProperties?: ActivityProperties,
-    predefinedProperties?: PredefinedEventProperties,
-  ) {
-    const event = createTrackEvent(activityName, activityProperties, predefinedProperties);
+  track(activityName: string, activityProperties?: ActivityProperties) {
+    const event = createTrackEvent(activityName, activityProperties);
     return { id: event.id, promise: this.dispatch(event) };
   }
 
-  log(
-    generationName: string,
-    CustomProperties?: GenerationProperties,
-    predefinedProperties?: PredefinedEventProperties,
-  ) {
-    const event = createLogEvent(generationName, CustomProperties, predefinedProperties);
+  log(generationName: string, CustomProperties?: GenerationProperties) {
+    const event = createLogEvent(generationName, CustomProperties);
     return { id: event.id, promise: this.dispatch(event) };
   }
 
-  feedback(
-    feedbackName: string,
-    feedbackProperties: FeedbackProperties,
-    predefinedProperties?: PredefinedEventProperties,
-  ) {
-    const event = createFeedbackEvent(feedbackName, feedbackProperties, predefinedProperties);
+  feedback(feedbackName: string, feedbackProperties: FeedbackProperties) {
+    const event = createFeedbackEvent(feedbackName, feedbackProperties);
     return { id: event.id, promise: this.dispatch(event) };
   }
 
@@ -87,8 +73,8 @@ export class CoxwaveCore<T extends Config> implements CoreClient<T> {
     return this.dispatch(event);
   }
 
-  identify(alias: string, identify?: Identify, predefinedProperties?: PredefinedIdentifyProperties) {
-    const event = createIdentifyUserEvent(alias, identify, predefinedProperties);
+  identify(alias: string, identify?: Identify) {
+    const event = createIdentifyUserEvent(alias, identify);
     return this.dispatch(event);
   }
 

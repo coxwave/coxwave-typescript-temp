@@ -25,42 +25,38 @@ export interface BaseEvent {
   id: string;
   eventType: TAvailableEventType;
   eventName: string;
-  properties?: PredefinedEventProperties;
+  properties?: PredefinedEventProperties & { [key: string]: any };
 }
 
 export interface PredefinedEventProperties {
   // default options
-  distinctId?: string;
-  time?: number;
-  library?: string;
-  sessionId?: number;
-  threadId?: string; // uuid only
+  $distinctId?: string;
+  $time?: number;
+  $library?: string;
+  $sessionId?: number;
+  $threadId?: string; // uuid only
   // user & device related options
-  userId?: string;
-  deviceId?: string;
-  appVersion?: string;
-  versionName?: string;
-  platform?: string;
-  osName?: string;
-  osVersion?: string;
-  deviceBrand?: string;
-  deviceManufacturer?: string;
-  deviceModel?: string;
+  $userId?: string;
+  $deviceId?: string;
+  $appVersion?: string;
+  $versionName?: string;
+  $platform?: string;
+  $osName?: string;
+  $osVersion?: string;
+  $deviceBrand?: string;
+  $deviceManufacturer?: string;
+  $deviceModel?: string;
   // location related options
-  locationLat?: number;
-  locationLng?: number;
-  ip?: string;
-  custom?: { [key: string]: any };
-}
-
-export interface PredefinedIdentifyProperties {
-  name?: string;
-  email?: string;
-  city?: string;
-  region?: string;
-  country?: string;
-  language?: string;
-  custom?: { [key: string]: any };
+  $locationLat?: number;
+  $locationLng?: number;
+  $ip?: string;
+  // Identify properties
+  $name?: string;
+  $email?: string;
+  $city?: string;
+  $region?: string;
+  $country?: string;
+  $language?: string;
 }
 
 export type ValidPropertyType =

@@ -3,10 +3,10 @@ import { Event, IdentifyEvent } from '@coxwave/analytics-types';
 export const syncServerSpec = (event: Event): Event => {
   const syncedEvent = {
     ...event,
-    distinctId: event.properties?.distinctId,
-    threadId: event.properties?.threadId,
+    distinctId: event.properties?.$distinctId as string,
+    threadId: event.properties?.$threadId as string,
     name: event.eventName,
-    time: event.properties?.time || new Date().getTime(),
+    time: event.properties?.$time || new Date().getTime(),
   };
   return syncedEvent;
 };

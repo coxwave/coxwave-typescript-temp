@@ -59,20 +59,20 @@ export class Context implements BeforePlugin {
     const deviceVendor = this.uaResult.device.vendor;
 
     const properties: PredefinedEventProperties = {
-      distinctId: this.config.distinctId,
-      userId: this.config.userId,
-      deviceId: this.config.deviceId,
-      sessionId: this.config.sessionId,
-      time,
-      ...(this.config.appVersion && { appVersion: this.config.appVersion }),
-      ...(this.config.trackingOptions.platform && { platform: BROWSER_PLATFORM }),
-      ...(this.config.trackingOptions.osName && { osName: osName }),
-      ...(this.config.trackingOptions.osVersion && { osVersion: osVersion }),
-      ...(this.config.trackingOptions.deviceManufacturer && { deviceManufacturer: deviceVendor }),
-      ...(this.config.trackingOptions.deviceModel && { deviceModel: deviceModel }),
-      ...(this.config.trackingOptions.language && { language: getLanguage() }),
-      ...(this.config.trackingOptions.ipAddress && { ip: IP_ADDRESS }),
-      library: this.library,
+      $distinctId: this.config.distinctId,
+      $userId: this.config.userId,
+      $deviceId: this.config.deviceId,
+      $sessionId: this.config.sessionId,
+      $time: time,
+      ...(this.config.appVersion && { $appVersion: this.config.appVersion }),
+      ...(this.config.trackingOptions.platform && { $platform: BROWSER_PLATFORM }),
+      ...(this.config.trackingOptions.osName && { $osName: osName }),
+      ...(this.config.trackingOptions.osVersion && { $osVersion: osVersion }),
+      ...(this.config.trackingOptions.deviceManufacturer && { $deviceManufacturer: deviceVendor }),
+      ...(this.config.trackingOptions.deviceModel && { $deviceModel: deviceModel }),
+      ...(this.config.trackingOptions.language && { $language: getLanguage() }),
+      ...(this.config.trackingOptions.ipAddress && { $ip: IP_ADDRESS }),
+      $library: this.library,
     };
     event.properties = { ...properties, ...event.properties };
 
